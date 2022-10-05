@@ -19,10 +19,7 @@ public class DetalleProducto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private enum categoria{PRENDA_SUPERIOR,PRENDA_INFERIOR,CALZADO}
-    /*Como pa poner algo*/
-
-    private enum marca{RIP_CURL, DC, VANS, FLIP_FLOPPIN, BILLABONG}
+    private String marca;
 
     private String talle;
 

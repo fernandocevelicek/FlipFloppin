@@ -1,5 +1,7 @@
 package com.grupo1.FlipFloppin.entities;
 
+import com.grupo1.FlipFloppin.entities.enums.Estado;
+import com.grupo1.FlipFloppin.entities.enums.Provincias;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +28,13 @@ public class Domicilio {
 
     private String descripcion;
 
-    private enum provincia{CATAMARCA, CORRIENTES, CHACO, FORMOSA, JUJUY, MISIONES, TUCUMÁN, SALTA, SANTIAGO_DEL_ESTERO, LA_RIOJA, MENDOZA, SAN_JUAN, SAN_LUIS, CHUBUT, LA_PAMPA, NEUQUÉN, RÍO_NEGRO, SANTA_CRUZ,TIERRA_DEL_FUEGO,CÓRDOBA, ENTRE_RÍOS, SANTA_FE}
+    @Enumerated(EnumType.STRING)
+    @Column(name = "provincia",nullable = false)
+    private Provincias provincias;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado",nullable = false)
+    private Estado estado;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Usuario usuarioDir;
 

@@ -6,6 +6,6 @@ public interface BaseService<E> {
     List<E> findAll() throws Exception;
     E findById(Long id) throws Exception;
     E update(E entity, Long id) throws Exception;
-    E sava(E entity) throws Exception;
+    E save(E entity) throws Exception;
     boolean deleteById(Long id) throws Exception;
 }

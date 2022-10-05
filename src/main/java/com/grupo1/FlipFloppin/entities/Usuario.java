@@ -1,5 +1,6 @@
 package com.grupo1.FlipFloppin.entities;
 
+import com.grupo1.FlipFloppin.entities.enums.Estado;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @Table(name = "usuarios")
 public class Usuario {
 
-    public enum rol{ADMINISTRADOR, USUARIO}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +32,9 @@ public class Usuario {
     private String email;
 
     private String password;
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado",nullable = false)
+    private Estado estado;
     @OneToMany(mappedBy = "usuarioD",cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "fk_ubicacionesEnvio")
     private List<Domicilio> ubicacionesEnvio;

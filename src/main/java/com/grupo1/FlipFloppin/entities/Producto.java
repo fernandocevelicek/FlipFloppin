@@ -1,5 +1,6 @@
 package com.grupo1.FlipFloppin.entities;
 
+import com.grupo1.FlipFloppin.entities.enums.Estado;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,7 @@ public class Producto {
     private Integer stock;
 
     private String descripcion;
+    @Enumerated(EnumType.STRING)
+    @Column(name="estado", nullable = false)
+    private Estado estado;
 }
