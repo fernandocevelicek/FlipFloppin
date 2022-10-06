@@ -37,15 +37,12 @@ public class Usuario {
     private EstadoUsuario estado;
 
     @OneToMany(mappedBy = "usuarioDir")
-    @JoinColumn(name = "fk_domicilio")
     private List<Domicilio> ubicacionesEnvio;
 
     @OneToOne(mappedBy = "usuario")
-    @JoinColumn(name = "fk_carrito")
     private Carrito carrito;
 
     @OneToMany(mappedBy = "usuario")
-    @JoinColumn(name = "fk_pedido")
     private List<Pedido> pedidos;
 
 }
