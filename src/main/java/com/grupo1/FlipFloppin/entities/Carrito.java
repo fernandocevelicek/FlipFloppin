@@ -13,20 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "carrito")
+@Table(name = "CARRITO")
 public class Carrito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST} )
-    @JoinTable(name = "carrito_producto",joinColumns = @JoinColumn(name = "fk_carrito"),inverseJoinColumns = @JoinColumn(name = "fk_producto"))
+    @ManyToMany()
+    @JoinTable(name = "carrito_producto_compra",joinColumns = @JoinColumn(name = "fk_carrito"),inverseJoinColumns = @JoinColumn(name = "fk_producto_compra"))
     private List<ProductoCompra> productos;
 
     private Double total;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     private Usuario usuario;
 
 }

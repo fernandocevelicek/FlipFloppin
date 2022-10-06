@@ -1,10 +1,8 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.entities.Domicilio;
-import com.grupo1.FlipFloppin.entities.Usuario;
-import com.grupo1.FlipFloppin.entities.enums.Estado;
+import com.grupo1.FlipFloppin.enums.EstadoDomicilio;
 import com.grupo1.FlipFloppin.repositories.DomicilioRepository;
-import com.grupo1.FlipFloppin.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class DomicilioService implements BaseService<Domicilio> {
+
     @Autowired
     private DomicilioRepository domicilioRepository;
 
@@ -44,10 +43,11 @@ public class DomicilioService implements BaseService<Domicilio> {
     @Transactional
     public Domicilio update(Domicilio entity, Long id) throws Exception {
         try{
-            Optional<Domicilio> opt = this.domicilioRepository.findById(id);
-            Domicilio domicilio = opt.get();
-            domicilio = this.domicilioRepository.save(entity);
-            return domicilio;
+            if(domicilioRepository.existsById(id)) {
+                Domicilio domicilio = this.domicilioRepository.save(entity);
+                return domicilio;
+            }
+            throw new Exception("No existe un domicilio con el id: " + id);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -71,13 +71,16 @@ public class DomicilioService implements BaseService<Domicilio> {
             Optional<Domicilio> opt=this.domicilioRepository.findById(id);
             if(!opt.isEmpty()){
                 Domicilio domicilio=opt.get();
-                if(domicilio.getEstado().equals(Estado.ACTIVE)){
-                    domicilio.setEstado(Estado.INACTIVE);
+                if(domicilio.getEstado().equals(EstadoDomicilio.ACTIVE)){
+                    domicilio.setEstado(EstadoDomicilio.INACTIVE);
                 }
+            } else {
+                throw new Exception("No existe un domicilio con el id: " + id);
             }
             return true;
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
+
 }

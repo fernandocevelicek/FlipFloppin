@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.entities;
 
-import com.grupo1.FlipFloppin.entities.enums.Estado;
+import com.grupo1.FlipFloppin.enums.EstadoPedido;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "pedidos")
+@Table(name = "PEDIDO")
 public class Pedido {
 
     @Id
@@ -22,15 +22,15 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado",nullable = false)
-    private Estado estado;
+    private EstadoPedido estado;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "fk_domicilio")
     private Domicilio ubicacionEntrega;
 
     private Double total;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
 }

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "producto_compra")
+@Table(name = "PRODUCTO_COMPRA")
 public class ProductoCompra {
 
     @Id
@@ -21,7 +21,7 @@ public class ProductoCompra {
 
     private Integer cantidad;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     private Producto producto;
 
     private Double subtotal;

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "detalle_productos")
+@Table(name = "DETALLE_PRODUCTO")
 public class DetalleProducto {
 
     @Id
@@ -25,8 +25,7 @@ public class DetalleProducto {
 
     private String color;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     private Producto producto;
-
 
 }

@@ -1,10 +1,8 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.entities.Producto;
-import com.grupo1.FlipFloppin.entities.Usuario;
-import com.grupo1.FlipFloppin.entities.enums.Estado;
+import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
-import com.grupo1.FlipFloppin.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,10 +42,11 @@ public class ProductoService implements BaseService<Producto> {
     @Transactional
     public Producto update(Producto entity, Long id) throws Exception {
         try{
-            Optional<Producto> opt = this.productoRepository.findById(id);
-            Producto producto = opt.get();
-            producto = this.productoRepository.save(entity);
-            return producto;
+            if(productoRepository.existsById(id)) {
+                Producto producto = this.productoRepository.save(entity);
+                return producto;
+            }
+            throw new Exception("No existe un producto con el id: " + id);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -71,9 +70,11 @@ public class ProductoService implements BaseService<Producto> {
             Optional<Producto> opt=this.productoRepository.findById(id);
             if(!opt.isEmpty()){
                 Producto producto=opt.get();
-                if(producto.getEstado().equals(Estado.ACTIVE)){
-                    producto.setEstado(Estado.INACTIVE);
+                if(producto.getEstado().equals(EstadoProducto.ACTIVE)){
+                    producto.setEstado(EstadoProducto.INACTIVE);
                 }
+            }else {
+                throw new Exception("No existe un producto con el id: " + id);
             }
             return true;
         }catch (Exception e){

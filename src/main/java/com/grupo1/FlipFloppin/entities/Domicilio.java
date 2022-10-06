@@ -1,21 +1,20 @@
 package com.grupo1.FlipFloppin.entities;
 
-import com.grupo1.FlipFloppin.entities.enums.Estado;
-import com.grupo1.FlipFloppin.entities.enums.Provincias;
+import com.grupo1.FlipFloppin.enums.EstadoDomicilio;
+import com.grupo1.FlipFloppin.enums.Provincia;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "domicilios")
+@Table(name = "DOMICILIO")
 public class Domicilio {
 
     @Id
@@ -30,15 +29,13 @@ public class Domicilio {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "provincia",nullable = false)
-    private Provincias provincias;
+    private Provincia provincias;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado",nullable = false)
-    private Estado estado;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    private EstadoDomicilio estado;
+
+    @ManyToOne()
     private Usuario usuarioDir;
 
-    @OneToMany(mappedBy = "domicilio")
-    @JoinColumn(name = "fk_pedido")
-    private List<Pedido> pedidos;
 }

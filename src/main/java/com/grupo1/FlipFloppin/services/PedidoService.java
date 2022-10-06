@@ -1,7 +1,7 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.entities.Pedido;
-import com.grupo1.FlipFloppin.entities.enums.Estado;
+import com.grupo1.FlipFloppin.enums.EstadoPedido;
 import com.grupo1.FlipFloppin.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,10 +42,11 @@ public class PedidoService implements BaseService<Pedido>{
     @Transactional
     public Pedido update(Pedido entity, Long id) throws Exception {
         try{
-            Optional<Pedido> opt = this.pedidoRepository.findById(id);
-            Pedido pedido = opt.get();
-            pedido = this.pedidoRepository.save(entity);
-            return pedido;
+            if(pedidoRepository.existsById(id)) {
+                Pedido pedido = this.pedidoRepository.save(entity);
+                return pedido;
+            }
+            throw new Exception("No existe un pedido con el id: " + id);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -69,9 +70,11 @@ public class PedidoService implements BaseService<Pedido>{
             Optional<Pedido> opt=this.pedidoRepository.findById(id);
             if(!opt.isEmpty()){
                 Pedido pedido=opt.get();
-                if(pedido.getEstado().equals(Estado.ACTIVE)){
-                    pedido.setEstado(Estado.INACTIVE);
+                if(pedido.getEstado().equals(EstadoPedido.ACTIVE)){
+                    pedido.setEstado(EstadoPedido.INACTIVE);
                 }
+            }else {
+                throw new Exception("No existe un pedido con el id: " + id);
             }
             return true;
         }catch (Exception e){

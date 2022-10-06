@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.entities;
 
-import com.grupo1.FlipFloppin.entities.enums.Estado;
+import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "productos")
+@Table(name = "PRODUCTO")
 public class Producto {
 
     @Id
@@ -22,7 +22,6 @@ public class Producto {
     private Long id;
 
     @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_detalle")
     private List<DetalleProducto> detalle;
 
     private Double precio;
@@ -30,7 +29,8 @@ public class Producto {
     private Integer stock;
 
     private String descripcion;
+
     @Enumerated(EnumType.STRING)
     @Column(name="estado", nullable = false)
-    private Estado estado;
+    private EstadoProducto estado;
 }
