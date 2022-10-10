@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class UsuarioService implements BaseService<Usuario> {
     public Usuario update(Usuario entity, Long id) throws Exception {
         try{
             if(usuarioRepository.existsById(id)) {
+                entity.setFechaModificacion(new Date());
                 Usuario usuario = this.usuarioRepository.save(entity);
                 return usuario;
             }
@@ -56,6 +58,7 @@ public class UsuarioService implements BaseService<Usuario> {
     @Transactional
     public Usuario save(Usuario entity) throws Exception {
         try{
+            entity.setFechaAlta(new Date());
             Usuario usuario = this.usuarioRepository.save(entity);
             return usuario;
         }catch (Exception e){
@@ -70,9 +73,9 @@ public class UsuarioService implements BaseService<Usuario> {
             Optional<Usuario> opt=this.usuarioRepository.findById(id);
             if(!opt.isEmpty()){
                 Usuario usuario=opt.get();
-                if(usuario.getEstado().equals(EstadoUsuario.ACTIVE)){
-                    usuario.setEstado(EstadoUsuario.INACTIVE);
-                }
+                usuario.setEstado(EstadoUsuario.INACTIVE);
+                usuario.setFechaBaja(new Date());
+                usuarioRepository.save(usuario);
             }else {
                 throw new Exception("No existe un usuario con el id: " + id);
             }

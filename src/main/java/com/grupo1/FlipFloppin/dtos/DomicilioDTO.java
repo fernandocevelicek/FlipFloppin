@@ -4,6 +4,8 @@ import com.grupo1.FlipFloppin.enums.EstadoDomicilio;
 import com.grupo1.FlipFloppin.enums.Provincia;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class DomicilioDTO {
 
@@ -14,5 +16,8 @@ public class DomicilioDTO {
     private Provincia provincias;
     private EstadoDomicilio estado;
     private UsuarioDTO usuarioDir;
+    private Date fechaAlta;
+    private Date fechaModificacion;
+    private Date fechaBaja;
 
 }

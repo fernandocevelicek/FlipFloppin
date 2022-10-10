@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -37,5 +38,14 @@ public class Domicilio {
 
     @ManyToOne()
     private Usuario usuarioDir;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAlta;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaModificacion;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaBaja;
 
 }

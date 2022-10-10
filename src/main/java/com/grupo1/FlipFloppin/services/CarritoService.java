@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class CarritoService implements BaseService<Carrito> {
     public Carrito update(Carrito entity, Long id) throws Exception {
         try{
             if(carritoRepository.existsById(id)) {
+                entity.setFechaModificacion(new Date());
                 Carrito carrito = carritoRepository.save(entity);
                 return carrito;
             }
@@ -56,6 +58,7 @@ public class CarritoService implements BaseService<Carrito> {
     @Transactional
     public Carrito save(Carrito entity) throws Exception {
         try{
+            entity.setFechaAlta(new Date());
             Carrito carrito = carritoRepository.save(entity);
             return carrito;
         }catch (Exception e){

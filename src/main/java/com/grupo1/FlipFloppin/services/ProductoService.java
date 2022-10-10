@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class ProductoService implements BaseService<Producto> {
     public Producto update(Producto entity, Long id) throws Exception {
         try{
             if(productoRepository.existsById(id)) {
+                entity.setFechaModificacion(new Date());
                 Producto producto = this.productoRepository.save(entity);
                 return producto;
             }
@@ -56,6 +58,7 @@ public class ProductoService implements BaseService<Producto> {
     @Transactional
     public Producto save(Producto entity) throws Exception {
         try{
+            entity.setFechaAlta(new Date());
             Producto producto = this.productoRepository.save(entity);
             return producto;
         }catch (Exception e){
@@ -70,9 +73,9 @@ public class ProductoService implements BaseService<Producto> {
             Optional<Producto> opt=this.productoRepository.findById(id);
             if(!opt.isEmpty()){
                 Producto producto=opt.get();
-                if(producto.getEstado().equals(EstadoProducto.ACTIVE)){
-                    producto.setEstado(EstadoProducto.INACTIVE);
-                }
+                producto.setEstado(EstadoProducto.INACTIVE);
+                producto.setFechaBaja(new Date());
+                productoRepository.save(producto);
             }else {
                 throw new Exception("No existe un producto con el id: " + id);
             }

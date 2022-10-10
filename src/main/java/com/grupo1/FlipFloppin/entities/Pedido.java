@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -33,4 +34,14 @@ public class Pedido {
     @ManyToOne()
     @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAlta;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaModificacion;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaBaja;
+
 }

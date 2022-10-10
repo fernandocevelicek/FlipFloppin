@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class PedidoService implements BaseService<Pedido>{
     public Pedido update(Pedido entity, Long id) throws Exception {
         try{
             if(pedidoRepository.existsById(id)) {
+                entity.setFechaModificacion(new Date());
                 Pedido pedido = this.pedidoRepository.save(entity);
                 return pedido;
             }
@@ -56,6 +58,7 @@ public class PedidoService implements BaseService<Pedido>{
     @Transactional
     public Pedido save(Pedido entity) throws Exception {
         try{
+            entity.setFechaAlta(new Date());
             Pedido pedido = this.pedidoRepository.save(entity);
             return pedido;
         }catch (Exception e){
@@ -70,9 +73,9 @@ public class PedidoService implements BaseService<Pedido>{
             Optional<Pedido> opt=this.pedidoRepository.findById(id);
             if(!opt.isEmpty()){
                 Pedido pedido=opt.get();
-                if(pedido.getEstado().equals(EstadoPedido.ACTIVE)){
-                    pedido.setEstado(EstadoPedido.INACTIVE);
-                }
+                pedido.setEstado(EstadoPedido.INACTIVE);
+                pedido.setFechaBaja(new Date());
+                pedidoRepository.save(pedido);
             }else {
                 throw new Exception("No existe un pedido con el id: " + id);
             }

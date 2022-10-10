@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -28,5 +29,11 @@ public class Carrito {
 
     @OneToOne()
     private Usuario usuario;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAlta;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaModificacion;
 
 }

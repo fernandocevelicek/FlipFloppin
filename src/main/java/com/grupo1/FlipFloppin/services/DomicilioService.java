@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,7 @@ public class DomicilioService implements BaseService<Domicilio> {
     public Domicilio update(Domicilio entity, Long id) throws Exception {
         try{
             if(domicilioRepository.existsById(id)) {
+                entity.setFechaModificacion(new Date());
                 Domicilio domicilio = this.domicilioRepository.save(entity);
                 return domicilio;
             }
@@ -57,6 +59,7 @@ public class DomicilioService implements BaseService<Domicilio> {
     @Transactional
     public Domicilio save(Domicilio entity) throws Exception {
         try{
+            entity.setFechaAlta(new Date());
             Domicilio domicilio = this.domicilioRepository.save(entity);
             return domicilio;
         }catch (Exception e){
@@ -71,9 +74,9 @@ public class DomicilioService implements BaseService<Domicilio> {
             Optional<Domicilio> opt=this.domicilioRepository.findById(id);
             if(!opt.isEmpty()){
                 Domicilio domicilio=opt.get();
-                if(domicilio.getEstado().equals(EstadoDomicilio.ACTIVE)){
-                    domicilio.setEstado(EstadoDomicilio.INACTIVE);
-                }
+                domicilio.setEstado(EstadoDomicilio.INACTIVE);
+                domicilio.setFechaBaja(new Date());
+                domicilioRepository.save(domicilio);
             } else {
                 throw new Exception("No existe un domicilio con el id: " + id);
             }

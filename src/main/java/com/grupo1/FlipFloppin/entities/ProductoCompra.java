@@ -25,4 +25,5 @@ public class ProductoCompra {
     private Producto producto;
 
     private Double subtotal;
+
 }
