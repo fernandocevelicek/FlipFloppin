@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.controllers.rest;
 
-import com.grupo1.FlipFloppin.entities.Usuario;
+import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
 import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class UsuarioRestController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> save(@RequestBody UsuarioDTO usuario) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class UsuarioRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UsuarioDTO usuario) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(usuarioService.update(usuario, id));
         } catch (Exception e) {

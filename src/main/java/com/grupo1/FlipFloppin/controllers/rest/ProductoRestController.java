@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.controllers.rest;
 
-import com.grupo1.FlipFloppin.entities.Producto;
+import com.grupo1.FlipFloppin.dtos.ProductoDTO;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class ProductoRestController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody Producto producto) {
+    public ResponseEntity<?> save(@RequestBody ProductoDTO producto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(productoService.save(producto));
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class ProductoRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductoDTO producto) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.update(producto, id));
         } catch (Exception e) {
