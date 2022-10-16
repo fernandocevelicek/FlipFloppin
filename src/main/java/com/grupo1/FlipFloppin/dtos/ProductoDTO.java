@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.dtos;
 
-import com.grupo1.FlipFloppin.enums.EstadoDomicilio;
+import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,7 +15,7 @@ public class ProductoDTO {
     private Double precio;
     private Integer stock;
     private String descripcion;
-    private EstadoDomicilio estado;
+    private EstadoProducto estado;
     private Date fechaAlta;
     private Date fechaModificacion;
     private Date fechaBaja;

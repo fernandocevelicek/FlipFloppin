@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.dtos;
 
-import com.grupo1.FlipFloppin.enums.EstadoDomicilio;
+import com.grupo1.FlipFloppin.enums.EstadoPedido;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
 public class PedidoDTO {
 
     private Long id;
-    private EstadoDomicilio estado;
+    private EstadoPedido estado;
     private DomicilioDTO ubicacionEntrega;
     private Double total;
     private UsuarioDTO usuario;
