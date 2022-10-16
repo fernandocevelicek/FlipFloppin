@@ -1,8 +1,10 @@
 package com.grupo1.FlipFloppin.services;
 
+import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.enums.EstadoUsuario;
 import com.grupo1.FlipFloppin.enums.Rol;
+import com.grupo1.FlipFloppin.mappers.UsuarioMapper;
 import com.grupo1.FlipFloppin.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,15 +26,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioService implements BaseService<Usuario>, UserDetailsService {
+public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    private UsuarioMapper usuarioMapper = UsuarioMapper.getInstance();
+
     @Override
     @Transactional
-    public List<Usuario> findAll() throws Exception {
+    public List<UsuarioDTO> findAll() throws Exception {
         try {
-            List<Usuario> usuarios=usuarioRepository.findAll();
+            List<UsuarioDTO> usuarios = usuarioMapper.toDTOsList(usuarioRepository.findAll());
             return usuarios;
         }catch (Exception e){
             throw new Exception(e.getMessage());
@@ -41,11 +45,11 @@ public class UsuarioService implements BaseService<Usuario>, UserDetailsService 
 
     @Override
     @Transactional
-    public Usuario findById(Long id) throws Exception {
+    public UsuarioDTO findById(Long id) throws Exception {
         try{
             Optional<Usuario> opt=this.usuarioRepository.findById(id);
             Usuario usuario=opt.get();
-            return usuario;
+            return usuarioMapper.toDTO(usuario);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -53,12 +57,15 @@ public class UsuarioService implements BaseService<Usuario>, UserDetailsService 
 
     @Override
     @Transactional
-    public Usuario update(Usuario entity, Long id) throws Exception {
+    public UsuarioDTO update(UsuarioDTO dto, Long id) throws Exception {
         try{
+            System.out.println(dto.getId());
+            Usuario entity = usuarioMapper.toEntity(dto);
+            System.out.println(entity.getId());
             if(usuarioRepository.existsById(id)) {
                 entity.setFechaModificacion(new Date());
                 Usuario usuario = this.usuarioRepository.save(entity);
-                return usuario;
+                return usuarioMapper.toDTO(usuario);
             }
             throw new Exception("No existe un usuario con el id: " + id);
         }catch (Exception e){
@@ -68,11 +75,12 @@ public class UsuarioService implements BaseService<Usuario>, UserDetailsService 
 
     @Override
     @Transactional
-    public Usuario save(Usuario entity) throws Exception {
+    public UsuarioDTO save(UsuarioDTO dto) throws Exception {
         try{
+            Usuario entity = usuarioMapper.toEntity(dto);
             entity.setFechaAlta(new Date());
             Usuario usuario = this.usuarioRepository.save(entity);
-            return usuario;
+            return usuarioMapper.toDTO(usuario);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -101,7 +109,7 @@ public class UsuarioService implements BaseService<Usuario>, UserDetailsService 
     public void registrarUsuario(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws Exception {
         //TODO: metodo validacion de datos
 
-        Usuario usuario = new Usuario();
+        UsuarioDTO usuario = new UsuarioDTO();
 
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);

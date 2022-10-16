@@ -1,7 +1,9 @@
 package com.grupo1.FlipFloppin.services;
 
+import com.grupo1.FlipFloppin.dtos.DomicilioDTO;
 import com.grupo1.FlipFloppin.entities.Domicilio;
 import com.grupo1.FlipFloppin.enums.EstadoDomicilio;
+import com.grupo1.FlipFloppin.mappers.DomicilioMapper;
 import com.grupo1.FlipFloppin.repositories.DomicilioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,16 +14,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DomicilioService implements BaseService<Domicilio> {
+public class DomicilioService implements BaseService<DomicilioDTO> {
 
     @Autowired
     private DomicilioRepository domicilioRepository;
 
+    private DomicilioMapper domicilioMapper = DomicilioMapper.getInstance();
     @Override
     @Transactional
-    public List<Domicilio> findAll() throws Exception {
+    public List<DomicilioDTO> findAll() throws Exception {
         try {
-            List<Domicilio> domicilios=domicilioRepository.findAll();
+            List<DomicilioDTO> domicilios = domicilioMapper.toDTOsList(domicilioRepository.findAll());
             return domicilios;
         }catch (Exception e){
             throw new Exception(e.getMessage());
@@ -30,11 +33,11 @@ public class DomicilioService implements BaseService<Domicilio> {
 
     @Override
     @Transactional
-    public Domicilio findById(Long id) throws Exception {
+    public DomicilioDTO findById(Long id) throws Exception {
         try{
             Optional<Domicilio> opt=this.domicilioRepository.findById(id);
             Domicilio domicilio=opt.get();
-            return domicilio;
+            return domicilioMapper.toDTO(domicilio);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
@@ -42,12 +45,15 @@ public class DomicilioService implements BaseService<Domicilio> {
 
     @Override
     @Transactional
-    public Domicilio update(Domicilio entity, Long id) throws Exception {
+    public DomicilioDTO update(DomicilioDTO dto, Long id) throws Exception {
         try{
+            System.out.println(dto.getId());
+            Domicilio entity = domicilioMapper.toEntity(dto);
+            System.out.println(entity.getId());
             if(domicilioRepository.existsById(id)) {
                 entity.setFechaModificacion(new Date());
                 Domicilio domicilio = this.domicilioRepository.save(entity);
-                return domicilio;
+                return domicilioMapper.toDTO(domicilio);
             }
             throw new Exception("No existe un domicilio con el id: " + id);
         }catch (Exception e){
@@ -57,11 +63,12 @@ public class DomicilioService implements BaseService<Domicilio> {
 
     @Override
     @Transactional
-    public Domicilio save(Domicilio entity) throws Exception {
+    public DomicilioDTO save(DomicilioDTO dto) throws Exception {
         try{
+            Domicilio entity = domicilioMapper.toEntity(dto);
             entity.setFechaAlta(new Date());
             Domicilio domicilio = this.domicilioRepository.save(entity);
-            return domicilio;
+            return domicilioMapper.toDTO(domicilio);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
