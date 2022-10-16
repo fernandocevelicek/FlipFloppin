@@ -31,5 +31,5 @@ public class UsuarioController {
                 model.addAttribute("error", e.getMessage());
                 return "error";
             }
+        }
     }
-}

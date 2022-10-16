@@ -147,6 +147,27 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             return null;
         }
     }
+    @Transactional
+    public void modificarUser(long id,String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws Exception {
+
+        UsuarioDTO usuario = new UsuarioDTO();
+        Optional<Usuario> opt=this.usuarioRepository.findById(id);
+       if(opt.isPresent()){
+           usuario.setNombre(nombre);
+           usuario.setApellido(apellido);
+           usuario.setEmail(email);
+           String encriptada = new BCryptPasswordEncoder().encode(password);
+           usuario.setPassword(encriptada);
+           usuario.setRol(rol);
+           usuario.setEstado(EstadoUsuario.ACTIVE);
+
+           this.save(usuario);
+       }else
+           throw new Exception("No existe el usuario");
+
+
+    }
+
 }
 
 
