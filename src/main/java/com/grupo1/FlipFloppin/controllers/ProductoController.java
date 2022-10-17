@@ -1,4 +1,4 @@
-package com.grupo1.FlipFloppin.controllers.rest;
+package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ public class ProductoController {
 
     @PostMapping("/baja_producto{id}")
     public String bajarProducto(Model model, @PathVariable("id") long id) {
-
         try {
             this.productoService.deleteById(id);
             return "redirect:/.....";
