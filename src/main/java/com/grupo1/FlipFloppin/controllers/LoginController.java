@@ -5,7 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static com.grupo1.FlipFloppin.utils.Constants.VIEW_PATH;
+import static com.grupo1.FlipFloppin.utils.Constants.BASE_VIEW_PATH;
 
 @Controller
 public class LoginController {
@@ -18,7 +18,7 @@ public class LoginController {
         if (ok != null) {
             modelo.put("ok", ok);
         }
-        return VIEW_PATH + "login.html";
+        return BASE_VIEW_PATH + "login.html";
     }
 
 }

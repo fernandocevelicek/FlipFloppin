@@ -13,7 +13,7 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @PostMapping("/bajaProducto{id}")
+    @PostMapping("/baja_producto{id}")
     public String bajarProducto(Model model, @PathVariable("id") long id) {
 
         try {

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
 
-import static com.grupo1.FlipFloppin.utils.Constants.VIEW_PATH;
+import static com.grupo1.FlipFloppin.utils.Constants.BASE_VIEW_PATH;
 
 @Controller
 public class IndexController {
@@ -17,13 +17,23 @@ public class IndexController {
     private HttpSession session;
 
     @GetMapping("/")
+    public String index(ModelMap modelo) {
+        if(session.getAttribute("usuario_session") != null) {
+            Usuario user = (Usuario) session.getAttribute("usuario_session");
+            modelo.put("username", user.getNombre());
+        }
+
+        return BASE_VIEW_PATH + "index.html";
+    }
+
+    @GetMapping("/inicio")
     public String inicio(ModelMap modelo) {
         if(session.getAttribute("usuario_session") != null) {
             Usuario user = (Usuario) session.getAttribute("usuario_session");
             modelo.put("username", user.getNombre());
         }
 
-        return VIEW_PATH + "index.html";
+        return BASE_VIEW_PATH + "index.html";
     }
 
 }

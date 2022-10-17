@@ -41,7 +41,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
         try {
             List<UsuarioDTO> usuarios = usuarioMapper.toDTOsList(usuarioRepository.findAll());
             return usuarios;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -49,11 +49,11 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     @Override
     @Transactional
     public UsuarioDTO findById(Long id) throws Exception {
-        try{
-            Optional<Usuario> opt=this.usuarioRepository.findById(id);
-            Usuario usuario=opt.get();
+        try {
+            Optional<Usuario> opt = this.usuarioRepository.findById(id);
+            Usuario usuario = opt.get();
             return usuarioMapper.toDTO(usuario);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -61,17 +61,17 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     @Override
     @Transactional
     public UsuarioDTO update(UsuarioDTO dto, Long id) throws Exception {
-        try{
+        try {
             System.out.println(dto.getId());
             Usuario entity = usuarioMapper.toEntity(dto);
             System.out.println(entity.getId());
-            if(usuarioRepository.existsById(id)) {
+            if (usuarioRepository.existsById(id)) {
                 entity.setFechaModificacion(new Date());
                 Usuario usuario = this.usuarioRepository.save(entity);
                 return usuarioMapper.toDTO(usuario);
             }
             throw new Exception("No existe un usuario con el id: " + id);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -79,12 +79,12 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     @Override
     @Transactional
     public UsuarioDTO save(UsuarioDTO dto) throws Exception {
-        try{
+        try {
             Usuario entity = usuarioMapper.toEntity(dto);
             entity.setFechaAlta(new Date());
             Usuario usuario = this.usuarioRepository.save(entity);
             return usuarioMapper.toDTO(usuario);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -92,18 +92,18 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     @Override
     @Transactional
     public boolean deleteById(Long id) throws Exception {
-        try{
-            Optional<Usuario> opt=this.usuarioRepository.findById(id);
-            if(!opt.isEmpty()){
-                Usuario usuario=opt.get();
+        try {
+            Optional<Usuario> opt = this.usuarioRepository.findById(id);
+            if (!opt.isEmpty()) {
+                Usuario usuario = opt.get();
                 usuario.setEstado(EstadoUsuario.INACTIVE);
                 usuario.setFechaBaja(new Date());
                 usuarioRepository.save(usuario);
-            }else {
+            } else {
                 throw new Exception("No existe un usuario con el id: " + id);
             }
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
@@ -121,6 +121,23 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
         usuario.setPassword(encriptada);
         usuario.setRol(rol);
         usuario.setEstado(EstadoUsuario.ACTIVE);
+
+        this.save(usuario);
+    }
+
+    @Transactional
+    public void altaUsuarioCompleto(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws Exception {
+        //TODO: metodo validacion de datos
+
+        UsuarioDTO usuario = new UsuarioDTO();
+
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setEmail(email);
+        String encriptada = new BCryptPasswordEncoder().encode(password);
+        usuario.setPassword(encriptada);
+        usuario.setRol(rol);
+        usuario.setEstado(estado);
 
         this.save(usuario);
     }
@@ -147,25 +164,44 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             return null;
         }
     }
+
     @Transactional
-    public void modificarUser(long id,String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws Exception {
+    public void modificarUsuario(long id, String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws Exception {
 
         UsuarioDTO usuario = new UsuarioDTO();
-        Optional<Usuario> opt=this.usuarioRepository.findById(id);
-       if(opt.isPresent()){
-           usuario.setNombre(nombre);
-           usuario.setApellido(apellido);
-           usuario.setEmail(email);
-           String encriptada = new BCryptPasswordEncoder().encode(password);
-           usuario.setPassword(encriptada);
-           usuario.setRol(rol);
-           usuario.setEstado(EstadoUsuario.ACTIVE);
+        Optional<Usuario> opt = this.usuarioRepository.findById(id);
+        if (opt.isPresent()) {
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setEmail(email);
+            String encriptada = new BCryptPasswordEncoder().encode(password);
+            usuario.setPassword(encriptada);
+            usuario.setRol(rol);
+            usuario.setEstado(EstadoUsuario.ACTIVE);
+            this.save(usuario);
+        } else {
+            throw new Exception("No existe el usuario");
+        }
+    }
 
-           this.save(usuario);
-       }else
-           throw new Exception("No existe el usuario");
+    @Transactional
+    public void modificarUsuarioCompleto(long id, String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws Exception {
 
-
+        UsuarioDTO usuario = new UsuarioDTO();
+        Optional<Usuario> opt = this.usuarioRepository.findById(id);
+        if (opt.isPresent()) {
+            usuario.setId(opt.get().getId());
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setEmail(email);
+            String encriptada = new BCryptPasswordEncoder().encode(password);
+            usuario.setPassword(encriptada);
+            usuario.setRol(rol);
+            usuario.setEstado(estado);
+            this.save(usuario);
+        } else {
+            throw new Exception("No existe el usuario");
+        }
     }
 
 }

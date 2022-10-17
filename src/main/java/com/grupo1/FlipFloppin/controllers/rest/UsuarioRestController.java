@@ -23,7 +23,7 @@ public class UsuarioRestController {
         } catch (Exception e) {
             JSONObject jsonException = new JSONObject();
             jsonException.put("error", "Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonException);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonException.toString());
         }
     }
 
@@ -34,7 +34,7 @@ public class UsuarioRestController {
         } catch (Exception e) {
             JSONObject jsonException = new JSONObject();
             jsonException.put("error", "Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException.toString());
         }
     }
 
@@ -45,7 +45,7 @@ public class UsuarioRestController {
         } catch (Exception e) {
             JSONObject jsonException = new JSONObject();
             jsonException.put("error", "Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException.toString());
         }
     }
 
@@ -56,7 +56,7 @@ public class UsuarioRestController {
         } catch (Exception e) {
             JSONObject jsonException = new JSONObject();
             jsonException.put("error", "Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException.toString());
         }
     }
 
@@ -67,7 +67,7 @@ public class UsuarioRestController {
         } catch (Exception e) {
             JSONObject jsonException = new JSONObject();
             jsonException.put("error", "Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonException.toString());
         }
     }
 

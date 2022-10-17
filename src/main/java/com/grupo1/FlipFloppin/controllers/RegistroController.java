@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static com.grupo1.FlipFloppin.utils.Constants.VIEW_PATH;
+import static com.grupo1.FlipFloppin.utils.Constants.BASE_VIEW_PATH;
 
 @Controller
 public class RegistroController {
@@ -19,7 +19,7 @@ public class RegistroController {
 
     @GetMapping("/registro_cliente")
     public String registroCliente(ModelMap modelo){
-        return VIEW_PATH + "registro_cliente.html";
+        return BASE_VIEW_PATH + "registro_cliente.html";
     }
 
     @PostMapping("/registrar_cliente")
