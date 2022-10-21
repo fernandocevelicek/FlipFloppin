@@ -1,0 +1,24 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+html {
+  height: 100%;
+}
+body {
+  font-family: "Futura Lt Light", sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: .5px;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+h1,h2,h3,h4,h5{
+  font-family: "Futura Lt Condensed",sans-serif;
+  font-weight: bold;
+}
+
+@import "abstract/color","abstract/fonts","base/backgrounds","base/fonts","components/others";

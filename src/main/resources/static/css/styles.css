@@ -1,0 +1,81 @@
+html,
+body {
+  padding: 0;
+  margin: 0; }
+
+html {
+  height: 100%; }
+
+body {
+  font-family: "Futura Lt Light", sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: .5px;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  position: relative; }
+
+h1, h2, h3, h4, h5 {
+  font-family: "Futura Lt Condensed",sans-serif;
+  font-weight: bold; }
+
+@font-face {
+  font-family: "Futura Lt Light";
+  src: url("/font/futura/Futura_Lt_Light.ttf");
+  font-style: normal;
+  font-weight: normal; }
+
+@font-face {
+  font-family: "Futura Lt Condensed";
+  src: url("/font/futura-condensed/futura-condensed.ttf");
+  font-style: normal;
+  font-weight: normal; }
+
+.bg-rojo {
+  background-color: #E40232; }
+
+.bg-amarillo {
+  background-color: #FFBD59; }
+
+.bg-negro {
+  background-color: #000000; }
+
+.bg-g-oscuro {
+  background-color: #a9a9a9; }
+
+.bg-g-claro {
+  background-color: #cdcddc; }
+
+.base-font, .base-font-w {
+  color: #000000;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  text-decoration: none;
+  font-family: "Futura Lt Light", sans-serif; }
+  .base-font-w {
+    color: #ffffff; }
+
+.title-font, .title-font-w {
+  color: black;
+  font-size: 2.2em;
+  font-weight: bold;
+  line-height: 1;
+  font-family: "Futura Lt Condensed", sans-serif; }
+  .title-font-w {
+    color: #ffffff; }
+
+.link-font {
+  color: black;
+  font-size: 1.5em;
+  font-weight: bold;
+  line-height: 1;
+  font-family: "Futura Lt Condensed", sans-serif; }
+
+.nav-top {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 5px; }
