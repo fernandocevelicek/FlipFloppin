@@ -12,15 +12,15 @@
 </head>
 <body>
 
-<div th:replace="/BACK/back_components/back_components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'USUARIO')"></div>
+<div th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'USUARIO')"></div>
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-3">
-            <h4>ABM Productos</h4>
+            <h4>ABM Usuarios</h4>
         </div>
         <div class="col-9 d-flex flex-row-reverse">
-            <a th:href="@{/producto/formulario/0}" class="btn btn-success">Agregar Producto</a>
+            <a th:href="@{/usuario/formulario/0}" class="btn btn-success">Agregar Usuario</a>
         </div>
     </div>
     <div class="row">
@@ -29,24 +29,24 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Descripcion</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Email</th>
+                <th scope="col">Rol</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="producto : ${productos}" th:classappend="${producto.fechaBaja} ? table-danger : table-succes">
-                <td th:text="${producto.id}"></td>
-                <td th:text="${producto.nombre}"></td>
-                <td th:text="${producto.precio}"></td>
-                <td th:text="${producto.stock}"></td>
-                <td th:text="${producto.descripcion}"></td>
-                <td th:text="${producto.estado}"></td>
+            <tr th:each="usuario : ${usuarios}" th:classappend="${usuario.fechaBaja} ? table-danger : table-succes">
+                <td th:text="${usuario.id}"></td>
+                <td th:text="${usuario.nombre}"></td>
+                <td th:text="${usuario.apellido}"></td>
+                <td th:text="${usuario.email}"></td>
+                <td th:text="${usuario.rol}"></td>
+                <td th:text="${usuario.estado}"></td>
                 <td>
-                    <a th:href="@{/producto/formulario/{id}(id=${producto.id})}" class="btn btn-warning">Editar</a>
-                    <form style="display: inline" th:unless="${producto.fechaBaja}" th:action="@{/producto/baja_producto/{id}(id=${producto.id})}" method="post">
+                    <a th:href="@{/usuario/formulario/{id}(id=${usuario.id})}" class="btn btn-warning">Editar</a>
+                    <form style="display: inline" th:unless="${usuario.fechaBaja}" th:action="@{/usuario/baja_usuario/{id}(id=${usuario.id})}" method="post">
                         <button type="submit" class="btn btn-danger" >Eliminar</button>
                     </form>
                 </td>
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<div th:replace="/BACK/back_components/back_components :: scripts_bootstrap"></div>
+<div th:replace="/components/components :: scripts_bootstrap"></div>
 
 </body>
 </html>

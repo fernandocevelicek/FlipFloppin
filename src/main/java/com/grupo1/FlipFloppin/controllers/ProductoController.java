@@ -2,15 +2,14 @@ package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.ProductoDTO;
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
-import com.grupo1.FlipFloppin.enums.EstadoProducto;
-import com.grupo1.FlipFloppin.enums.EstadoUsuario;
-import com.grupo1.FlipFloppin.enums.Rol;
+import com.grupo1.FlipFloppin.enums.*;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,6 +38,8 @@ public class ProductoController {
     public String formularioProducto(Model model, @PathVariable("id") long id) {
         try {
             model.addAttribute("estados", EstadoProducto.values());
+            model.addAttribute("categorias", Categoria.values());
+            model.addAttribute("sexos", Sexo.values());
             if (id == 0) {
                 model.addAttribute("producto", new ProductoDTO());
             } else {
@@ -54,10 +55,11 @@ public class ProductoController {
     @PostMapping("/formulario/{id}")
     public String postFormularioProducto(ModelMap modelo,
                                          @PathVariable Long id,
-                                         @ModelAttribute ProductoDTO productoDTO) throws Exception {
+                                         @ModelAttribute ProductoDTO productoDTO,
+                                         @RequestParam("archivosImagenes") List<MultipartFile> imagenes) throws Exception {
 
         if (productoDTO.getId() == 0) {
-            productoService.save(productoDTO);
+            productoService.save(productoDTO, imagenes);
         } else {
             productoService.update(productoDTO, id);
         }

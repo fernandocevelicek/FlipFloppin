@@ -2,6 +2,7 @@ package com.grupo1.FlipFloppin.entities;
 
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
+import com.grupo1.FlipFloppin.enums.Sexo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,16 @@ public class Producto {
 
     private String marca;
 
+    @ElementCollection
+    @CollectionTable(name = "producto_imagen", joinColumns = @JoinColumn(name = "producto_id"))
+    @Column(name = "imagen")
+    private List<String> imagenes;
+
+    @Enumerated(EnumType.STRING)
     private Categoria categoria;
+
+    @Enumerated(EnumType.STRING)
+    private Sexo sexo;
 
     @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
     private List<DetalleProducto> detalle;

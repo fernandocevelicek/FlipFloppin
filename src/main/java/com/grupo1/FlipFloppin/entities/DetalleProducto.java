@@ -23,10 +23,12 @@ public class DetalleProducto {
 
     private Integer stock;
 
+    @Enumerated(EnumType.STRING)
     private TallePrenda tallePrenda;
 
     private Integer talleCalzado;
 
+    @Enumerated(EnumType.STRING)
     private Color color;
 
     @ManyToOne()
