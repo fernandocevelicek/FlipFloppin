@@ -1,5 +1,6 @@
 package com.grupo1.FlipFloppin.entities;
 
+import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,12 +25,14 @@ public class Producto {
 
     private String nombre;
 
+    private String marca;
+
+    private Categoria categoria;
+
     @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
     private List<DetalleProducto> detalle;
 
     private Double precio;
-
-    private Integer stock;
 
     private String descripcion;
 

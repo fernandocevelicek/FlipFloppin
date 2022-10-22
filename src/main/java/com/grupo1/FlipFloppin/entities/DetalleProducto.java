@@ -1,5 +1,7 @@
 package com.grupo1.FlipFloppin.entities;
 
+import com.grupo1.FlipFloppin.enums.Color;
+import com.grupo1.FlipFloppin.enums.TallePrenda;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,11 +21,13 @@ public class DetalleProducto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String marca;
+    private Integer stock;
 
-    private String talle;
+    private TallePrenda tallePrenda;
 
-    private String color;
+    private Integer talleCalzado;
+
+    private Color color;
 
     @ManyToOne()
     private Producto producto;
