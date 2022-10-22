@@ -1,6 +1,7 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.entities.Usuario;
+import com.grupo1.FlipFloppin.enums.Rol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +32,7 @@ public class IndexController {
         if(session.getAttribute("usuario_session") != null) {
             Usuario user = (Usuario) session.getAttribute("usuario_session");
             modelo.put("username", user.getNombre());
+            modelo.addAttribute("user_rol", user.getRol());
         }
 
         return BASE_VIEW_PATH + "index.html";

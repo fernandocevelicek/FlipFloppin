@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div th:replace="/BACK/back_components/back_components :: nav_bar"></div>
+<div th:replace="/BACK/back_components/back_components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'USUARIO')"></div>
 
 <div class="container mt-5">
     <div class="row align-items-center justify-content-center text-center mb-5 col-lg">
