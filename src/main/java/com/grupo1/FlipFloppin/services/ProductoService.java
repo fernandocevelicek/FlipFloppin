@@ -26,6 +26,9 @@ public class ProductoService implements BaseService<ProductoDTO>{
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private ImagenProductoService imagenProductoService;
+
     private ProductoMapper productoMapper = ProductoMapper.getInstance();
 
     @Override
@@ -67,6 +70,35 @@ public class ProductoService implements BaseService<ProductoDTO>{
         }
     }
 
+    @Transactional(rollbackOn = {SaveProductoException.class})
+    public ProductoDTO update(ProductoDTO dto, Long id, List<MultipartFile> imagenes) throws Exception {
+        List<String> rutasImagenes = new ArrayList<>();
+        try {
+            Producto updatedEntity = productoMapper.toEntity(dto);
+            Optional<Producto> productOpt = productoRepository.findById(id);
+
+            if (productOpt.isPresent()) {
+                Producto oldEntity = productOpt.get();
+                if (!imagenes.isEmpty() && !imagenes.get(0).getOriginalFilename().isBlank()) {
+                    rutasImagenes = imagenProductoService.modificarImagenes(dto, oldEntity, imagenes);
+                    updatedEntity.setImagenes(rutasImagenes);
+                } else {
+                    updatedEntity.setImagenes(oldEntity.getImagenes());
+                }
+
+                updatedEntity.setFechaModificacion(new Date());
+                Producto producto = this.productoRepository.save(updatedEntity);
+                return productoMapper.toDTO(producto);
+            }
+            throw new Exception("No existe un producto con el id: " + id);
+        } catch (Exception e) {
+            if(!rutasImagenes.isEmpty()) {
+                imagenProductoService.eliminarImagenes(rutasImagenes);
+            }
+            throw new SaveProductoException(e.getMessage());
+        }
+    }
+
     @Override
     public ProductoDTO save(ProductoDTO dto) throws Exception {
         try {
@@ -85,7 +117,7 @@ public class ProductoService implements BaseService<ProductoDTO>{
         try {
             Producto entity = productoMapper.toEntity(dto);
 
-            rutasImagenes = persistirImagenes(dto, 0L, imagenes);
+            rutasImagenes = imagenProductoService.persistirImagenes(dto, imagenes);
 
             entity.setImagenes(rutasImagenes);
             entity.setFechaAlta(new Date());
@@ -93,51 +125,9 @@ public class ProductoService implements BaseService<ProductoDTO>{
             return productoMapper.toDTO(producto);
         } catch (Exception e) {
             if(!rutasImagenes.isEmpty()) {
-                eliminarImagenes(rutasImagenes);
+                imagenProductoService.eliminarImagenes(rutasImagenes);
             }
             throw new SaveProductoException(e.getMessage());
-        }
-    }
-
-    private void eliminarImagenes(List<String> rutasImagenes) throws IOException {
-        for (String imagen : rutasImagenes) {
-            Path rutaAbsoluta = Paths.get(IMAGENES_PRODUCTO_PATH + "//" + imagen);
-            Files.delete(rutaAbsoluta);
-        }
-    }
-
-    public List<String> persistirImagenes(ProductoDTO dto, Long id, List<MultipartFile> archivosImagenes) throws ImagenProductoException, IOException {
-        List<String> rutasImagenes = new ArrayList<>();
-
-        for (MultipartFile archivo : archivosImagenes) {
-            if (archivo.isEmpty()) {
-                throw new ImagenProductoException("El archivo no puede estar vacio");
-            }
-            if (!validarExtensionImagen(archivo)) {
-                throw new ImagenProductoException("La extension no es valida");
-            }
-            if (archivo.getSize() >= 15000000) {
-                throw new ImagenProductoException("El archivo excede 15MB");
-            }
-
-            int index = archivo.getOriginalFilename().indexOf(".");
-            String extension = "." + archivo.getOriginalFilename().substring(index + 1);
-            String nombreFoto = dto.getNombre() + "_" + Calendar.getInstance().getTimeInMillis() + extension;
-            Path rutaAbsoluta = Paths.get(IMAGENES_PRODUCTO_PATH + "//" + nombreFoto);
-
-            Files.write(rutaAbsoluta, archivo.getBytes());
-            rutasImagenes.add(nombreFoto);
-        }
-
-        return rutasImagenes;
-    }
-
-    public boolean validarExtensionImagen(MultipartFile archivo) {
-        try {
-            ImageIO.read(archivo.getInputStream()).toString();
-            return true;
-        } catch (Exception e) {
-            return false;
         }
     }
 

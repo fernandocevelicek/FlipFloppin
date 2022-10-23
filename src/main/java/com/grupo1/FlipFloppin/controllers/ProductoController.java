@@ -62,7 +62,7 @@ public class ProductoController {
         if (productoDTO.getId() == 0) {
             productoService.save(productoDTO, imagenes);
         } else {
-            productoService.update(productoDTO, id);
+            productoService.update(productoDTO, id, imagenes);
         }
 
         return "redirect:/producto/abm_productos";
