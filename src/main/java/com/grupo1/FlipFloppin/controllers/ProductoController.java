@@ -1,8 +1,9 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.ProductoDTO;
-import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
-import com.grupo1.FlipFloppin.enums.*;
+import com.grupo1.FlipFloppin.enums.Categoria;
+import com.grupo1.FlipFloppin.enums.EstadoProducto;
+import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

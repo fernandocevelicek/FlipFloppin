@@ -4,13 +4,13 @@ import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;
 import lombok.Data;
+import lombok.ToString;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@ToString
 public class ProductoDTO {
 
     private Long id;

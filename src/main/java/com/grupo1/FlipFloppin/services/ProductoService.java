@@ -3,6 +3,8 @@ package com.grupo1.FlipFloppin.services;
 import com.grupo1.FlipFloppin.dtos.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
+import com.grupo1.FlipFloppin.exceptions.ImagenProductoException;
+import com.grupo1.FlipFloppin.exceptions.SaveProductoException;
 import com.grupo1.FlipFloppin.mappers.ProductoMapper;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.mail.Multipart;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -78,23 +79,30 @@ public class ProductoService implements BaseService<ProductoDTO>{
         }
     }
 
-    @Transactional
+    @Transactional(rollbackOn = {SaveProductoException.class})
     public ProductoDTO save(ProductoDTO dto, List<MultipartFile> imagenes) throws Exception {
+        List<String> rutasImagenes = new ArrayList<>();
         try {
             Producto entity = productoMapper.toEntity(dto);
 
-            List<String> rutasImagenes = persistirImagenes(dto, 0L, imagenes);
+            rutasImagenes = persistirImagenes(dto, 0L, imagenes);
 
-            for (String nombre : rutasImagenes) {
-                System.out.println(nombre);
-            }
-
+            entity.setImagenes(rutasImagenes);
             entity.setFechaAlta(new Date());
-            Producto producto = this.productoRepository.save(entity);
+            Producto producto = productoRepository.save(entity);
             return productoMapper.toDTO(producto);
         } catch (Exception e) {
-            //TODO: custom rollback de las imagenes guardadas.
-            throw new Exception(e.getMessage());
+            if(!rutasImagenes.isEmpty()) {
+                eliminarImagenes(rutasImagenes);
+            }
+            throw new SaveProductoException(e.getMessage());
+        }
+    }
+
+    private void eliminarImagenes(List<String> rutasImagenes) throws IOException {
+        for (String imagen : rutasImagenes) {
+            Path rutaAbsoluta = Paths.get(IMAGENES_PRODUCTO_PATH + "//" + imagen);
+            Files.delete(rutaAbsoluta);
         }
     }
 
@@ -102,7 +110,6 @@ public class ProductoService implements BaseService<ProductoDTO>{
         List<String> rutasImagenes = new ArrayList<>();
 
         for (MultipartFile archivo : archivosImagenes) {
-            System.out.println("archivo: " + archivo.getOriginalFilename());
             if (archivo.isEmpty()) {
                 throw new ImagenProductoException("El archivo no puede estar vacio");
             }
@@ -119,6 +126,7 @@ public class ProductoService implements BaseService<ProductoDTO>{
             Path rutaAbsoluta = Paths.get(IMAGENES_PRODUCTO_PATH + "//" + nombreFoto);
 
             Files.write(rutaAbsoluta, archivo.getBytes());
+            rutasImagenes.add(nombreFoto);
         }
 
         return rutasImagenes;

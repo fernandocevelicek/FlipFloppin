@@ -5,8 +5,6 @@ import com.grupo1.FlipFloppin.enums.Color;
 import com.grupo1.FlipFloppin.enums.TallePrenda;
 import lombok.Data;
 
-import javax.persistence.*;
-
 @Data
 public class DetalleProductoDTO {
 
