@@ -11,8 +11,8 @@
 
     <title>FlipFloppin</title>
 </head>
-<body>
-<nav th:replace="/components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'USUARIO')"></nav>
+<body >
+<nav th:replace="/components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
 <main role="main">
     <div class="container-fluid">
         <div id="carouselExampleIndicators" class="carousel slide " data-bs-ride="true">
@@ -51,9 +51,7 @@
         </div>
     </div>
 </main>
-<div class="container">
-    <h1>INICIO - FlipFloppin <span th:if="${username}" th:text=" ' | Bienvenido ' + ${username}"></span></h1>
-</div>
+
 
 <div th:replace="/components/components :: footer"></div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
