@@ -4,15 +4,16 @@ import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.enums.EstadoUsuario;
 import com.grupo1.FlipFloppin.enums.Rol;
+import com.grupo1.FlipFloppin.exceptions.UsuarioException;
 import com.grupo1.FlipFloppin.mappers.UsuarioMapper;
 import com.grupo1.FlipFloppin.repositories.UsuarioRepository;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -34,80 +35,60 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
 
     @Override
     @Transactional
-    public List<UsuarioDTO> findAll() throws Exception {
-        try {
-            List<UsuarioDTO> usuarios = usuarioMapper.toDTOsList(usuarioRepository.findAll());
-            return usuarios;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    public List<UsuarioDTO> findAll() {
+        List<UsuarioDTO> usuarios = usuarioMapper.toDTOsList(usuarioRepository.findAll());
+        return usuarios;
     }
 
     @Override
     @Transactional
-    public UsuarioDTO findById(Long id) throws Exception {
-        try {
-            Optional<Usuario> opt = this.usuarioRepository.findById(id);
-            Usuario usuario = opt.get();
-            return usuarioMapper.toDTO(usuario);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    public UsuarioDTO findById(Long id) {
+        Optional<Usuario> opt = this.usuarioRepository.findById(id);
+        Usuario usuario = opt.get();
+        return usuarioMapper.toDTO(usuario);
     }
 
     @Override
     @Transactional
-    public UsuarioDTO update(UsuarioDTO dto, Long id) throws Exception {
-        try {
-            System.out.println(dto.getId());
-            Usuario entity = usuarioMapper.toEntity(dto);
-            System.out.println(entity.getId());
-            if (usuarioRepository.existsById(id)) {
-                entity.setFechaModificacion(new Date());
-                Usuario usuario = this.usuarioRepository.save(entity);
-                return usuarioMapper.toDTO(usuario);
-            }
-            throw new Exception("No existe un usuario con el id: " + id);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
-    @Override
-    @Transactional
-    public UsuarioDTO save(UsuarioDTO dto) throws Exception {
-        try {
-            Usuario entity = usuarioMapper.toEntity(dto);
-            entity.setFechaAlta(new Date());
+    public UsuarioDTO update(UsuarioDTO dto, Long id) throws UsuarioException {
+        System.out.println(dto.getId());
+        Usuario entity = usuarioMapper.toEntity(dto);
+        System.out.println(entity.getId());
+        if (usuarioRepository.existsById(id)) {
+            entity.setFechaModificacion(new Date());
             Usuario usuario = this.usuarioRepository.save(entity);
             return usuarioMapper.toDTO(usuario);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
         }
+        throw new UsuarioException("No existe un usuario con el id: " + id);
     }
 
     @Override
     @Transactional
-    public boolean deleteById(Long id) throws Exception {
-        try {
-            Optional<Usuario> opt = this.usuarioRepository.findById(id);
-            if (!opt.isEmpty()) {
-                Usuario usuario = opt.get();
-                usuario.setEstado(EstadoUsuario.INACTIVE);
-                usuario.setFechaBaja(new Date());
-                usuarioRepository.save(usuario);
-            } else {
-                throw new Exception("No existe un usuario con el id: " + id);
-            }
-            return true;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
+    public UsuarioDTO save(UsuarioDTO dto) {
+        Usuario entity = usuarioMapper.toEntity(dto);
+        entity.setFechaAlta(new Date());
+        Usuario usuario = this.usuarioRepository.save(entity);
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteById(Long id) throws UsuarioException {
+        Optional<Usuario> opt = this.usuarioRepository.findById(id);
+        if (!opt.isEmpty()) {
+            Usuario usuario = opt.get();
+            usuario.setEstado(EstadoUsuario.INACTIVE);
+            usuario.setFechaBaja(new Date());
+            usuarioRepository.save(usuario);
+        } else {
+            throw new UsuarioException("No existe un usuario con el id: " + id);
         }
+        return true;
     }
 
     @Transactional
-    public void registrarUsuario(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws Exception {
-        //TODO: metodo validacion de datos
+    public void registrarUsuario(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws UsuarioException {
+        validarDatosUsuario(nombre, apellido, email, password, password_confirmation);
 
         UsuarioDTO usuario = new UsuarioDTO();
 
@@ -123,8 +104,8 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     }
 
     @Transactional
-    public void altaUsuarioCompleto(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws Exception {
-        //TODO: metodo validacion de datos
+    public void altaUsuarioCompleto(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws UsuarioException {
+        validarDatosUsuario(nombre, apellido, email, password, password_confirmation);
 
         UsuarioDTO usuario = new UsuarioDTO();
 
@@ -140,8 +121,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     }
 
     @Override
-    public UserDetails loadUserByUsername(String emailUsuario) throws UsernameNotFoundException {
-
+    public UserDetails loadUserByUsername(String emailUsuario) {
         Usuario usuario = usuarioRepository.findByEmail(emailUsuario);
 
         if (usuario != null) {
@@ -163,7 +143,8 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     }
 
     @Transactional
-    public void modificarUsuario(long id, String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws Exception {
+    public void modificarUsuario(long id, String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws UsuarioException {
+        validarDatosUsuario(nombre, apellido, email, password, password_confirmation);
 
         UsuarioDTO usuario = new UsuarioDTO();
         Optional<Usuario> opt = this.usuarioRepository.findById(id);
@@ -177,12 +158,13 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             usuario.setEstado(EstadoUsuario.ACTIVE);
             this.save(usuario);
         } else {
-            throw new Exception("No existe el usuario");
+            throw new UsuarioException("No existe el usuario");
         }
     }
 
     @Transactional
-    public void modificarUsuarioCompleto(long id, String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws Exception {
+    public void modificarUsuarioCompleto(long id, String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws UsuarioException {
+        validarDatosUsuario(nombre, apellido, email, password, password_confirmation);
 
         UsuarioDTO usuario = new UsuarioDTO();
         Optional<Usuario> opt = this.usuarioRepository.findById(id);
@@ -197,7 +179,29 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             usuario.setEstado(estado);
             this.save(usuario);
         } else {
-            throw new Exception("No existe el usuario");
+            throw new UsuarioException("No existe el usuario");
+        }
+    }
+
+    public void validarDatosUsuario(String nombre, String apellido, String email, String password, String password_confirmation) throws UsuarioException {
+        if(Strings.isBlank(nombre)) {
+            throw new UsuarioException("El nombre no puede ser vacio o nulo.");
+        }
+
+        if(Strings.isBlank(apellido)) {
+            throw new UsuarioException("El apellido no puede ser vacio o nulo.");
+        }
+
+        if(Strings.isBlank(email)) {
+            throw new UsuarioException("El email no puede ser vacio o nulo.");
+        }
+
+        if(Strings.isBlank(password) || Strings.isBlank(password_confirmation)) {
+            throw new UsuarioException("La contraseña no puede estar vacia o nula.");
+        }
+
+        if (password.equals(password_confirmation)) {
+            throw new UsuarioException("Ambas contraseñas deben coincidir.");
         }
     }
 

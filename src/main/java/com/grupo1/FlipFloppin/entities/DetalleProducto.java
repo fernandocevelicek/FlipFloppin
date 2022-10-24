@@ -2,13 +2,11 @@ package com.grupo1.FlipFloppin.entities;
 
 import com.grupo1.FlipFloppin.enums.Color;
 import com.grupo1.FlipFloppin.enums.TallePrenda;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@ToString(exclude = {"producto"})
 @Getter
 @Setter
 @AllArgsConstructor

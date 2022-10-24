@@ -1,6 +1,7 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.enums.Rol;
+import com.grupo1.FlipFloppin.exceptions.UsuarioException;
 import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,15 +25,18 @@ public class RegistroController {
 
     @PostMapping("/registrar_cliente")
     public String registrarCliente(ModelMap modelo,
-                                   @RequestParam(required=true) String nombre,
-                                   @RequestParam(required=true) String apellido,
-                                   @RequestParam(required=true) String password,
-                                   @RequestParam(required=true) String email,
-                                   @RequestParam(required=true) String password_confirmation) throws Exception {
+                                   @RequestParam() String nombre,
+                                   @RequestParam() String apellido,
+                                   @RequestParam() String password,
+                                   @RequestParam() String email,
+                                   @RequestParam() String password_confirmation) {
 
-        usuarioService.registrarUsuario(nombre, apellido, email, password, password_confirmation, Rol.USUARIO);
-
-        return "redirect:/login?ok=alta exitosa";
+        try {
+            usuarioService.registrarUsuario(nombre, apellido, email, password, password_confirmation, Rol.USUARIO);
+            return "redirect:/login?ok=alta exitosa";
+        } catch (UsuarioException e) {
+            return "redirect:/login?error="+e.getMessage();
+        }
     }
 
 }

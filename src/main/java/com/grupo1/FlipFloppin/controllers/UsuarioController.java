@@ -3,6 +3,7 @@ package com.grupo1.FlipFloppin.controllers;
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
 import com.grupo1.FlipFloppin.enums.EstadoUsuario;
 import com.grupo1.FlipFloppin.enums.Rol;
+import com.grupo1.FlipFloppin.exceptions.UsuarioException;
 import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,12 +60,15 @@ public class UsuarioController {
                                         @RequestParam(required = true) Rol rol,
                                         @RequestParam(required = true) EstadoUsuario estado,
                                         @RequestParam(required = true) String email,
-                                        @RequestParam(required = true) String password_confirmation) throws Exception {
-
-        if (id == 0) {
-            usuarioService.altaUsuarioCompleto(nombre, apellido, email, password, password_confirmation, rol, estado);
-        } else {
-            usuarioService.modificarUsuarioCompleto(id, nombre, apellido, email, password, password_confirmation, rol, estado);
+                                        @RequestParam(required = true) String password_confirmation) {
+        try {
+            if (id == 0) {
+                usuarioService.altaUsuarioCompleto(nombre, apellido, email, password, password_confirmation, rol, estado);
+            } else {
+                usuarioService.modificarUsuarioCompleto(id, nombre, apellido, email, password, password_confirmation, rol, estado);
+            }
+        } catch (UsuarioException e) {
+            return "redirect:/usuario/abm_usuarios?error="+e.getMessage();
         }
 
         return "redirect:/usuario/abm_usuarios";

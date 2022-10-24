@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <th:block th:insert="/components/components.html :: css_and_icons_bootstrap"></th:block>
+
+    <title>FlipFloppin</title>
+</head>
+<body>
+
+<div th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'USUARIO')"></div>
+
+<div class="container mt-5">
+    <div class="row align-items-center justify-content-center text-center mb-5 col-lg">
+        <div class="col-lg-6">
+            <br>
+            <br>
+            <br>
+            <a href="/producto/abm_productos" class="btn btn-primary">Volver a ABM</a>
+            <form th:action="@{/detalle_producto/formulario/{id}(id=${detalle.id} ? ${detalle.id} : 0)}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" th:value="${detalle.id} ? ${detalle.id} : 0 ">
+                <input type="hidden" name="idProducto" th:value="${idProducto} ? ${idProducto} : ${detalle.producto.id}">
+                <div class="form-group h5">
+                    <label for="stock">Stock</label>
+                    <input id="stock" type="number" placeholder="ingrese el stock" class="form-control" name="stock" th:value="${detalle.stock}">
+                </div>
+                <div class="form-group h5" th:if="${categoria == T(com.grupo1.FlipFloppin.enums.Categoria).PRENDA_INFERIOR || categoria == T(com.grupo1.FlipFloppin.enums.Categoria).PRENDA_SUPERIOR}">
+                    <select class="custom-select" name="tallePrenda">
+                        <option selected>Talle Prenda</option>
+                        <option th:each="tallePrenda : ${tallesPrendas}" th:value="${tallePrenda}" th:text="${tallePrenda}"></option>
+                    </select>
+                </div>
+                <div class="form-group h5" th:if="${categoria == T(com.grupo1.FlipFloppin.enums.Categoria).CALZADO}">
+                    <label for="talleCalzado">Talle Calzado</label>
+                    <input id="talleCalzado" type="number" placeholder="ingrese el talle del calzado" class="form-control" name="talleCalzado" th:value="${talleCalzado}">
+                </div>
+                <div class="form-group h5">
+                    <select class="custom-select" name="color">
+                        <option selected>Color</option>
+                        <option th:each="color : ${colores}" th:value="${color}" th:text="${color}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Cargar Detalle</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/components/components :: scripts_bootstrap"></div>
+
+</body>
+</html>

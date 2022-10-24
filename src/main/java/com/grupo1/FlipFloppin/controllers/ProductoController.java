@@ -4,6 +4,7 @@ import com.grupo1.FlipFloppin.dtos.ProductoDTO;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;
+import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.grupo1.FlipFloppin.utils.Constants.BASE_VIEW_PATH;
@@ -57,15 +59,18 @@ public class ProductoController {
     public String postFormularioProducto(ModelMap modelo,
                                          @PathVariable Long id,
                                          @ModelAttribute ProductoDTO productoDTO,
-                                         @RequestParam("archivosImagenes") List<MultipartFile> imagenes) throws Exception {
-
-        if (productoDTO.getId() == 0) {
-            productoService.save(productoDTO, imagenes);
-        } else {
-            productoService.update(productoDTO, id, imagenes);
+                                         @RequestParam("archivosImagenes") List<MultipartFile> imagenes) {
+        ProductoDTO persistedProduct;
+        try {
+            if (productoDTO.getId() == 0) {
+                persistedProduct = productoService.save(productoDTO, imagenes);
+            } else {
+                persistedProduct = productoService.update(productoDTO, id, imagenes);
+            }
+            return "redirect:/detalle_producto/formulario/"+0+"?idProducto="+persistedProduct.getId();
+        } catch (ProductoException | IOException e) {
+            return "redirect:/producto/abm_productos?error="+e.getMessage();
         }
-
-        return "redirect:/producto/abm_productos";
     }
 
     @PostMapping("/baja_producto/{id}")

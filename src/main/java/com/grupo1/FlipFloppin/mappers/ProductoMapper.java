@@ -2,6 +2,8 @@ package com.grupo1.FlipFloppin.mappers;
 
 import com.grupo1.FlipFloppin.dtos.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
+import org.mapstruct.Context;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,16 +17,36 @@ public interface ProductoMapper {
         return Mappers.getMapper(ProductoMapper.class);
     }
 
-    @Mapping(source = "id", target = "id")
-    ProductoDTO toDTO(Producto source);
+    @InheritInverseConfiguration
+    ProductoDTO toDTO(Producto source, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
     @Mapping(source = "id", target = "id")
-    Producto toEntity(ProductoDTO source);
+    Producto toEntity(ProductoDTO source, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
+
+    @InheritInverseConfiguration
+    List<ProductoDTO> toDTOsList(List<Producto> source, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
     @Mapping(source = "id", target = "id")
-    List<ProductoDTO> toDTOsList(List<Producto> source);
+    List<Producto> toEntitiesList(List<ProductoDTO> source, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
-    @Mapping(source = "id", target = "id")
-    List<Producto> toEntitiesList(List<ProductoDTO> source);
+    @DoIgnore
+    default ProductoDTO toDTO(Producto source) {
+        return toDTO(source, new CycleAvoidingMappingContext());
+    }
+
+    @DoIgnore
+    default Producto toEntity(ProductoDTO source) {
+        return toEntity(source, new CycleAvoidingMappingContext());
+    }
+
+    @DoIgnore
+    default List<ProductoDTO> toDTOsList(List<Producto> source) {
+        return toDTOsList(source, new CycleAvoidingMappingContext());
+    }
+
+    @DoIgnore
+    default List<Producto> toEntitiesList(List<ProductoDTO> source) {
+        return toEntitiesList(source, new CycleAvoidingMappingContext());
+    }
 
 }
