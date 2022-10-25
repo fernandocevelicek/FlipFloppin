@@ -10,6 +10,7 @@ import com.grupo1.FlipFloppin.mappers.ProductoMapper;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
@@ -159,4 +160,13 @@ public class ProductoService implements BaseService<ProductoDTO>{
         }
         return false;
     }
+    public List<Producto> find(String searchFilter){
+        if(searchFilter != null){
+
+            return productoRepository.findByFilter(searchFilter);
+        } else
+            return productoRepository.findAll();
+    }
+
 }
+

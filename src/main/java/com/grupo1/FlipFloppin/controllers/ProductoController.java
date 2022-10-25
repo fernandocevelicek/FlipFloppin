@@ -1,12 +1,14 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.ProductoDTO;
+import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -83,4 +85,19 @@ public class ProductoController {
             return "error";
         }
     }
+    @RequestMapping(" / ")
+    public String find(Model model, @Param("search") String search){
+        try{
+                List<Producto> findProducto = productoService.find(search);
+
+                model.addAttribute("findProducto", findProducto);
+                model.addAttribute("search",search);
+                return " ";
+
+        }catch (Exception e){
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
 }
