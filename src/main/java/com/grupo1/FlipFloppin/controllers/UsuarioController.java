@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.grupo1.FlipFloppin.utils.Constants.BASE_VIEW_PATH;
-
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -27,7 +25,7 @@ public class UsuarioController {
         try {
             List<UsuarioDTO> usuarios = usuarioService.findAll();
             model.addAttribute("usuarios", usuarios);
-            return BASE_VIEW_PATH + "abm_usuarios";
+            return "abm_usuarios";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "error";
@@ -44,7 +42,7 @@ public class UsuarioController {
             } else {
                 model.addAttribute("usuario", usuarioService.findById(id));
             }
-            return BASE_VIEW_PATH + "formulario_usuario";
+            return "formulario_usuario";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "error";

@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import static com.grupo1.FlipFloppin.utils.Constants.BASE_VIEW_PATH;
-
 @Controller
 @RequestMapping("/detalle_producto")
 public class DetalleProductoController {
@@ -39,7 +37,7 @@ public class DetalleProductoController {
                 System.out.println(detalleProductoDTO);
                 model.addAttribute("detalle", detalleProductoDTO);
             }
-            return BASE_VIEW_PATH + "formulario_detalle_producto";
+            return "formulario_detalle_producto";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "error";

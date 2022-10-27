@@ -200,7 +200,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             throw new UsuarioException("La contraseña no puede estar vacia o nula.");
         }
 
-        if (password.equals(password_confirmation)) {
+        if (!password.equals(password_confirmation)) {
             throw new UsuarioException("Ambas contraseñas deben coincidir.");
         }
     }

@@ -5,12 +5,13 @@ import com.grupo1.FlipFloppin.dtos.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
+import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.mappers.ProductoMapper;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
@@ -162,10 +163,40 @@ public class ProductoService implements BaseService<ProductoDTO>{
     }
     public List<Producto> find(String searchFilter){
         if(searchFilter != null){
-
             return productoRepository.findByFilter(searchFilter);
-        } else
+        } else {
             return productoRepository.findAll();
+        }
+    }
+
+    public List<Producto> findByParam(String attribute, String value) throws ProductoException {
+        if(Strings.isNotBlank(attribute)){
+            if (attribute.equalsIgnoreCase("NOMBRE") && Strings.isBlank(value)) {
+                value = "";
+            }
+
+            Sexo sexo = null;
+            if (attribute.equalsIgnoreCase("SEXO")) {
+                try {
+                    sexo = Sexo.valueOf(value.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    throw new ProductoException("Valor de Sexo invalido.");
+                }
+            }
+
+            switch (attribute.toUpperCase()) {
+                case "NOMBRE":
+                    return productoRepository.searchByNombre(value);
+                case "MARCA":
+                    return productoRepository.searchByMarca(value);
+                case "SEXO":
+                    return productoRepository.searchBySexo(sexo);
+                default:
+                    throw new ProductoException("Atributo de filtrado invalido.");
+            }
+        } else {
+            return productoRepository.findAll();
+        }
     }
 
 }

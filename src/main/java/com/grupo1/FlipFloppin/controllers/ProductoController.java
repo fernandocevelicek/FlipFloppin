@@ -8,7 +8,6 @@ import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-
-import static com.grupo1.FlipFloppin.utils.Constants.BASE_VIEW_PATH;
 
 @Controller
 @RequestMapping("/producto")
@@ -32,7 +29,7 @@ public class ProductoController {
         try {
             List<ProductoDTO> productos = productoService.findAll();
             model.addAttribute("productos", productos);
-            return BASE_VIEW_PATH + "abm_productos";
+            return "abm_productos";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "error";
@@ -50,7 +47,7 @@ public class ProductoController {
             } else {
                 model.addAttribute("producto", productoService.findById(id));
             }
-            return BASE_VIEW_PATH + "formulario_producto";
+            return "formulario_producto";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "error";
@@ -85,15 +82,14 @@ public class ProductoController {
             return "error";
         }
     }
-    @RequestMapping(" / ")
-    public String find(Model model, @Param("search") String search){
+
+    @GetMapping("/filtro")
+    public String find(Model model, @RequestParam(value = "attribute", required = false) String attribute, @RequestParam(value = "value", required = false) String value){
         try{
-                List<Producto> findProducto = productoService.find(search);
+                List<Producto> productos = productoService.findByParam(attribute, value);
+                model.addAttribute("productos", productos);
 
-                model.addAttribute("findProducto", findProducto);
-                model.addAttribute("search",search);
-                return " ";
-
+                return "listadoProducto";
         }catch (Exception e){
             model.addAttribute("error", e.getMessage());
             return "error";
