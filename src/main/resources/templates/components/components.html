@@ -1,72 +1,137 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-white" role="navigation" th:fragment="nav_bar(user)">
+<nav class="navbar fixed-top bg-transparent" role="navigation" th:fragment="nav_bar(user)" id="navbar">
 
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">
-            <img th:src="@{/images/ff-logo.png}" alt="Bootstrap" width="80px" class="ms-2">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <div class="container-fluid ">
+        <button class="navbar-toggler text-white" style="border: none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="text-white fs-1"><i class="bi bi-list"></i></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto justify-content-center mb-2 mb-lg-0 ">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:unless="${user=='ADMINISTRADOR'}">Hombres</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:unless="${user=='ADMINISTRADOR'}">Mujeres</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:unless="${user=='ADMINISTRADOR'}">Calzado</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:unless="${user=='ADMINISTRADOR'}">Accesorios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:unless="${user=='ADMINISTRADOR'}">Información</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:unless="${user=='ADMINISTRADOR'}">Acerca de nosotros</a>
-                </li>
-                <li class="nav-item" >
-                    <a class="nav-link" th:href="@{/usuario/abm_usuarios}" th:if="${user=='ADMINISTRADOR'}">ABM Usuarios</a>
-                </li>
-                <li class="nav-item" >
-                    <a class="nav-link" th:href="@{/producto/abm_productos}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
-                </li>
-                <li class="nav-item">
-                        <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="nav-link" ><i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}" ></i></a>
-                </li>
+        <div class="row w-75">
+            <div class="col-8 d-flex justify-content-center align-items-center">
+                <a class="navbar-brand" th:href="@{/}">
+                    <img th:src="@{/images/ff-logo-nobg.png}" alt="Bootstrap" width="120px" class="ms-2">
+                </a>
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                <a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="me-3 nav-link d-flex align-items-center">
+                    <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white fs-2 me-2"></i>
+                    <span th:text="${user=='VISITANTE' ? 'Ingresar' :'Cerrar sesión'}" class=" text-white fs-4"></span></a>
 
-                <li class="nav-item">
-                    <a href="" class="nav-link"><i class="bi bi-bag-fill"></i></a>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2 base-font" type="search" placeholder="Buscar" aria-label="Search">
-                <button class="btn btn-danger" type="submit">Buscar</button>
-            </form>
+                <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="me-3">
+                    <i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}" class="text-white fs-2"></i></a>
+                <button class="btn btn-link"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i class="bi bi-search text-white fs-2"></i></button>
+                <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+                    <div class="offcanvas-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body d-flex w-100 align-items-center flex-column">
+                        <p class="text-muted text-opacity-50 mb-3 fs-3">¡Busca entre nuestros productos!</p>
+                        <form class="d-flex w-50" role="search">
+                            <input class="form-control me-2 base-font" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="btn btn-danger" type="submit">Buscar</button>
+                        </form>
+                    </div>
+                </div>
 
+            </div>
+
+        </div>
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <img th:src="@{/images/ff-logo-nobg.png}" alt="Bootstrap" width="80px" class="ms-2">
+
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <h5>Menu</h5>
+                <div class="row d-flex flex-column justify-content-between ">
+                    <div class="col-10 border-top p-3">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown mb-2">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Productos
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" th:unless="${user=='ADMINISTRADOR'}">Hombres</a></li>
+                                    <li><a class="dropdown-item" href="#" th:unless="${user=='ADMINISTRADOR'}">Mujeres</a></li>
+                                    <li><a class="dropdown-item" href="#" th:unless="${user=='ADMINISTRADOR'}">Calzado</a></li>
+                                    <li><a class="dropdown-item" href="#" th:unless="${user=='ADMINISTRADOR'}">Accesorios</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item mb-2" th:unless="${user=='ADMINISTRADOR'}">
+                                <a class="nav-link" href="#" >Información</a>
+                            </li>
+                            <li class="nav-item mb-2"  th:unless="${user=='ADMINISTRADOR'}">
+                                <a class="nav-link" href="#">Nosotros</a>
+                            </li>
+                            <li class="nav-item mb-2" th:if="${user=='ADMINISTRADOR'}">
+                                <a class="nav-link" th:href="@{/usuario/abm_usuarios}" >ABM Usuarios</a>
+                            </li>
+                            <li class="nav-item" >
+                                <a class="nav-link" th:href="@{/producto/abm_productos}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h5>Información de Contacto</h5>
+                    <div class="col-10 border-top  p-3">
+
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2"><a href="tel +2614850621" class="nav-link p-0 text-muted">Número de contacto</a></li>
+                            <li class="nav-item mb-2"><a href="mailto:francominati2@gmail.com,octaviofarinia@gmail.com?Subject=Contacto?" class="nav-link p-0 text-muted">Envianos un email!</a></li>
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Acerca de nosotros</a></li>
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Información</a></li>
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Politicas y servicios</a></li>
+
+                        </ul>
+                    </div>
+                    <h5>Redes Sociales</h5>
+                    <div class="col-10 border-top p-3">
+                        <ul class="nav justify-content-start gap-3">
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><img th:src="@{/svgs/twitter-svgrepo-com.svg}" class="social-media"></a></li>
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><img th:src="@{/svgs/facebook-svgrepo-com.svg}" class="social-media"></a></li>
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><img th:src="@{/svgs/instagram-with-circle-svgrepo-com.svg}" class="social-media"></a></li>
+                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><img th:src="@{/svgs/whatsapp-fill-svgrepo-com.svg}" class="social-media"></a></li>
+                        </ul>
+                    </div>
+
+                    <h5>¡Mantente informado!</h5>
+                    <div class="col-10 border-top p-3">
+                        <form>
+                            <p>Actualización mensual sobre nuestros productos</p>
+                            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                                <label for="newsletter2" class="visually-hidden">Dirección de correo electronico</label>
+                                <input id="newsletter2" type="text" class="form-control" placeholder="Email">
+                                <button class="btn btn-danger" type="button">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                    <h5 >Tu cuenta</h5>
+                    <div class="col-10 border-top p-3 d-flex justify-content-space-around flex-column">
+                        <div class="d-flex justify-content-between">
+                            <a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="btn btn-danger d-flex align-items-center">
+                                <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white"></i>
+                                <span th:text="${user=='VISITANTE' ? 'Ingresar' :'Cerrar sesión'}" class=" text-white ms-3"></span></a>
+                            <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="nav-link">
+                                <i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}"></i></a>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                </div>
+
+
+            </div>
 
         </div>
     </div>
 </nav>
 
 <th:block th:fragment="scripts_bootstrap">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
     <script th:src="@{/src/main.js}"></script>
 </th:block>
 

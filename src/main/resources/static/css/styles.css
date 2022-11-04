@@ -70,11 +70,14 @@ h1, h2, h3, h4, h5 {
   height: 32px;
   border-radius: 50%;
 }
-.bg{
 
+.bg{
   background-image: url("../images/bg-mobile.jpg");
   background-position: center;
   background-repeat: no-repeat;
+}
+.bg-black{
+  background: black;
 }
 .jumbotron{
   max-width: 650px;
@@ -101,15 +104,21 @@ h1, h2, h3, h4, h5 {
   color: white;
   border-radius: 1em;
 }
-@media screen and (min-width: 1024px){
-  .bg{
-    background-image: url("../images/bg-desktop.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
+.container-fluid{
 
-  }
-  .jumbotron{
-    max-width: 650px;
-    min-width: 500px;
-  }
+ padding-right: 0px;
+ padding-left: 0px;
+
+}
+@media screen and (min-width: 1024px){
+.bg{
+background-image: url("../images/bg-desktop.jpg");
+background-position: center;
+background-repeat: no-repeat;
+
+}
+.jumbotron{
+max-width: 650px;
+min-width: 500px;
+}
 }
