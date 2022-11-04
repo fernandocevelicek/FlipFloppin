@@ -104,7 +104,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     }
 
     @Transactional
-    public void altaUsuarioCompleto(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws UsuarioException {
+    public void altaUsuarioCompleto(String nombre, String apellido, String email, String password, String password_confirmation, EstadoUsuario estado) throws UsuarioException {
         validarDatosUsuario(nombre, apellido, email, password, password_confirmation);
 
         UsuarioDTO usuario = new UsuarioDTO();
@@ -114,7 +114,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
         usuario.setEmail(email);
         String encriptada = new BCryptPasswordEncoder().encode(password);
         usuario.setPassword(encriptada);
-        usuario.setRol(rol);
+        usuario.setRol(Rol.USUARIO);
         usuario.setEstado(estado);
 
         this.save(usuario);
@@ -163,7 +163,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     }
 
     @Transactional
-    public void modificarUsuarioCompleto(long id, String nombre, String apellido, String email, String password, String password_confirmation, Rol rol, EstadoUsuario estado) throws UsuarioException {
+    public void modificarUsuarioCompleto(long id, String nombre, String apellido, String email, String password, String password_confirmation, EstadoUsuario estado) throws UsuarioException {
         validarDatosUsuario(nombre, apellido, email, password, password_confirmation);
 
         UsuarioDTO usuario = new UsuarioDTO();
@@ -175,7 +175,7 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             usuario.setEmail(email);
             String encriptada = new BCryptPasswordEncoder().encode(password);
             usuario.setPassword(encriptada);
-            usuario.setRol(rol);
+            usuario.setRol(Rol.USUARIO);
             usuario.setEstado(estado);
             this.save(usuario);
         } else {

@@ -10,50 +10,70 @@
     <th:block th:insert="/components/components.html :: css_and_icons_bootstrap"></th:block>
     <title>FlipFloppin</title>
 </head>
-<body>
+<body class="bg-light">
 
 <div th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></div>
 
-<div class="container mt-5">
+<div class="container-fluid mt-5 px-5 my-3 ">
     <div class="row">
-        <div class="col-3">
-            <h4>ABM Productos</h4>
+        <div class="col-lg-9 col">
+            <h1 class="fs-2 text-start text-uppercase"><i class="bi bi-archive-fill me-2"></i>interfaz abm de productos</h1>
         </div>
-        <div class="col-9 d-flex flex-row-reverse">
+        <div class="col-lg-3 col d-flex justify-content-end align-items-center">
             <a th:href="@{/producto/formulario/0}" class="btn btn-success">Agregar Producto</a>
         </div>
     </div>
     <div class="row">
-        <table class="table mt-3">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Descripcion</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="producto : ${productos}" th:classappend="${producto.fechaBaja} ? table-danger : table-succes">
-                <td th:text="${producto.id}"></td>
-                <td th:text="${producto.nombre}"></td>
-                <td th:text="${producto.precio}"></td>
-                <td th:text="${producto.stock}"></td>
-                <td th:text="${producto.descripcion}"></td>
-                <td th:text="${producto.estado}"></td>
-                <td>
-                    <a th:href="@{/producto/formulario/{id}(id=${producto.id})}" class="btn btn-warning">Editar</a>
-                    <form style="display: inline" th:unless="${producto.fechaBaja}" th:action="@{/producto/baja_producto/{id}(id=${producto.id})}" method="post">
-                        <button type="submit" class="btn btn-danger" >Eliminar</button>
-                    </form>
-                </td>
-            </tr>
+        <div class="col-10">
+            <table class="table mt-3 text-center table-hover">
+                <thead class="border border-1">
+                <tr class="border border-1">
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="producto : ${productos}" th:classappend="${producto.fechaBaja} ? table-danger : table-succes" class="border border-1">
+                    <td th:text="${producto.id}"></td>
+                    <td th:text="${producto.nombre}"></td>
+                    <td th:text="${producto.precio}"></td>
+                    <td th:text="${producto.descripcion}"></td>
+                    <td th:text="${producto.estado}"></td>
+                    <td>
+                        <a th:href="@{/producto/formulario/{id}(id=${producto.id})}" class="btn btn-warning me-3">Editar</a>
+                        <form style="display: inline" th:unless="${producto.fechaBaja}" th:action="@{/producto/baja_producto/{id}(id=${producto.id})}" method="post">
+                            <button type="submit" class="btn btn-danger" >Eliminar</button>
+                        </form>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2 d-flex flex-column">
+            <table class="table mt-3 text-center table-hover border border-1 h-100">
+                <thead class="border border-1 ">
+                <tr class="border border-1 ">
+                    <th scope="col">Stock</th>
+                </tr>
+                </thead>
+                <tbody class="border border-1 ">
+                <tr th:each="stock : ${stocks}" class="border border-1 ">
+                    <td th:text="${stock}" ></td>
+                </tr>
             </tbody>
-        </table>
+
+            </table>
+        </div>
     </div>
+</div>
+
+<div class="d-flex justify-content-end pe-5">
+    <a th:href="@{/usuario/abm_usuarios}" class="btn btn-danger " >Ir a ABM Usuarios <i class="ms-2 bi bi-arrow-right"></i></a>
 </div>
 
 <div th:replace="/components/components :: scripts_bootstrap"></div>

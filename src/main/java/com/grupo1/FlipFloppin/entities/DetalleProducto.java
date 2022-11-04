@@ -21,6 +21,7 @@ public class DetalleProducto {
 
     private Integer stock;
 
+
     @Enumerated(EnumType.STRING)
     private TallePrenda tallePrenda;
 

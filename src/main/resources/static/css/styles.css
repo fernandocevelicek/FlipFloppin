@@ -85,8 +85,22 @@ h1, h2, h3, h4, h5 {
   left: 0;
   margin-left: 20px;
   margin-top: 20px;
+  text-decoration: none;
+  color: white;
+}
+.go-back:hover{
+  color: #cfcfcf;
+  text-decoration: none;
 }
 
+.carga-imagenes > input[type="file"]{
+  appearance: none;
+  border: none;
+  outline: none;
+  background: #E40232;
+  color: white;
+  border-radius: 1em;
+}
 @media screen and (min-width: 1024px){
   .bg{
     background-image: url("../images/bg-desktop.jpg");

@@ -55,15 +55,14 @@ public class UsuarioController {
                                         @RequestParam(required = true) String nombre,
                                         @RequestParam(required = true) String apellido,
                                         @RequestParam(required = true) String password,
-                                        @RequestParam(required = true) Rol rol,
                                         @RequestParam(required = true) EstadoUsuario estado,
                                         @RequestParam(required = true) String email,
                                         @RequestParam(required = true) String password_confirmation) {
         try {
             if (id == 0) {
-                usuarioService.altaUsuarioCompleto(nombre, apellido, email, password, password_confirmation, rol, estado);
+                usuarioService.altaUsuarioCompleto(nombre, apellido, email, password, password_confirmation, estado);
             } else {
-                usuarioService.modificarUsuarioCompleto(id, nombre, apellido, email, password, password_confirmation, rol, estado);
+                usuarioService.modificarUsuarioCompleto(id, nombre, apellido, email, password, password_confirmation, estado);
             }
         } catch (UsuarioException e) {
             return "redirect:/usuario/abm_usuarios?error="+e.getMessage();

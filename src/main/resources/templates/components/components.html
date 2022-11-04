@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">
-            <img th:src="@{/images/ff-logo.png}" alt="Bootstrap" width="80px">
+            <img th:src="@{/images/ff-logo.png}" alt="Bootstrap" width="80px" class="ms-2">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -11,9 +11,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto justify-content-center mb-2 mb-lg-0 ">
-                <li class="nav-item">
-                    <a class="nav-link " th:href="@{/}">Inicio</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">Productos</a>
                 </li>
@@ -42,8 +40,9 @@
                     <a class="nav-link" th:href="@{/producto/abm_productos}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
                 </li>
                 <li class="nav-item">
-                        <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="nav-link" ><i class="bi bi-person-fill"></i></a>
+                        <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="nav-link" ><i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}" ></i></a>
                 </li>
+
                 <li class="nav-item">
                     <a href="" class="nav-link"><i class="bi bi-bag-fill"></i></a>
                 </li>

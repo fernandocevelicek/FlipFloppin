@@ -1,5 +1,6 @@
 package com.grupo1.FlipFloppin.controllers;
 
+import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
 import com.grupo1.FlipFloppin.dtos.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Categoria;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,6 +31,16 @@ public class ProductoController {
         try {
             List<ProductoDTO> productos = productoService.findAll();
             model.addAttribute("productos", productos);
+            List<Integer> stocks=new ArrayList<>();
+            /* Agrego stocks totales*/
+            for(ProductoDTO dto : productos){
+                Integer stockT=0;
+                for(DetalleProductoDTO detalle : dto.getDetalle()){
+                    stockT+=detalle.getStock();
+                }
+                stocks.add(stockT);
+            }
+            model.addAttribute("stocks",stocks);
             return "abm_productos";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

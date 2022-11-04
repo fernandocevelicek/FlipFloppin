@@ -42,8 +42,6 @@ public class IndexController {
     public String listadoProductos(ModelMap modelo) {
         try {
             List<ProductoDTO> productos = productoService.findAll();
-            System.out.println(productos.size());
-            System.out.println(productos.get(0).getImagenes().get(0));
             modelo.addAttribute("productos", productos);
 
             return "listadoProducto.html";

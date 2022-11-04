@@ -10,11 +10,11 @@
     <th:block th:insert="/components/components.html :: css_and_icons_bootstrap"></th:block>
     <title>FlipFloppin | LOGIN</title>
 </head>
-<body class="bg">
+<body class="bg ">
 
 <!--<div th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'USUARIO')"></div>-->
-<a th:href="@{/}" class="go-back"><i class="bi bi-arrow-left-square text-white"></i></a>
-<div class="container d-flex flex-column justify-content-center align-items-center h-100 pt-5">
+<th:block th:insert="components/utils :: go-back"></th:block>
+<div class="container d-flex flex-column justify-content-center align-items-center h-100 pt-5 ">
     <div class="jumbotron bg-white ">
         <div class="justify-content-start">
 

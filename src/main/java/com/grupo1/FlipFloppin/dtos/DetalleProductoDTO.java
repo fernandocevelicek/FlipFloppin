@@ -11,6 +11,7 @@ public class DetalleProductoDTO {
 
     private Long id;
     private Integer stock;
+
     private TallePrenda tallePrenda;
     private Integer talleCalzado;
     private Color color;

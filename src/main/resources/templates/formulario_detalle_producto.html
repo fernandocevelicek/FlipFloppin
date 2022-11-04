@@ -11,41 +11,43 @@
 
     <title>FlipFloppin</title>
 </head>
-<body>
+<body class="bg">
 
-<div th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'USUARIO')"></div>
+<a th:href="@{/producto/abm_productos}" class="go-back"><i class="bi bi-arrow-left-square text-white me-2 "></i>Volver a ABM</a>
+<div class="container d-flex flex-column justify-content-center align-items-center h-100 pt-5 ">
+    <div class="jumbotron bg-white ">
+        <a th:href="@{/producto/formulario/{id}(id=${id})}" class="mb-3 btn btn-dark">Volver atras</a>
+        <h1 class="text-start fs-2 mb-2 text-dark d-fles"><i class="bi bi-plus-circle-fill me-2"></i>Agregar detalle del producto</h1>
 
-<div class="container mt-5">
-    <div class="row align-items-center justify-content-center text-center mb-5 col-lg">
-        <div class="col-lg-6">
-            <br>
-            <br>
-            <br>
-            <a href="/producto/abm_productos" class="btn btn-primary">Volver a ABM</a>
-            <form th:action="@{/detalle_producto/formulario/{id}(id=${detalle.id} ? ${detalle.id} : 0)}" method="POST" enctype="multipart/form-data">
+            <form th:action="@{/detalle_producto/formulario/{id}(id=${detalle.id} ? ${detalle.id} : 0)}" method="POST" enctype="multipart/form-data" class="row text-center py-3 mx-auto ">
                 <input type="hidden" name="id" th:value="${detalle.id} ? ${detalle.id} : 0 ">
                 <input type="hidden" name="idProducto" th:value="${idProducto} ? ${idProducto} : ${detalle.producto.id}">
-                <div class="form-group h5">
+                <div class="col-md-6 form-group h5 text-start mb-3">
                     <label for="stock">Stock</label>
-                    <input id="stock" type="number" placeholder="ingrese el stock" class="form-control" name="stock" th:value="${detalle.stock}">
+                    <input id="stock" type="number" placeholder="Ingrese el stock" class="form-control" name="stock" th:value="${detalle.stock}">
                 </div>
-                <div class="form-group h5" th:if="${categoria == T(com.grupo1.FlipFloppin.enums.Categoria).PRENDA_INFERIOR || categoria == T(com.grupo1.FlipFloppin.enums.Categoria).PRENDA_SUPERIOR}">
-                    <select class="custom-select" name="tallePrenda">
-                        <option selected>Talle Prenda</option>
+                <div class="col-md-6 form-group h5 text-start mb-3" th:if="${categoria == 'PRENDA_INFERIOR'|| categoria =='PRENDA_SUPERIOR'}">
+                    <label for="talle-p">Talle de prenda</label>
+                    <select class="custom-select" name="tallePrenda" id="talle-p">
+                        <option selected disabled>Talle Prenda</option>
                         <option th:each="tallePrenda : ${tallesPrendas}" th:value="${tallePrenda}" th:text="${tallePrenda}"></option>
                     </select>
                 </div>
-                <div class="form-group h5" th:if="${categoria == T(com.grupo1.FlipFloppin.enums.Categoria).CALZADO}">
+                <div class="col-md-6 form-group h5 text-start mb-3" th:if="${categoria =='CALZADO'}">
                     <label for="talleCalzado">Talle Calzado</label>
-                    <input id="talleCalzado" type="number" placeholder="ingrese el talle del calzado" class="form-control" name="talleCalzado" th:value="${talleCalzado}">
+                    <input id="talleCalzado" type="number" placeholder="Ingrese el talle del calzado" class="form-control" name="talleCalzado" th:value="${talleCalzado}">
                 </div>
-                <div class="form-group h5">
-                    <select class="custom-select" name="color">
-                        <option selected>Color</option>
-                        <option th:each="color : ${colores}" th:value="${color}" th:text="${color}"></option>
+                <div class="col-md-6 form-group h5 text-start mb-3">
+                    <label for="color">Color</label>
+                    <select class="custom-select form-control text-secondary" name="color" id="color">
+                        <option selected disabled>Color</option>
+                        <option th:each="color : ${colores}" th:value="${color}" th:text="${color}" class="text-dark"></option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Cargar Detalle</button>
+                <div class="col-md-12 form-group h5 text-start mt-3 w-100 d-flex justify-content-center">
+                <button type="submit" class="btn btn-danger">Cargar Detalle</button>
+                <a href="/producto/abm_productos" class="ms-3 btn btn-success">Terminar de agregar</a>
+                </div>
             </form>
         </div>
     </div>
