@@ -18,7 +18,7 @@
         <div class="row">
             <div th:each="producto : ${productos}" class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <a href="">
+                    <a th:href="@{/producto/{id}(id=${producto.id})}">
                         <img class="card-img-top"
                              th:src="@{'/imagenes/' + ${producto.imagenes[0]}}" alt="#"
                              style="width: 250px; height: 250px; object-fit: scale-down;"
@@ -26,20 +26,11 @@
                     </a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="" th:text="${producto.nombre}"></a>
+                            <a th:href="@{/producto/{id}(id=${producto.id})}" th:text="${producto.nombre}"></a>
                         </h4>
                         <h5>$<span th:text="${producto.precio}"></span></h5>
                         <p class="card-text" th:text="${producto.descripcion}"></p>
                         <h6>Marca: <span th:text="${producto.marca}"></span></h6>
-                    </div>
-                    <div class="card-footer">
-                        <form action="/producto/agregar_carrito" method="POST">
-                            <input type="hidden" name="id" th:value="${producto.id}">
-                            <input type="hidden" name="idUsuario" th:value="${session.usuario_session.id}">
-                            <input type="number" name="cantidad" placeholder="cantidad"
-                                   required>
-                            <button type="submit" class="btn btn-primary mt-1">Agregar</button>
-                        </form>
                     </div>
                 </div>
             </div>
