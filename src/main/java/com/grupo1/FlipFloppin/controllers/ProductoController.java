@@ -1,7 +1,8 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
-import com.grupo1.FlipFloppin.dtos.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoIndividualDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
@@ -103,6 +104,20 @@ public class ProductoController {
 
                 return "listadoProducto";
         }catch (Exception e){
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
+    @GetMapping("/{id}")
+    public String productoIndividual(Model model, @PathVariable("id") Long idProducto, @RequestParam(value = "id", required = false) Integer indexDetalle){
+        try{
+            ProductoIndividualDTO producto = productoService.getProductoIndividual(idProducto, indexDetalle);
+            model.addAttribute("producto", producto);
+
+            return "productoIndividual";
+        }catch (Exception e){
+            e.printStackTrace();
             model.addAttribute("error", e.getMessage());
             return "error";
         }

@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.services;
 
-import com.grupo1.FlipFloppin.dtos.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.exceptions.ImagenProductoException;
 import org.springframework.stereotype.Service;

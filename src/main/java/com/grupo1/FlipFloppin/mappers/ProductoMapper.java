@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.mappers;
 
-import com.grupo1.FlipFloppin.dtos.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
 import org.mapstruct.Context;
 import org.mapstruct.InheritInverseConfiguration;

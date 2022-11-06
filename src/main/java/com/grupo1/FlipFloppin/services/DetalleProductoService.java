@@ -1,7 +1,7 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
-import com.grupo1.FlipFloppin.dtos.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.DetalleProducto;
 import com.grupo1.FlipFloppin.exceptions.DetalleProductoException;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;

@@ -1,13 +1,16 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
-import com.grupo1.FlipFloppin.dtos.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoIndividualDTO;
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
+import com.grupo1.FlipFloppin.mappers.DetalleProductoMapper;
 import com.grupo1.FlipFloppin.mappers.ProductoMapper;
+import com.grupo1.FlipFloppin.repositories.DetalleProductoRepository;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,10 @@ import java.util.Optional;
 public class ProductoService implements BaseService<ProductoDTO>{
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private DetalleProductoRepository detalleProductoRepository;
+    private DetalleProductoMapper detalleProductoMapper = DetalleProductoMapper.getInstance();
 
     @Autowired
     private ImagenProductoService imagenProductoService;
@@ -199,5 +206,17 @@ public class ProductoService implements BaseService<ProductoDTO>{
         }
     }
 
+    public ProductoIndividualDTO getProductoIndividual(Long idProducto, Integer indexDetalle) throws Exception {
+        ProductoDTO producto = findById(idProducto);
+        ProductoIndividualDTO productoIndividualDTO = new ProductoIndividualDTO(producto);
+
+        if (indexDetalle == null) {
+            indexDetalle = 0;
+        }
+        DetalleProductoDTO detalleProductoDTO = productoIndividualDTO.getDetalle().get(indexDetalle);
+        productoIndividualDTO.setDetalleActual(detalleProductoDTO);
+
+        return productoIndividualDTO;
+    }
 }
 

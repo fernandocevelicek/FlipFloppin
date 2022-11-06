@@ -1,5 +1,6 @@
 package com.grupo1.FlipFloppin.dtos;
 
+import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
 import com.grupo1.FlipFloppin.enums.Color;
 import com.grupo1.FlipFloppin.enums.TallePrenda;
 import lombok.Data;

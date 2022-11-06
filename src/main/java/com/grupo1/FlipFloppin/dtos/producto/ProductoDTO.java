@@ -1,5 +1,6 @@
-package com.grupo1.FlipFloppin.dtos;
+package com.grupo1.FlipFloppin.dtos.producto;
 
+import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;

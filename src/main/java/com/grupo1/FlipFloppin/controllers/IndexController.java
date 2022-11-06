@@ -1,6 +1,6 @@
 package com.grupo1.FlipFloppin.controllers;
 
-import com.grupo1.FlipFloppin.dtos.ProductoDTO;
+import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.services.ProductoService;
