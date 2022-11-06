@@ -110,7 +110,7 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public String productoIndividual(Model model, @PathVariable("id") Long idProducto, @RequestParam(value = "id", required = false) Integer indexDetalle){
+    public String productoIndividual(Model model, @PathVariable("id") Long idProducto, @RequestParam(value = "indexDetalle", required = false) Integer indexDetalle){
         try{
             ProductoIndividualDTO producto = productoService.getProductoIndividual(idProducto, indexDetalle);
             model.addAttribute("producto", producto);
