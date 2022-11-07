@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>FlipFloppin - LOGIN</title>
+</head>
+<body>
+
+<div th:replace="/BACK/back_components/back_components :: nav_bar"></div>
+
+<div class="container">
+    <h1>LOGIN</h1>
+
+    <div class="jumbotron mt-4">
+        <div class="justify-content-center text-center">
+            <h1 class="display-4">Bienvenido!</h1>
+            <p class="lead">Inicie sesion.</p>
+            <h5 th:if="${error !=null}" th:text="${error}" style="color: red;"></h5>
+        </div>
+        <hr class="my-4">
+        <div class="container">
+            <div class="row justify-content-center text-center col-lg">
+                <div class="col-lg-6">
+                    <form action="/logincheck" method="POST" class="mb-1">
+                        <div class="form-group h5">
+                            <label for="email">Email</label>
+                            <input id="email" type="email" placeholder="ingrese su nombre de email" class="form-control"
+                                   name="email">
+                        </div>
+                        <div class="form-group h5">
+                            <label for="password">Contraseña</label>
+                            <input id="password" type="password" placeholder="ingrese su contraseña" class="form-control"
+                                   name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                    <p class="login-card-footer-text">
+                        ¿No tienes una cuenta?<a href="/registro_cliente" class="forgot-password-link"> Registrate</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="/BACK/back_components/back_components :: scripts_bootstrap"></div>
+
+</body>
+</html>

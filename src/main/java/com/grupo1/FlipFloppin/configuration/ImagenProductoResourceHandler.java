@@ -8,6 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ImagenProductoResourceHandler implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/imagenes/**").addResourceLocations("file:///D:/Facultad/TercerSemestre/Programacion/Flip-Floppin/FlipFloppin/imagenes/");
+        registry.addResourceHandler("/imagenes/**").addResourceLocations("file:///C:/Users/franc/OneDrive/Documents/Tercer Semestre/ProgramacionIII/Proyecto Final/FlipFloppin/imagenes/");
     }
 }

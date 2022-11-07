@@ -101,7 +101,6 @@ public class ProductoController {
         try{
                 List<Producto> productos = productoService.findByParam(attribute, value);
                 model.addAttribute("productos", productos);
-                model.addAttribute("filtro","- Filtrado por "+attribute+" - "+value);
                 return "listadoProducto.html";
         }catch (Exception e){
             model.addAttribute("error", e.getMessage());
