@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top bg-transparent" role="navigation" th:fragment="nav_bar(user)" id="navbar">
+<nav class="navbar sticky-top bg-black" role="navigation" th:fragment="nav_bar(user)" id="navbar">
 
     <div class="container-fluid ">
         <button class="navbar-toggler text-white" style="border: none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -12,11 +12,10 @@
                 </a>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-center">
-                <a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="me-3 nav-link d-flex align-items-center">
-                    <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white fs-2 me-2"></i>
-                    <span th:text="${user=='VISITANTE' ? 'Ingresar' :'Cerrar sesión'}" class=" text-white fs-4"></span></a>
+                <a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="me-3 nav-link d-flex align-items-center" id="login">
+                    <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white fs-2 me-2"></i></a>
 
-                <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="me-3">
+                <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="me-3" >
                     <i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}" class="text-white fs-2"></i></a>
                 <button class="btn btn-link"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i class="bi bi-search text-white fs-2"></i></button>
                 <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
@@ -56,6 +55,7 @@
                                     <li><a class="dropdown-item" href="#" th:unless="${user=='ADMINISTRADOR'}">Mujeres</a></li>
                                     <li><a class="dropdown-item" href="#" th:unless="${user=='ADMINISTRADOR'}">Calzado</a></li>
                                     <li><a class="dropdown-item" href="#" th:unless="${user=='ADMINISTRADOR'}">Accesorios</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/producto/listado}" th:unless="${user=='ADMINISTRADOR'}">Todos los productos</a></li>
                                 </ul>
                             </li>
 
