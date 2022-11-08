@@ -39,7 +39,7 @@ for(let check of check_marca){
             }
         }
         if(check.checked==false){
-            document.getElementById("filtro_sexo").setAttribute("value","NOMBRE")
+            document.getElementById("filtro_marca").setAttribute("value","NOMBRE")
         }
         check.checked && save(check.getAttribute("value"),true)
         filtro_marca.submit();
