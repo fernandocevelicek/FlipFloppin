@@ -48,6 +48,12 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
         return usuarioMapper.toDTO(usuario);
     }
 
+    @Transactional
+    public Usuario findEntityById(Long id) {
+        Usuario usuario = usuarioRepository.findById(id).get();
+        return usuario;
+    }
+
     @Override
     @Transactional
     public UsuarioDTO update(UsuarioDTO dto, Long id) throws UsuarioException {

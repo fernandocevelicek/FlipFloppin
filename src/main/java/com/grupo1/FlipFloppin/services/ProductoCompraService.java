@@ -2,6 +2,7 @@ package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.dtos.ProductoCompraDTO;
 import com.grupo1.FlipFloppin.entities.ProductoCompra;
+import com.grupo1.FlipFloppin.exceptions.ProductoCompraException;
 import com.grupo1.FlipFloppin.mappers.ProductoCompraMapper;
 import com.grupo1.FlipFloppin.repositories.ProductoCompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +22,24 @@ public class ProductoCompraService implements BaseService<ProductoCompraDTO> {
 
     @Override
     @Transactional
-    public List<ProductoCompraDTO> findAll() throws Exception {
+    public List<ProductoCompraDTO> findAll() throws ProductoCompraException {
         try {
             List<ProductoCompraDTO> productosCompra = productoCompraMapper.toDTOsList(productoCompraRepository.findAll());
             return productosCompra;
         }catch (Exception e){
-            throw new Exception(e.getMessage());
+            throw new ProductoCompraException(e.getMessage());
         }
     }
 
     @Override
     @Transactional
-    public ProductoCompraDTO findById(Long id) throws Exception {
+    public ProductoCompraDTO findById(Long id) throws ProductoCompraException {
         try{
             Optional<ProductoCompra> opt = productoCompraRepository.findById(id);
             ProductoCompra productoCompra = opt.get();
             return productoCompraMapper.toDTO(productoCompra);
         }catch (Exception e){
-            throw new Exception(e.getMessage());
+            throw new ProductoCompraException(e.getMessage());
         }
     }
 
@@ -59,28 +60,38 @@ public class ProductoCompraService implements BaseService<ProductoCompraDTO> {
 
     @Override
     @Transactional
-    public ProductoCompraDTO save(ProductoCompraDTO dto) throws Exception {
+    public ProductoCompraDTO save(ProductoCompraDTO dto) throws ProductoCompraException {
         try{
             ProductoCompra entity = productoCompraMapper.toEntity(dto);
             ProductoCompra productoCompra = this.productoCompraRepository.save(entity);
             return productoCompraMapper.toDTO(productoCompra);
         }catch (Exception e){
-            throw new Exception(e.getMessage());
+            throw new ProductoCompraException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public ProductoCompra save(ProductoCompra entity) throws ProductoCompraException {
+        try{
+            ProductoCompra productoCompra = this.productoCompraRepository.save(entity);
+            return productoCompra;
+        }catch (Exception e){
+            throw new ProductoCompraException(e.getMessage());
         }
     }
 
     @Override
     @Transactional
-    public boolean deleteById(Long id) throws Exception {
+    public boolean deleteById(Long id) throws ProductoCompraException {
         try{
             if(productoCompraRepository.existsById(id)){
                 productoCompraRepository.deleteById(id);
             } else {
-                throw new Exception("No existe un producto compra con el id: " + id);
+                throw new ProductoCompraException("No existe un producto compra con el id: " + id);
             }
             return true;
         }catch (Exception e){
-            throw new Exception(e.getMessage());
+            throw new ProductoCompraException(e.getMessage());
         }
     }
 

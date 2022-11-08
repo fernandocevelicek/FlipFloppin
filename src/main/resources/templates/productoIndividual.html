@@ -31,10 +31,11 @@
                 <h6>Marca: <span th:text="${producto.marca}"></span></h6>
             </div>
             <div class="card-footer">
-                <form action="/producto/agregar_carrito" method="POST">
-                    <input type="hidden" name="id" th:value="${producto.id}">
+                <form action="/carrito/agregar_producto" method="POST">
+                    <input type="hidden" name="idProducto" th:value="${producto.id}">
                     <input type="hidden" name="idDetalle" th:value="${producto.detalleActual.id}">
                     <input type="hidden" name="idUsuario" th:value="${session.usuario_session.id}">
+                    <input type="hidden" name="sourceURL" th:value="${sourceURL}">
                     <input type="number" name="cantidad" placeholder="cantidad"
                            required>
                     <button type="submit" class="btn btn-primary mt-1">Agregar</button>
