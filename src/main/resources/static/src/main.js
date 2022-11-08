@@ -25,3 +25,4 @@ function setPage(){
 setPage();
 window.addEventListener("resize",setPage);
 
+
