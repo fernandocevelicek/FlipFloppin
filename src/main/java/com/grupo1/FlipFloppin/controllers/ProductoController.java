@@ -101,6 +101,16 @@ public class ProductoController {
         try{
                 List<Producto> productos = productoService.findByParam(attribute, value);
                 model.addAttribute("productos", productos);
+                if(!attribute.equals("NOMBRE") && attribute!=null){
+                    model.addAttribute("filtro",attribute.toLowerCase());
+                    if(value!=null){
+                        model.addAttribute("value",value.toLowerCase());
+                    }
+                }
+                if(attribute.equals("NOMBRE") && value!=null){
+                    model.addAttribute("filtro",attribute.toLowerCase());
+                    model.addAttribute("value",value.toLowerCase());
+                }
                 return "listadoProducto.html";
         }catch (Exception e){
             model.addAttribute("error", e.getMessage());

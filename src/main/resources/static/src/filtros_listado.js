@@ -7,9 +7,7 @@ let check_marca=document.getElementsByClassName("marca");
 function save(key,value){
     localStorage.setItem(key,JSON.stringify(value));
 }
-sin_filtro.addEventListener("submit",()=>{
-    localStorage.clear();
-})
+
 for(let check of check_sexo){
     check.addEventListener("change",(e)=>{
         localStorage.clear();
@@ -61,3 +59,40 @@ window.onload=(e)=>{
         }
     }
 }
+
+let btn_filters=document.getElementById("btn_filtros")
+let titulo_filtro_sex=document.getElementById("filtro_sex_titulo");
+let titulo_filtro_marca=document.getElementById("filtro_marca_titulo")
+btn_filters.addEventListener("click",()=>{
+    document.getElementById("filtros").classList.toggle("d-none");
+    if(document.getElementById("filtros").classList.contains("d-none")){
+        document.getElementById("flecha_filtro").classList.remove("bi", "bi-caret-down-fill")
+        document.getElementById("flecha_filtro").classList.add("bi" ,"bi-caret-right-fill")
+    }else{
+        document.getElementById("flecha_filtro").classList.add("bi", "bi-caret-down-fill")
+        document.getElementById("flecha_filtro").classList.remove("bi" ,"bi-caret-right-fill")
+    }
+})
+titulo_filtro_sex.addEventListener("click",()=>{
+    if(filtro_sexo.classList.contains("d-none")){
+        filtro_sexo.classList.remove("d-none")
+        document.getElementById("flecha_filtro_s").classList.add("bi", "bi-caret-down-fill")
+        document.getElementById("flecha_filtro_s").classList.remove("bi" ,"bi-caret-right-fill")
+    }else{
+        filtro_sexo.classList.add("d-none")
+        document.getElementById("flecha_filtro_s").classList.remove("bi", "bi-caret-down-fill")
+        document.getElementById("flecha_filtro_s").classList.add("bi" ,"bi-caret-right-fill")
+    }
+})
+titulo_filtro_marca.addEventListener("click",()=>{
+    if(filtro_marca.classList.contains("d-none")){
+        filtro_marca.classList.remove("d-none")
+        document.getElementById("flecha_filtro_m").classList.add("bi", "bi-caret-down-fill")
+        document.getElementById("flecha_filtro_m").classList.remove("bi" ,"bi-caret-right-fill")
+
+    }else{
+        filtro_marca.classList.add("d-none")
+        document.getElementById("flecha_filtro_m").classList.remove("bi", "bi-caret-down-fill")
+        document.getElementById("flecha_filtro_m").classList.add("bi" ,"bi-caret-right-fill")
+    }
+})

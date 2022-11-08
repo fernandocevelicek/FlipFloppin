@@ -26,7 +26,7 @@
                     </div>
                     <div class="offcanvas-body d-flex w-100 align-items-center flex-column">
                         <p class="text-muted text-opacity-50 mb-3 fs-3">¡Busca entre nuestros productos!</p>
-                        <form class="d-flex w-50" role="search" id="form_nombre">
+                        <form class="d-flex w-50" role="search" id="form_nombre" th:action="@{filtro}">
                             <input type="text" name="attribute" value="NOMBRE" id="filtro_nombre" class="visually-hidden">
                             <input class="form-control me-2 base-font" type="search" placeholder="Buscar" aria-label="Search" name="value">
                             <button class="btn btn-danger" type="submit">Buscar</button>
