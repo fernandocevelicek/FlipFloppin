@@ -1,10 +1,14 @@
 package com.grupo1.FlipFloppin.controllers;
 
+import com.grupo1.FlipFloppin.dtos.CarritoDTO;
+import com.grupo1.FlipFloppin.entities.Usuario;
+import com.grupo1.FlipFloppin.exceptions.CarritoException;
 import com.grupo1.FlipFloppin.services.CarritoService;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,15 +28,32 @@ public class CarritoController {
     @Autowired
     private CarritoService carritoService;
 
-    @PostMapping("/agregar_producto")
-    public String agregarProducto(Model model, @RequestParam("idProducto") Long idProducto, @RequestParam(value = "idDetalle") Long idDetalle, @RequestParam(value = "idUsuario") Long idUsuario, @RequestParam(value = "cantidad") Integer cantidad){
+    @GetMapping("")
+    public String carrito(Model model){
         try{
-            // - si usuario no tiene carrito crear uno nuevo
-            // - crear productoCompra
-            // - agregar productoCompra a carrito
-            // - persistir carrito con nuevo producto.
+            Usuario usuario = (Usuario) session.getAttribute("usuario_session");
+            CarritoDTO carritoDTO = carritoService.findByUsuarioId(usuario.getId());
+            model.addAttribute("carrito", carritoDTO);
+            return "carrito";
+        }catch (CarritoException e){
+            e.printStackTrace();
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
 
-            return "redirect:/producto/filtro";
+    @PostMapping("/agregar_producto")
+    public String agregarProducto(Model model, @RequestParam("idProducto") Long idProducto, @RequestParam(value = "idDetalle") Long idDetalle, @RequestParam(value = "idUsuario") Long idUsuario, @RequestParam(value = "cantidad") Integer cantidad, @RequestParam(value = "sourceURL") String sourceURL){
+        try{
+            System.out.println(idProducto);
+            System.out.println(idDetalle);
+            System.out.println(idUsuario);
+            System.out.println(cantidad);
+            System.out.println(sourceURL);
+
+            carritoService.agregarProducto(idProducto, idDetalle, idUsuario, cantidad);
+
+            return "redirect:"+sourceURL;
         }catch (Exception e){
             e.printStackTrace();
             model.addAttribute("error", e.getMessage());

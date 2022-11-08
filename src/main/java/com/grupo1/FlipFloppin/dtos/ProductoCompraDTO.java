@@ -10,5 +10,6 @@ public class ProductoCompraDTO {
     private Integer cantidad;
     private ProductoDTO producto;
     private Double subtotal;
+    private Long idDetalle;
 
 }

@@ -114,4 +114,9 @@ public class DetalleProductoService implements BaseService<DetalleProductoDTO> {
             throw new Exception(e.getMessage());
         }
     }
+
+    public void quitarStock(Long id, Integer cantidad) {
+        DetalleProducto detalle = detalleProductoRepository.findById(id).get();
+        detalle.setStock(detalle.getStock()-cantidad);
+    }
 }

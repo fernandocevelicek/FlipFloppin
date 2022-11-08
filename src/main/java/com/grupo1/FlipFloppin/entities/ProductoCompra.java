@@ -24,6 +24,8 @@ public class ProductoCompra {
     @OneToOne()
     private Producto producto;
 
+    private Long idDetalle;
+
     private Double subtotal;
 
 }
