@@ -123,6 +123,7 @@ public class ProductoController {
         try{
             ProductoIndividualDTO producto = productoService.getProductoIndividual(idProducto, indexDetalle);
             model.addAttribute("producto", producto);
+            model.addAttribute("index",indexDetalle==null?0:indexDetalle);
             model.addAttribute("sourceURL", "/producto/"+idProducto+"?indexDetalle="+(indexDetalle == null ? 0 : indexDetalle));
             return "productoIndividual";
         }catch (Exception e){

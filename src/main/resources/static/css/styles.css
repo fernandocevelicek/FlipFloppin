@@ -27,59 +27,12 @@ th, td {
   width: 100px;
   word-wrap: break-word;
 }
-.bg-rojo {
-  background-color: #E40232; }
 
-.bg-amarillo {
-  background-color: #FFBD59; }
-
-.bg-negro {
-  background-color: #000000; }
-
-.bg-g-oscuro {
-  background-color: #a9a9a9; }
-
-.bg-g-claro {
-  background-color: #cdcddc; }
-
-.base-font, .base-font-w {
-  color: #000000;
-  font-size: 1em;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  line-height: 1;
-  text-decoration: none;
-  }
-  .base-font-w {
-    color: #ffffff; }
-
-.title-font, .title-font-w {
-  color: black;
-  font-size: 2.2em;
-  font-weight: bold;
-  line-height: 1;
-  }
-  .title-font-w {
-    color: #ffffff; }
-
-.link-font {
-  color: black;
-  font-size: 1.5em;
-  font-weight: bold;
-  line-height: 1;
-   }
-
-.nav-top {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 5px; }
 .social-media{
   width: 32px;
   height: 32px;
   border-radius: 50%;
 }
-
 .card-a .precio{
   margin-top: 0;
   transition: 300ms margin-top;
@@ -88,7 +41,6 @@ th, td {
   margin-top: .5em;
   transition: 300ms margin-top;
 }
-
 .bg{
   background-image: url("../images/bg-mobile.jpg");
   background-position: center;
@@ -96,6 +48,10 @@ th, td {
 }
 .bg-black{
   background: black;
+}
+.img-outline{
+  outline: 1px solid #cfcfcf;
+  outline-offset: 3px;
 }
 .jumbotron{
   max-width: 650px;
@@ -123,11 +79,18 @@ th, td {
   border-radius: 1em;
 }
 .container-fluid{
-
  padding-right: 0px;
  padding-left: 0px;
-
 }
+.circle{
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  outline: 1px solid black;
+  outline-offset: 2px;
+}
+
 @media screen and (min-width: 1024px){
 .bg{
 background-image: url("../images/bg-desktop.jpg");
@@ -135,6 +98,15 @@ background-position: center;
 background-repeat: no-repeat;
 
 }
+  .circle{
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    outline: 1px solid black;
+    outline-offset: 2px;
+  }
+
 .jumbotron{
 max-width: 650px;
 min-width: 500px;

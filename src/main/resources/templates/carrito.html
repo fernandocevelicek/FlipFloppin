@@ -15,8 +15,10 @@
 <nav th:replace="/components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
 <main role="main">
     <div class="container-fluid">
-        <div class="row">
-            <div th:each="productoCompra : ${carrito.productos}" class="col-lg-4 col-md-6 mb-4">
+        <h1 th:if="${carrito==null}">Aun no has agregado nada al carrito</h1>
+        <div class="row" th:if="${carrito!=null}">
+
+            <div  th:each="productoCompra : ${carrito.productos} " class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
                     <a th:href="@{/producto/{id}(id=${productoCompra.producto.id})}">
                         <img class="card-img-top"
