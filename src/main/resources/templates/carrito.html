@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <h1 th:if="${carrito==null}">Aun no has agregado nada al carrito</h1>
         <div class="row" th:if="${carrito!=null}">
-
+            <h1 th:text="${carrito.total}"></h1>
             <div  th:each="productoCompra : ${carrito.productos} " class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
                     <a th:href="@{/producto/{id}(id=${productoCompra.producto.id})}">
@@ -39,9 +39,26 @@
                         <div th:each="detalle : ${productoCompra.producto.detalle}">
                             <p class="card-text" th:if="${detalle.id == productoCompra.idDetalle}" th:text="${detalle.stock}"></p>
                         </div>
+                        <form action="/carrito/quitar_producto" method="POST" class="my-3">
+                            <input type="hidden" name="idProducto" th:value="${productoCompra.producto.id}">
+                            <input type="hidden" name="idDetalle" th:value="${productoCompra.idDetalle}">
+                            <input type="hidden" name="cantidad" value="1">
+                            <div class="row justify-content-between align-items-center mt-3 mx-2r">
+                                <div class="input-group col d-flex justify-content-end align-items-center">
+                                    <button class="btn btn-outline-danger" type="submit">Quitar del carrito</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+            <form action="/carrito/confirmar_compra" method="POST" class="my-3">
+                <div class="row justify-content-between align-items-center mt-3 mx-2r">
+                    <div class="input-group col d-flex justify-content-end align-items-center">
+                        <button class="btn btn-outline-success" type="submit">Confirmar Compra</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </main>

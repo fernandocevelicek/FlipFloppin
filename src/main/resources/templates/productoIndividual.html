@@ -37,7 +37,6 @@
                         <form action="/carrito/agregar_producto" method="POST" class="my-3">
                             <input type="hidden" name="idProducto" th:value="${producto.id}">
                             <input type="hidden" name="idDetalle" th:value="${producto.detalleActual.id}">
-                            <input type="hidden" name="idUsuario" th:value="${session.usuario_session!=null? session.usuario_session.id:0}">
                             <input type="hidden" name="sourceURL" th:value="${sourceURL}">
                             <div class="row justify-content-between align-items-center mt-3 mx-2r">
                                 <div class="input-group col d-flex justify-content-end align-items-center">

@@ -119,4 +119,9 @@ public class DetalleProductoService implements BaseService<DetalleProductoDTO> {
         DetalleProducto detalle = detalleProductoRepository.findById(id).get();
         detalle.setStock(detalle.getStock()-cantidad);
     }
+
+    public void agregarStock(Long id, Integer cantidad) {
+        DetalleProducto detalle = detalleProductoRepository.findById(id).get();
+        detalle.setStock(detalle.getStock()+cantidad);
+    }
 }

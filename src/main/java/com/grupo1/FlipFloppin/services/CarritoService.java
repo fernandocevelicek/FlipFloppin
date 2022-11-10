@@ -8,6 +8,7 @@ import com.grupo1.FlipFloppin.exceptions.CarritoException;
 import com.grupo1.FlipFloppin.exceptions.ProductoCompraException;
 import com.grupo1.FlipFloppin.mappers.CarritoMapper;
 import com.grupo1.FlipFloppin.repositories.CarritoRepository;
+import com.grupo1.FlipFloppin.repositories.ProductoCompraRepository;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -145,6 +146,44 @@ public class CarritoService implements BaseService<CarritoDTO> {
         carrito.setTotal(carrito.getTotal() + (productoCompra.getProducto().getPrecio()*cantidad));
 
         carritoRepository.save(carrito);
+    }
+
+    public void quitarProducto(Long idProducto, Long idDetalle, Long idUsuario, Integer cantidad) throws ProductoCompraException {
+        Carrito carrito = carritoRepository.findByIdUsuario(idUsuario);
+        carrito.setFechaModificacion(new Date());
+
+        Producto producto = productoRepository.findById(idProducto).get();
+        ProductoCompra productoCompra = getProductoCompra(carrito, producto);
+
+        Integer newCantidad = productoCompra.getCantidad() - cantidad;
+        if(newCantidad <= 0) {
+            carrito.setTotal(carrito.getTotal() - (productoCompra.getProducto().getPrecio()*productoCompra.getCantidad()));
+            carrito.getProductos().remove(productoCompra);
+            productoCompraService.deleteById(productoCompra.getId());
+            if (carrito.getProductos().size() == 0) {
+                carritoRepository.delete(carrito);
+                return;
+            }
+
+            carritoRepository.save(carrito);
+            return;
+        }
+
+        productoCompra.setCantidad(newCantidad);
+        productoCompra.setSubtotal(productoCompra.getSubtotal() - (productoCompra.getProducto().getPrecio()*cantidad));
+
+        detalleProductoService.agregarStock(idDetalle, cantidad);
+        carrito.setTotal(carrito.getTotal() - (productoCompra.getProducto().getPrecio()*cantidad));
+
+        carritoRepository.save(carrito);
+    }
+
+    public void confirmarCompra(Long idUsuario, Long idDomicilio) throws ProductoCompraException {
+        Carrito carrito = carritoRepository.findByIdUsuario(idUsuario);
+
+        //transformar carrito en pedido.
+
+        //carritoRepository.delete(carrito);
     }
 
     private ProductoCompra getProductoCompra(Carrito carrito, Producto producto) {

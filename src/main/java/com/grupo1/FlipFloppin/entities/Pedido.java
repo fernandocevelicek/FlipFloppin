@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,6 +31,10 @@ public class Pedido {
     private Domicilio ubicacionEntrega;
 
     private Double total;
+
+    @ManyToMany()
+    @JoinTable(name = "pedido_producto_compra",joinColumns = @JoinColumn(name = "fk_pedido"),inverseJoinColumns = @JoinColumn(name = "fk_producto_compra"))
+    private List<ProductoCompra> productos;
 
     @ManyToOne()
     @JoinColumn(name = "fk_usuario")
