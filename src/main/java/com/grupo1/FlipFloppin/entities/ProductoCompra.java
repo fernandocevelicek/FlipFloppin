@@ -28,4 +28,12 @@ public class ProductoCompra {
 
     private Double subtotal;
 
+    public ProductoCompra(ProductoCompra productoCompra) {
+        id = productoCompra.id;
+        cantidad = productoCompra.cantidad;
+        producto = productoCompra.producto;
+        idDetalle = productoCompra.idDetalle;
+        subtotal = productoCompra.subtotal;
+    }
+
 }

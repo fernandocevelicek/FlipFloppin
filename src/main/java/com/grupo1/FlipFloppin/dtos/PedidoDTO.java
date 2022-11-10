@@ -1,6 +1,5 @@
 package com.grupo1.FlipFloppin.dtos;
 
-import com.grupo1.FlipFloppin.entities.ProductoCompra;
 import com.grupo1.FlipFloppin.enums.EstadoPedido;
 import lombok.Data;
 

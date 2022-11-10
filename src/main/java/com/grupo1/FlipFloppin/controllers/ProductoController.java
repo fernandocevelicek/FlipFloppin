@@ -28,7 +28,7 @@ public class ProductoController {
     private ProductoService productoService;
 
     @GetMapping("/abm_productos")
-    public String getAll(Model model) {
+    public String abmProductos(Model model) {
         try {
             List<ProductoDTO> productos = productoService.findAll();
             model.addAttribute("productos", productos);
@@ -111,7 +111,7 @@ public class ProductoController {
                     model.addAttribute("filtro",attribute.toLowerCase());
                     model.addAttribute("value",value.toLowerCase());
                 }
-                return "listadoProducto.html";
+                return "listado_producto.html";
         }catch (Exception e){
             model.addAttribute("error", e.getMessage());
             return "error";
@@ -125,7 +125,7 @@ public class ProductoController {
             model.addAttribute("producto", producto);
             model.addAttribute("index",indexDetalle==null?0:indexDetalle);
             model.addAttribute("sourceURL", "/producto/"+idProducto+"?indexDetalle="+(indexDetalle == null ? 0 : indexDetalle));
-            return "productoIndividual";
+            return "producto_individual";
         }catch (Exception e){
             e.printStackTrace();
             model.addAttribute("error", e.getMessage());

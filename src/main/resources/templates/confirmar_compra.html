@@ -15,14 +15,21 @@
 <nav th:replace="/components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
 <main role="main">
     <div class="container-fluid">
-        <h1 th:if="${domicilios==null or #lists.isEmpty(domicilios)}">Aun no has cargado un domicilio</h1>
+        <div th:if="${domicilios==null or #lists.isEmpty(domicilios)}">
+            <h1 >Aun no has cargado un domicilio</h1>
+            <div class="row justify-content-between align-items-center mt-3 mx-2r">
+                <div class="input-group col d-flex justify-content-end align-items-center">
+                    <a href="/domicilio/abm_domicilio" class="btn btn-success" type="submit">Administrar Domicilios</a>
+                </div>
+            </div>
+        </div>
         <div class="row" th:if="${domicilios!=null and not #lists.isEmpty(domicilios)}">
             <h1>Seleccion Domicilio</h1>
             <div class="col-lg-4 col-md-6 mb-4">
                 <form action="/carrito/confirmar_compra" method="POST" class="my-3">
                     <div class="col-md-6 form-group h5 text-start mb-3">
-                        <label for="estado">Domicilio</label>
-                        <select class="custom-select form-control text-secondary" name="estado" id="estado">
+                        <label for="idDomicilio">Domicilio</label>
+                        <select class="custom-select form-control text-secondary" name="idDomicilio" id="idDomicilio">
                             <option th:each="domicilio : ${domicilios}" th:value="${domicilio.id}" th:text="${domicilio.id}" class="text-dark"></option>
                         </select>
                     </div>

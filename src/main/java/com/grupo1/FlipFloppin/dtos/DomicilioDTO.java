@@ -13,7 +13,7 @@ public class DomicilioDTO {
     private String numero;
     private String piso;
     private String descripcion;
-    private Provincia provincias;
+    private Provincia provincia;
     private EstadoDomicilio estado;
     private UsuarioDTO usuarioDir;
     private Date fechaAlta;

@@ -1,14 +1,11 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.CarritoDTO;
-import com.grupo1.FlipFloppin.dtos.DomicilioDTO;
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.exceptions.CarritoException;
-import com.grupo1.FlipFloppin.mappers.UsuarioMapper;
 import com.grupo1.FlipFloppin.services.CarritoService;
-import com.grupo1.FlipFloppin.services.DomicilioService;
-import com.grupo1.FlipFloppin.services.ProductoService;
+import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/carrito")
@@ -31,7 +27,7 @@ public class CarritoController {
     private CarritoService carritoService;
 
     @Autowired
-    private UsuarioMapper usuarioMapper;
+    private UsuarioService usuarioService;
 
     @GetMapping("")
     public String carrito(Model model){
@@ -76,8 +72,9 @@ public class CarritoController {
     @GetMapping("/confirmar_compra")
     public String confirmarCompra(Model model){
         try{
-            UsuarioDTO usuario = usuarioMapper.toDTO((Usuario) session.getAttribute("usuario_session"));
-            model.addAttribute("domicilios", usuario.getUbicacionesEnvio());
+            Usuario usuario = (Usuario) session.getAttribute("usuario_session");
+            UsuarioDTO usuarioDTO = usuarioService.findById(usuario.getId());
+            model.addAttribute("domicilios", usuarioDTO.getUbicacionesEnvio());
             return "confirmar_compra";
         }catch (Exception e){
             e.printStackTrace();

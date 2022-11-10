@@ -44,7 +44,7 @@ public class IndexController {
             List<ProductoDTO> productos = productoService.findAll();
             modelo.addAttribute("productos", productos);
 
-            return "listadoProducto.html";
+            return "listado_producto.html";
         } catch (ProductoException e) {
             e.printStackTrace();
             modelo.addAttribute("error", e.getMessage());

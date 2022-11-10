@@ -30,7 +30,7 @@ public class Domicilio {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "provincia",nullable = false)
-    private Provincia provincias;
+    private Provincia provincia;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado",nullable = false)

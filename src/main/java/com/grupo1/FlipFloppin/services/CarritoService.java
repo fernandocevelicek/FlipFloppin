@@ -1,14 +1,13 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.dtos.CarritoDTO;
-import com.grupo1.FlipFloppin.entities.Carrito;
-import com.grupo1.FlipFloppin.entities.Producto;
-import com.grupo1.FlipFloppin.entities.ProductoCompra;
+import com.grupo1.FlipFloppin.entities.*;
+import com.grupo1.FlipFloppin.enums.EstadoPedido;
 import com.grupo1.FlipFloppin.exceptions.CarritoException;
+import com.grupo1.FlipFloppin.exceptions.PedidoException;
 import com.grupo1.FlipFloppin.exceptions.ProductoCompraException;
 import com.grupo1.FlipFloppin.mappers.CarritoMapper;
 import com.grupo1.FlipFloppin.repositories.CarritoRepository;
-import com.grupo1.FlipFloppin.repositories.ProductoCompraRepository;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,18 +23,17 @@ public class CarritoService implements BaseService<CarritoDTO> {
 
     @Autowired
     CarritoRepository carritoRepository;
-
     @Autowired
     ProductoRepository productoRepository;
 
     @Autowired
     UsuarioService usuarioService;
-
     @Autowired
     DetalleProductoService detalleProductoService;
-
     @Autowired
     ProductoCompraService productoCompraService;
+    @Autowired
+    PedidoService pedidoService;
 
     private CarritoMapper carritoMapper = CarritoMapper.getInstance();
 
@@ -178,12 +176,33 @@ public class CarritoService implements BaseService<CarritoDTO> {
         carritoRepository.save(carrito);
     }
 
-    public void confirmarCompra(Long idUsuario, Long idDomicilio) throws ProductoCompraException {
+    public void confirmarCompra(Long idUsuario, Long idDomicilio) throws PedidoException {
         Carrito carrito = carritoRepository.findByIdUsuario(idUsuario);
+        Usuario usuario = carrito.getUsuario();
+        Domicilio domicilio = getUbicacionEntrega(usuario, idDomicilio);
 
-        //transformar carrito en pedido.
+        Pedido pedido = new Pedido();
+        pedido.setEstado(EstadoPedido.PENDING);
+        pedido.setUbicacionEntrega(domicilio);
 
-        //carritoRepository.delete(carrito);
+        List<ProductoCompra> productos = new ArrayList<>();
+        for (ProductoCompra p : carrito.getProductos()) {
+            productos.add(new ProductoCompra(p));
+        }
+        pedido.setProductos(carrito.getProductos());
+
+        pedido.setTotal(carrito.getTotal());
+        pedido.setUsuario(usuario);
+
+        carritoRepository.delete(carrito);
+        pedidoService.save(pedido);
+    }
+
+    private Domicilio getUbicacionEntrega(Usuario usuario, Long idDomicilio) {
+        for (Domicilio domicilio : usuario.getUbicacionesEnvio()) {
+            if (domicilio.getId().equals(idDomicilio)) return domicilio;
+        }
+        return null;
     }
 
     private ProductoCompra getProductoCompra(Carrito carrito, Producto producto) {
