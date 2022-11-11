@@ -1,11 +1,14 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
+import com.grupo1.FlipFloppin.entities.Producto;
+import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.enums.EstadoUsuario;
 import com.grupo1.FlipFloppin.enums.Rol;
 import com.grupo1.FlipFloppin.exceptions.UsuarioException;
 import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +25,29 @@ public class UsuarioAdminController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/abm_usuarios")
-    public String getAll(Model model) {
-        List<UsuarioDTO> usuarios = usuarioService.findAll();
-        model.addAttribute("usuarios", usuarios);
-        return "abm_usuarios";
+    @GetMapping("/abm_usuarios/{nro}")
+    public String getAll(Model model,@PathVariable(value = "nro") int pageNo) {
+        try {
+            int pageSize = 10;
+            Page<Usuario> page = usuarioService.findAllPaginated(pageNo, pageSize);
+            List <Usuario> users = page.getContent();
+            model.addAttribute("currentPage", pageNo);
+            if(pageNo>0){
+                model.addAttribute("previousPage",pageNo-1);
+            }
+            if(pageNo+1<page.getTotalPages()){
+                model.addAttribute("nextPage",pageNo+1);
+            }
+            model.addAttribute("totalPages", page.getTotalPages()-1);
+            model.addAttribute("totalItems", page.getTotalElements());
+            model.addAttribute("usuarios", users);
+            return "abm_usuarios";
+        }catch (Exception e){
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
+            return "error";
+        }
+
     }
 
     @GetMapping("/formulario/{id}")

@@ -1,14 +1,19 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
+import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.enums.EstadoUsuario;
 import com.grupo1.FlipFloppin.enums.Rol;
+import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.exceptions.UsuarioException;
 import com.grupo1.FlipFloppin.mappers.UsuarioMapper;
 import com.grupo1.FlipFloppin.repositories.UsuarioRepository;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -213,6 +218,16 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
 
         if (!password.equals(password_confirmation)) {
             throw new UsuarioException("Ambas contraseñas deben coincidir.");
+        }
+    }
+    public Page<Usuario> findAllPaginated(int pageNo, int pageSize) throws ProductoException {
+        try {
+            Pageable pageable= PageRequest.of(pageNo,pageSize);
+            Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+            return usuarios;
+
+        } catch (Exception e) {
+            throw new ProductoException(e.getMessage());
         }
     }
 

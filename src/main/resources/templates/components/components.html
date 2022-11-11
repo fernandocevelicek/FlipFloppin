@@ -12,8 +12,8 @@
                 </a>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-center">
-               <a class="nav-link d-flex align-items-center text-white text-center me-3" th:href="@{/usuario/abm_usuarios}" th:if="${user=='ADMINISTRADOR'}">ABM Usuarios</a>
-                <a class="nav-link d-flex align-items-center text-white text-center me-3" th:href="@{/producto/abm_productos}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
+               <a class="nav-link d-flex align-items-center text-white text-center me-3" th:href="@{/usuario/abm_usuarios/0}" th:if="${user=='ADMINISTRADOR'}">ABM Usuarios</a>
+                <a class="nav-link d-flex align-items-center text-white text-center me-3" th:href="@{/producto/abm_productos/0}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
                 <div class="d-flex justify-content-center align-items-center">
                     <!--<a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="me-3 nav-link d-flex align-items-center" id="login">
                         <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white fs-2"></i></a>-->
@@ -75,10 +75,10 @@
                                 <a class="nav-link" href="#">Nosotros</a>
                             </li>
                             <li class="nav-item mb-2" th:if="${user=='ADMINISTRADOR'}">
-                                <a class="nav-link" th:href="@{/usuario/abm_usuarios}" >ABM Usuarios</a>
+                                <a class="nav-link" th:href="@{/usuario/abm_usuarios/0}" >ABM Usuarios</a>
                             </li>
                             <li class="nav-item" >
-                                <a class="nav-link" th:href="@{/producto/abm_productos}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
+                                <a class="nav-link" th:href="@{/producto/abm_productos/0}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
                             </li>
                         </ul>
                     </div>

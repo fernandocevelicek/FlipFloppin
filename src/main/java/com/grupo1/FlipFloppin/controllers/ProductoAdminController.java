@@ -3,6 +3,7 @@ package com.grupo1.FlipFloppin.controllers;
 import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
 import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
 import com.grupo1.FlipFloppin.dtos.producto.ProductoIndividualDTO;
+import com.grupo1.FlipFloppin.entities.DetalleProducto;
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
@@ -10,6 +11,7 @@ import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,20 +31,33 @@ public class ProductoAdminController {
     @Autowired
     private ProductoService productoService;
 
-    @GetMapping("/abm_productos")
-    public String abmProductos(Model model) {
+    @GetMapping("/abm_productos/{nro}")
+    public String abmProductos(Model model,@PathVariable(value = "nro") int pageNo) {
         try {
-            List<ProductoDTO> productos = productoService.findAll();
+            int pageSize = 10;
+            Page< Producto > page = productoService.findAllPaginated(pageNo, pageSize);
+            List < Producto > productos = page.getContent();
+            model.addAttribute("currentPage", pageNo);
+            if(pageNo>0){
+                model.addAttribute("previousPage",pageNo-1);
+            }
+            if(pageNo+1<page.getTotalPages()){
+                model.addAttribute("nextPage",pageNo+1);
+            }
+
+            model.addAttribute("totalPages", page.getTotalPages()-1);
+            model.addAttribute("totalItems", page.getTotalElements());
             model.addAttribute("productos", productos);
             List<Integer> stocks=new ArrayList<>();
             /* Agrego stocks totales*/
-            for(ProductoDTO dto : productos){
+            for(Producto dto : productos){
                 Integer stockT=0;
-                for(DetalleProductoDTO detalle : dto.getDetalle()){
+                for(DetalleProducto detalle : dto.getDetalle()){
                     stockT+=detalle.getStock();
                 }
                 stocks.add(stockT);
             }
+
             model.addAttribute("stocks",stocks);
             return "abm_productos";
         } catch (ProductoException e) {
@@ -100,5 +115,6 @@ public class ProductoAdminController {
             return "error";
         }
     }
+
 
 }
