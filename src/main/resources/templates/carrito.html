@@ -13,32 +13,34 @@
 </head>
 <body>
 <nav th:replace="/components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
-<main role="main">
-    <div class="container-fluid">
-        <h1 th:if="${carrito==null}">Aun no has agregado nada al carrito</h1>
-        <div class="row" th:if="${carrito!=null}">
-            <h1 th:text="${carrito.total}"></h1>
-            <div  th:each="productoCompra : ${carrito.productos} " class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <a th:href="@{/producto/{id}(id=${productoCompra.producto.id})}">
-                        <img class="card-img-top"
-                             th:src="@{'/imagenes/' + ${productoCompra.producto.imagenes[0]}}" alt="#"
-                             style="width: 250px; height: 250px; object-fit: scale-down;"
-                        />
-                    </a>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a th:href="@{/producto/{id}(id=${productoCompra.producto.id})}" th:text="${productoCompra.producto.nombre}"></a>
-                        </h4>
-                        <h5>$<span th:text="${productoCompra.subtotal}"></span></h5>
-                        <p class="card-text" th:text="${productoCompra.producto.descripcion}"></p>
-                        <h6>Marca: <span th:text="${productoCompra.producto.marca}"></span></h6>
-                        <h6>Cantidad: <span th:text="${productoCompra.cantidad}"></span></h6>
-                    </div>
-                    <div class="card-footer">
-                        <div th:each="detalle : ${productoCompra.producto.detalle}">
-                            <p class="card-text" th:if="${detalle.id == productoCompra.idDetalle}" th:text="${detalle.stock}"></p>
-                        </div>
+<th:block th:insert="components/utils :: go-back-d"></th:block>
+<main role="main" class="container-fluid">
+    <div class="row justify-content-center" th:if="${carrito==null}" >
+        <div class="col-md-10 col-lg-8 col-sm-8  d-flex flex-column">
+            <div class="bg-warning bg-opacity-10 py-2 mx-2  border border-2 border-warning my-5 d-flex justify-content-center flex-column " >
+                <h6  class="text-center">Ups! Aun no has agregado nada al carrito</h6>
+                <a th:href="@{/producto/listado}" class="btn btn-link text-danger">Ir a productos</a>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center"  th:if="${carrito!=null}">
+        <div class="col-md-10 col-lg-8 col-sm-8  d-flex flex-column">
+            <div class="bg-warning bg-opacity-10 py-2 mx-2  border border-2 border-warning my-5 d-flex flex-column" >
+                <h6 class="d-flex w-100 justify-content-between fw-light px-2"><span>Su total es:</span>
+                    <span  class="fw-normal" th:text="${'$ '+carrito.total}"></span></h6>
+            </div>
+            <div class="row  mx-3">
+                <div  th:each="productoCompra : ${carrito.productos} "
+                      class="col-12 border-top border-bottom border-1 py-3 px-0 d-flex flex-column flex-md-row justify-content-center justify-content-md-between">
+                    <img th:src="'/imagenes/'+${productoCompra.producto.imagenes[0]}" th:alt="${'img-'+productoCompra.id}"
+                    class="img-fluid align-self-center" style="max-width: 250px;max-height: 250px;">
+                    <div class="d-flex  align-items-md-end flex-column align-items-center">
+                        <h2 th:text="${productoCompra.producto.nombre}" class="fw-semibold "></h2>
+                        <p th:text="${productoCompra.producto.marca}" class="fw-light text-muted"></p>
+                        <p class="fw-normal mt-auto">
+                            <span th:text="${'Cantidad: '+productoCompra.cantidad}" class="me-3"></span>
+                            <span th:text="${'$ '+productoCompra.subtotal}"></span>
+                        </p>
                         <form action="/carrito/quitar_producto" method="POST" class="my-3">
                             <input type="hidden" name="idProducto" th:value="${productoCompra.producto.id}">
                             <input type="hidden" name="idDetalle" th:value="${productoCompra.idDetalle}">
@@ -52,9 +54,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-between align-items-center mt-3 mx-2r">
-                <div class="input-group col d-flex justify-content-end align-items-center">
+            <div class="row  justify-content-between align-items-center mt-3 mx-1">
+                <div class="input-group col d-flex  justify-content-center justify-content-md-end align-items-center">
                     <a href="/carrito/confirmar_compra" class="btn btn-outline-success" type="submit">Confirmar Compra</a>
+                    </div>
                 </div>
             </div>
         </div>

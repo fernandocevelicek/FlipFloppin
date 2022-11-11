@@ -15,15 +15,15 @@
                <a class="nav-link d-flex align-items-center text-white text-center me-3" th:href="@{/usuario/abm_usuarios}" th:if="${user=='ADMINISTRADOR'}">ABM Usuarios</a>
                 <a class="nav-link d-flex align-items-center text-white text-center me-3" th:href="@{/producto/abm_productos}" th:if="${user=='ADMINISTRADOR'}">ABM Productos</a>
                 <div class="d-flex justify-content-center align-items-center">
-                    <a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="me-3 nav-link d-flex align-items-center" id="login">
-                        <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white fs-2"></i></a>
-                    <a class="me-3 nav-link d-flex align-items-center" th:href="'/'+${session.usuario_session!=null?'carrito':'login'}" th:unless="${user=='ADMINISTRADOR'}">
-                        <i class="bi bi-cart-plus text-white fs-2"></i></a>
-                    <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="me-3 nav-link d-flex align-items-center" >
-                        <i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}" class="text-white fs-2"></i></a>
+                    <!--<a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="me-3 nav-link d-flex align-items-center" id="login">
+                        <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white fs-2"></i></a>-->
+                    <a  th:href="'/'+${session.usuario_session!=null?'carrito':'login'}" th:unless="${user=='ADMINISTRADOR'}" class="me-2">
+                        <i class="bi bi-cart-plus text-white fs-4 "></i></a>
+                    <a th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="me-2">
+                        <i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}" class="text-white fs-4 " ></i></a>
                 </div>
-                <button class="btn btn-link d-flex align-items-center"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-                    <i class="bi bi-search text-white fs-2"></i></button>
+                <button class="btn btn-link p-0 m-0"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+                    <i class="bi bi-search text-white fs-4"></i></button>
                 <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
                     <div class="offcanvas-header">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -53,11 +53,11 @@
                 <div class="row d-flex flex-column justify-content-between ">
                     <div class="col-10 border-top p-3">
                         <ul class="navbar-nav">
-                            <li class="nav-item dropdown mb-2">
+                            <li class="nav-item dropdown mb-2" th:unless="${user=='ADMINISTRADOR'}">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Productos
                                 </a>
-                                <ul class="dropdown-menu" th:unless="${user=='ADMINISTRADOR'}">
+                                <ul class="dropdown-menu" >
                                     <li>
                                         <a class="dropdown-item" href="producto/filtro?attribute=SEXO&value=Hombre" id="filtro_nav_hombres">Hombres</a>
                                     </li>
@@ -106,22 +106,24 @@
 
                     <h5>¡Mantente informado!</h5>
                     <div class="col-10 border-top p-3">
-                        <form>
-                            <p>Actualización mensual sobre nuestros productos</p>
+                        <form >
+                            <p class="nav-link text-muted">Actualización mensual sobre nuestros productos</p>
                             <div class="d-flex flex-column flex-sm-row w-100 gap-2">
                                 <label for="newsletter2" class="visually-hidden">Dirección de correo electronico</label>
                                 <input id="newsletter2" type="text" class="form-control" placeholder="Email">
-                                <button class="btn btn-danger" type="button">Subscribe</button>
+                                <button class="btn btn-outline-danger" type="button">Suscribete</button>
                             </div>
                         </form>
                     </div>
                     <h5 >Tu cuenta</h5>
-                    <div class="col-10 border-top p-3 d-flex justify-content-space-around flex-column">
+
+                    <div class="col-10 border-top p-3 d-flex justify-content-space-around flex-column ">
+                        <a href="/pedido" th:if="${user=='USUARIO'}" class="text-muted nav-link mb-3">Mis pedidos</a>
                         <div class="d-flex justify-content-between">
-                            <a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="btn btn-danger d-flex align-items-center">
-                                <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}" class="text-white"></i>
-                                <span th:text="${user=='VISITANTE' ? 'Ingresar' :'Cerrar sesión'}" class=" text-white ms-3"></span></a>
-                            <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="nav-link">
+                            <a  th:href="@{'/'+${user=='VISITANTE'? 'login' :'logout'}}" class="btn btn-outline-danger d-flex align-items-center">
+                                <i th:classappend="${user=='VISITANTE' ? 'bi bi-box-arrow-in-right':'bi bi-box-arrow-in-left'}"></i>
+                                <span th:text="${user=='VISITANTE' ? 'Ingresar' :'Cerrar sesión'}" class="  ms-3"></span></a>
+                            <a th:href="@{'/'+${user=='USUARIO' || user=='ADMINISTRADOR'? 'perfil' :'login'}}" class="nav-link text-dark">
                                 <i th:classappend="${user=='USUARIO' || user=='ADMINISTRADOR'? 'bi bi-person-fill' :'bi bi-person'}"></i></a>
                         </div>
 
@@ -190,22 +192,22 @@
             </div>
 
 
-            <div class="col-md-5  mb-3">
+
+            <div class="col-md-6  mb-3 justify-content-end">
+                <h5>¡Mantente informado!</h5>
                 <form>
-                    <h5>Subscribe to our newsletter</h5>
-                    <p>Monthly digest of what's new and exciting from us.</p>
+                    <p>Actualización mensual sobre nuestros productos</p>
                     <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                        <label for="newsletter1" class="visually-hidden">Email address</label>
-                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                        <button class="btn btn-primary" type="button">Subscribe</button>
+                        <label for="newsletter" class="visually-hidden">Dirección de correo electronico</label>
+                        <input id="newsletter" type="text" class="form-control" placeholder="Email">
+                        <button class="btn btn-outline-danger" type="button">Suscribete</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-            <p>© 2022 Company, Inc. All rights reserved.</p>
-
+            <p>© 2022 FlipFloppin, Inc. Todos los derechos reservados.</p>
         </div>
     </footer>
 </div>

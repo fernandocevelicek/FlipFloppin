@@ -33,10 +33,11 @@
                         <blockquote th:text="${producto.descripcion}" class="text-secondary mt-2"></blockquote>
                         <blockquote th:text="${producto.marca}"  class="text-secondary mt-2"> </blockquote>
                          </div>
+                        <h6 th:text="${'Talle: '+producto.detalle[index].tallePrenda}"  class="text-secondary mt-2 text-end fw-light"> </h6>
                         <h2 th:text="${'$ '+producto.precio}" class="fst-italic p-2 text-end fw-bold"></h2>
                         <form action="/carrito/agregar_producto" method="POST" class="my-3">
                             <input type="hidden" name="idProducto" th:value="${producto.id}">
-                            <input type="hidden" name="idDetalle" th:value="${producto.detalleActual.id}">
+                            <input type="hidden" name="idDetalle" th:value="${producto.detalle[index].id}">
                             <input type="hidden" name="sourceURL" th:value="${sourceURL}">
                             <div class="row justify-content-between align-items-center mt-3 mx-2r">
                                 <div class="input-group col d-flex justify-content-end align-items-center">
@@ -48,6 +49,7 @@
                             </div>
                         </form>
                         <div class="bg-secondary bg-opacity-25  d-flex align-items-center py-3">
+
                             <h4 class="ms-3 fw-bold">Colores</h4>
                             <div class="col d-flex justify-content-end ">
                                 <input class="visually-hidden" th:value="${producto.detalle[index].color}" id="detalle_actual">
@@ -60,7 +62,7 @@
                     </div>
             </div>
         </div>
-
+        </div>
     </div>
 </main>
 

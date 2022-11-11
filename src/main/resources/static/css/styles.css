@@ -1,17 +1,10 @@
-html,
-body {
-  padding: 0;
-  margin: 0; }
+body{ min-height: 100vh; margin:0; }
 
-html {
-  height: 100%; }
+footer{ min-height:50px; }
 
-body {
-
-  font-size: 1em;
-  letter-spacing: .5px;
-  width: 100%;
-  position: relative; }
+/* The article fills all the space between header & footer */
+body{ display:flex; flex-direction:column; }
+article{ flex:1; }
 
 h1, h2, h3, h4, h5 {
 
@@ -90,7 +83,17 @@ th, td {
   outline: 1px solid black;
   outline-offset: 2px;
 }
+.hovereable{
+  transition: 300ms background;
+}
+.hovereable:hover{
 
+  background:   #dee2e6;
+
+}
+@media screen and(min-width: 520px){
+
+}
 @media screen and (min-width: 1024px){
 .bg{
 background-image: url("../images/bg-desktop.jpg");
@@ -112,3 +115,4 @@ max-width: 650px;
 min-width: 500px;
 }
 }
+

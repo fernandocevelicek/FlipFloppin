@@ -13,15 +13,16 @@
 <body class="bg-light">
 
 <nav th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
+<th:block th:insert="components/utils :: go-back-index"></th:block>
 
-<div class="container-fluid mt-5 px-5 my-3 ">
+<div class="container-fluid mt-5 px-5 my-3 col mb-auto">
     <div class="row">
         <div class="col-lg-9 col">
-            <h1 class="fs-2 text-start text-uppercase"><i class="bi bi-archive-fill me-2"></i>Pedidos Realizados</h1>
+            <h1 class="fs-2 text-start text-uppercase"><i class="bi bi-archive-fill pe-2"></i>Pedidos Realizados</h1>
         </div>
     </div>
     <div class="row">
-        <div class="col-10">
+        <div class="">
             <table class="table mt-3 text-center table-hover">
                 <thead class="border border-1">
                 <tr class="border border-1">

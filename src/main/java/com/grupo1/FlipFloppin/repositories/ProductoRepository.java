@@ -27,4 +27,7 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
     @Query("SELECT p FROM Producto p WHERE p.sexo = :sexo")
     List<Producto> searchBySexo(@Param("sexo") Sexo sexo);
 
+    @Query(value = "SELECT * FROM Producto p ORDER BY p.id DESC limit 10",nativeQuery = true)
+    List<Producto> findLastFive();
+
 }

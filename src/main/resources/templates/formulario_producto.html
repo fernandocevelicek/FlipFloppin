@@ -11,10 +11,10 @@
 
     <title>FlipFloppin</title>
 </head>
-<body class="bg">
+<body class="bg d-flex flex-column justify-content-center align-items-center">
+<th:block th:insert="components/utils :: go-back"></th:block>
 
-<a th:href="@{/producto/abm_productos}" class="go-back"><i class="bi bi-arrow-left-square text-white me-2 "></i>Volver atrás</a>
-<div class="container d-flex flex-column justify-content-center align-items-center h-100 pt-5 ">
+<div class="container d-flex flex-column justify-content-center align-items-center h-100 mb-auto ">
     <div class="jumbotron bg-white ">
         <h1 class="text-center fs-2 mb-2 text-dark d-fles"><i class="bi bi-plus-circle-fill me-2"></i>Registrar productos</h1>
 

@@ -11,11 +11,12 @@
 
     <title>FlipFloppin | Registro</title>
 </head>
-<body class="bg">
-<a th:href="@{/}" class="go-back"><i class="bi bi-arrow-left-square text-white"></i></a>
+<body class="bg d-flex flex-column justify-content-center align-items-center">
+<th:block th:insert="components/utils :: go-back"></th:block>
+
 <!--<div th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></div>-->
 
-<div class="container d-flex flex-column justify-content-center align-items-center h-100 pt-5">
+<div class="container d-flex flex-column justify-content-center align-items-center h-100  mb-auto">
     <div class="jumbotron bg-white">
         <div class="justify-content-start">
             <img th:src="@{/images/ff-logo-short.png}" alt="logo" width="120px">

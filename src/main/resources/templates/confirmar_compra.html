@@ -11,41 +11,44 @@
 
     <title>FlipFloppin</title>
 </head>
-<body>
+<body >
 <nav th:replace="/components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
-<main role="main">
-    <div class="container-fluid">
-        <div th:if="${domicilios==null or #lists.isEmpty(domicilios)}">
-            <h1 >Aun no has cargado un domicilio</h1>
-            <div class="row justify-content-between align-items-center mt-3 mx-2r">
-                <div class="input-group col d-flex justify-content-end align-items-center">
-                    <a href="/domicilio/abm_domicilio" class="btn btn-success" type="submit">Administrar Domicilios</a>
-                </div>
-            </div>
-        </div>
-        <div class="row" th:if="${domicilios!=null and not #lists.isEmpty(domicilios)}">
-            <h1>Seleccion Domicilio</h1>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <form action="/carrito/confirmar_compra" method="POST" class="my-3">
-                    <div class="col-md-6 form-group h5 text-start mb-3">
-                        <label for="idDomicilio">Domicilio</label>
-                        <select class="custom-select form-control text-secondary" name="idDomicilio" id="idDomicilio">
-                            <option th:each="domicilio : ${domicilios}" th:value="${domicilio.id}" th:text="${domicilio.id}" class="text-dark"></option>
-                        </select>
-                    </div>
-                    <div class="row justify-content-between align-items-center mt-3 mx-2r">
-                        <div class="input-group col d-flex justify-content-end align-items-center">
-                            <button class="btn btn-success" type="submit">Continuar</button>
+<th:block th:insert="components/utils :: go-back-d"></th:block>
+<main role="main"  class="container-fluid">
+    <div class="row  justify-content-center">
+        <div class="col col-lg-6">
+            <div class="row ">
+                <div class="col-12 d-flex justify-content-center border-secondary " th:unless="${domicilios!=null and not #lists.isEmpty(domicilios)}">
+                    <div class="d-flex justify-content-center flex-column">
+                        <img th:src="@{/images/location-not-found-svgrepo-com.svg}" alt="location-not-found" width="100" class="mx-auto mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">¿No has agregado ningún domicilio?</span>
+                            <a th:href="@{/domicilio/formulario/0}" class="btn btn-outline-warning align-items-center" type="submit">Agrega uno</a>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="col-12 d-flex flex-column bg-secundary bg-opacity-10 border-secondary" th:if="${domicilios!=null and not #lists.isEmpty(domicilios)}">
+                    <h1>Selecciona un Domicilio</h1>
+                    <form action="/carrito/confirmar_compra" method="POST" class="my-3 input-group justify-content-center">
+                            <span for="idDomicilio" class="input-group-text">Domicilio</span>
+                            <select class="form-select text-secondary" name="idDomicilio" id="idDomicilio" >
+                                <option th:each="domicilio : ${domicilios}" th:value="${domicilio.id}" th:text="${domicilio.descripcion+' '+domicilio.numero}" class="text-dark"></option>
+                            </select>
+                            <button class="btn btn-outline-success" type="submit">Continuar</button>
+                    </form>
+                </div>
+
+                <div class="col-12 d-flex input-group justify-content-end align-items-center align-self-end" th:if="${domicilios!=null and not #lists.isEmpty(domicilios)}">
+                    <a href="/domicilio/abm_domicilio" class="btn btn-outline-dark" type="submit">Administrar Domicilios</a>
+                    <a th:href="@{/domicilio/formulario/0}" class="btn btn-outline-danger" type="submit">Agregar Domicilio</a>
+                </div>
             </div>
         </div>
     </div>
 </main>
+<article></article>
 
-
-<div th:replace="/components/components :: footer"></div>
+<div th:insert="/components/components :: footer" ></div>
 <th:block th:insert="/components/components :: scripts_bootstrap"></th:block>
 
 </body>

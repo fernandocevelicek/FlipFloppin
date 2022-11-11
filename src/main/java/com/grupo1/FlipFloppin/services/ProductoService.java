@@ -218,5 +218,13 @@ public class ProductoService implements BaseService<ProductoDTO>{
 
         return productoIndividualDTO;
     }
+    public List<ProductoDTO> getLastFive() throws ProductoException {
+        try {
+            List<ProductoDTO> productos = productoMapper.toDTOsList(productoRepository.findLastFive());
+            return productos;
+        } catch (Exception e) {
+            throw new ProductoException(e.getMessage());
+        }
+    }
 }
 

@@ -13,19 +13,21 @@
 <body class="bg-light">
 
 <nav th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
-<div class="container-fluid px-5 my-3 radius radius-2">
-    <div class="row mt-5">
-        <div class="col">
+<th:block th:insert="components/utils :: go-back-index"></th:block>
+<div class="container-fluid mt-5 px-5 my-3 ">
+    <div class="row">
+        <div class="col-lg-9 col">
             <h1 class="fs-2 text-start text-uppercase "><i class="bi bi-plus-square-fill pe-2"></i>interfaz abm de domicilio</h1>
         </div>
-        <div class="col d-flex justify-content-end align-items-center">
-            <a th:href="@{/domicilio/formulario/0}" class="btn btn-success">Agregar Domicilio</a>
+        <div class="col-lg-3 col d-flex justify-content-end align-items-center">
+            <a th:href="@{/domicilio/formulario/0}" class="btn btn-outline-success">Agregar Domicilio</a>
         </div>
     </div>
     <div class="row">
-        <table class="table mt-3 text-center table-hover">
-            <thead>
-            <tr>
+        <div class="col">
+            <table class="table mt-3 text-center table-hover">
+            <thead class="border border-1">
+            <tr class="border border-1">
                 <th scope="col">ID</th>
                 <th scope="col">Numero</th>
                 <th scope="col">Piso</th>
@@ -43,15 +45,16 @@
                 <td th:text="${domicilio.descripcion}"></td>
                 <td th:text="${domicilio.provincia}"></td>
                 <td th:text="${domicilio.estado}"></td>
-                <td class="d-flex justify-content-center">
-                    <a th:href="@{/domicilio/formulario/{id}(id=${domicilio.id})}" class="btn btn-warning me-3">Editar</a>
+                <td>
+                    <a th:href="@{/domicilio/formulario/{id}(id=${domicilio.id})}" class="btn btn-outline-warning me-3">Editar</a>
                     <form style="display: inline" th:unless="${domicilio.fechaBaja}" th:action="@{/domicilio/baja_domicilio/{id}(id=${domicilio.id})}" method="post">
-                        <button type="submit" class="btn btn-danger" >Eliminar</button>
+                        <button type="submit" class="btn btn-outline-danger" >Eliminar</button>
                     </form>
                 </td>
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <div th:replace="/components/components :: scripts_bootstrap"></div>
