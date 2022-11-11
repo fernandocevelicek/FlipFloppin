@@ -10,6 +10,7 @@ import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +29,24 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @GetMapping("/listado")
-    public String listadoProductos(ModelMap model) {
+    @GetMapping("/listado/{nro}")
+    public String listadoProductos(ModelMap model,@PathVariable(value = "nro") int pageNo) {
         try {
-            List<ProductoDTO> productos = productoService.findAll();
+            int pageSize = 5;
+            Page < Producto > page = productoService.findAllPaginated(pageNo, pageSize);
+            List < Producto > productos = page.getContent();
+
+            model.addAttribute("currentPage", pageNo);
+            if(pageNo>0){
+                model.addAttribute("previousPage",pageNo-1);
+            }
+            if(pageNo+1<page.getTotalPages()){
+                model.addAttribute("nextPage",pageNo+1);
+            }
+
+            model.addAttribute("totalPages", page.getTotalPages()-1);
+            model.addAttribute("totalItems", page.getTotalElements());
+            /*List<ProductoDTO> productos=productoService.findAll()*/
             model.addAttribute("productos", productos);
 
             return "listado_producto.html";

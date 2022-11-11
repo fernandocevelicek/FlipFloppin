@@ -14,6 +14,9 @@ import com.grupo1.FlipFloppin.repositories.DetalleProductoRepository;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -219,6 +222,17 @@ public class ProductoService implements BaseService<ProductoDTO>{
         try {
             List<ProductoDTO> productos = productoMapper.toDTOsList(productoRepository.findLastFive());
             return productos;
+        } catch (Exception e) {
+            throw new ProductoException(e.getMessage());
+        }
+    }
+
+    public Page<Producto> findAllPaginated(int pageNo,int pageSize) throws ProductoException {
+        try {
+            Pageable pageable=PageRequest.of(pageNo,pageSize);
+            Page<Producto> productos = productoRepository.findAll(pageable);
+            return productos;
+
         } catch (Exception e) {
             throw new ProductoException(e.getMessage());
         }

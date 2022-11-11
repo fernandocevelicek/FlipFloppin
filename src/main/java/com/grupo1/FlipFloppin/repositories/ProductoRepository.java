@@ -30,4 +30,5 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
     @Query(value = "SELECT * FROM Producto p ORDER BY p.id DESC limit 10",nativeQuery = true)
     List<Producto> findLastFive();
 
+
 }
