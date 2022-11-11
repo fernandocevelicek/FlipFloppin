@@ -22,34 +22,21 @@ public class IndexController {
     private ProductoService productoService;
 
     @GetMapping("/")
-    public String index(ModelMap modelo) {
+    public String index(ModelMap model) {
         try {
             if (session.getAttribute("usuario_session") != null) {
                 Usuario user = (Usuario) session.getAttribute("usuario_session");
-                modelo.put("username", user.getNombre());
-                modelo.addAttribute("user_rol", user.getRol());
+                model.put("username", user.getNombre());
+                model.addAttribute("user_rol", user.getRol());
             }
             // DESPUES HAY QUE CAMBIARLO POR LOS ULTIMOS 5 //
             List<ProductoDTO> productos = productoService.getLastFive();
-            modelo.addAttribute("productos", productos);
+            model.addAttribute("productos", productos);
             return "index.html";
-        } catch (Exception e) {
-            e.printStackTrace();
-            modelo.addAttribute("error", e.getMessage());
-            return "error";
-        }
-    }
-
-    @GetMapping("/producto/listado")
-    public String listadoProductos(ModelMap modelo) {
-        try {
-            List<ProductoDTO> productos = productoService.findAll();
-            modelo.addAttribute("productos", productos);
-
-            return "listado_producto.html";
         } catch (ProductoException e) {
             e.printStackTrace();
-            modelo.addAttribute("error", e.getMessage());
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }

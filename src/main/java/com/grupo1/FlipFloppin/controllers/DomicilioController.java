@@ -9,6 +9,7 @@ import com.grupo1.FlipFloppin.exceptions.DomicilioException;
 import com.grupo1.FlipFloppin.services.DomicilioService;
 import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@PreAuthorize("hasRole('ROLE_USUARIO')")
 @Controller
 @RequestMapping("/domicilio")
 public class DomicilioController {
@@ -32,19 +34,13 @@ public class DomicilioController {
 
     @GetMapping("/abm_domicilio")
     public String abmDomicilio(Model model) {
-        try {
-            Usuario usuario = (Usuario) session.getAttribute("usuario_session");
-            List<DomicilioDTO> domicilios = usuarioService.findById(usuario.getId()).getUbicacionesEnvio();
+        Usuario usuario = (Usuario) session.getAttribute("usuario_session");
+        List<DomicilioDTO> domicilios = usuarioService.findById(usuario.getId()).getUbicacionesEnvio();
 
-            model.addAttribute("domicilios", domicilios);
-            model.addAttribute("estados", EstadoDomicilio.values());
+        model.addAttribute("domicilios", domicilios);
+        model.addAttribute("estados", EstadoDomicilio.values());
 
-            return "abm_domicilio_usuario";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", e.getMessage());
-            return "error";
-        }
+        return "abm_domicilio_usuario";
     }
 
     @GetMapping("/formulario/{id}")
@@ -59,8 +55,9 @@ public class DomicilioController {
                 model.addAttribute("domicilioDTO", domicilioDTO);
             }
             return "formulario_domicilio";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+        } catch (DomicilioException e) {
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }
@@ -89,8 +86,9 @@ public class DomicilioController {
         try {
             domicilioService.deleteById(id);
             return "redirect:/domicilio/abm_domicilio";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+        } catch (DomicilioException e) {
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }

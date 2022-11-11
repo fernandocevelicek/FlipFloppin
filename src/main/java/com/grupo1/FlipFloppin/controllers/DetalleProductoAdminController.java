@@ -8,14 +8,16 @@ import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.services.DetalleProductoService;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 @Controller
 @RequestMapping("/detalle_producto")
-public class DetalleProductoController {
+public class DetalleProductoAdminController {
 
     @Autowired
     private ProductoService productoService;
@@ -38,8 +40,9 @@ public class DetalleProductoController {
                 model.addAttribute("detalle", detalleProductoDTO);
             }
             return "formulario_detalle_producto";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+        } catch (ProductoException e) {
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }

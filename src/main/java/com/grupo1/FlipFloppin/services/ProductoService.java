@@ -30,10 +30,6 @@ public class ProductoService implements BaseService<ProductoDTO>{
     private ProductoRepository productoRepository;
 
     @Autowired
-    private DetalleProductoRepository detalleProductoRepository;
-    private DetalleProductoMapper detalleProductoMapper = DetalleProductoMapper.getInstance();
-
-    @Autowired
     private ImagenProductoService imagenProductoService;
 
     private ProductoMapper productoMapper = ProductoMapper.getInstance();
@@ -54,6 +50,7 @@ public class ProductoService implements BaseService<ProductoDTO>{
     public ProductoDTO findById(Long id) throws ProductoException {
         try {
             Optional<Producto> opt = this.productoRepository.findById(id);
+            if (!opt.isPresent()) throw new ProductoException("No existe un producto con el id " + id);
             Producto producto = opt.get();
             return productoMapper.toDTO(producto);
         } catch (Exception e) {
@@ -206,7 +203,7 @@ public class ProductoService implements BaseService<ProductoDTO>{
         }
     }
 
-    public ProductoIndividualDTO getProductoIndividual(Long idProducto, Integer indexDetalle) throws Exception {
+    public ProductoIndividualDTO getProductoIndividual(Long idProducto, Integer indexDetalle) throws ProductoException {
         ProductoDTO producto = findById(idProducto);
         ProductoIndividualDTO productoIndividualDTO = new ProductoIndividualDTO(producto);
 

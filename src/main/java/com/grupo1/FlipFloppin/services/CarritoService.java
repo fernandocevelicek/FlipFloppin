@@ -127,7 +127,7 @@ public class CarritoService implements BaseService<CarritoDTO> {
         }
 
         Producto producto = productoRepository.findById(idProducto).get();
-        ProductoCompra productoCompra = getProductoCompra(carrito, producto);
+        ProductoCompra productoCompra = getProductoCompra(carrito, producto, idDetalle);
         if(productoCompra != null) {
             productoCompra.setCantidad(productoCompra.getCantidad() + cantidad);
             productoCompra.setSubtotal(productoCompra.getSubtotal() + (productoCompra.getProducto().getPrecio()*cantidad));
@@ -151,7 +151,7 @@ public class CarritoService implements BaseService<CarritoDTO> {
         carrito.setFechaModificacion(new Date());
 
         Producto producto = productoRepository.findById(idProducto).get();
-        ProductoCompra productoCompra = getProductoCompra(carrito, producto);
+        ProductoCompra productoCompra = getProductoCompra(carrito, producto, idDetalle);
 
         Integer newCantidad = productoCompra.getCantidad() - cantidad;
         if(newCantidad <= 0) {
@@ -205,9 +205,9 @@ public class CarritoService implements BaseService<CarritoDTO> {
         return null;
     }
 
-    private ProductoCompra getProductoCompra(Carrito carrito, Producto producto) {
+    private ProductoCompra getProductoCompra(Carrito carrito, Producto producto, Long idDetalle) {
         for (ProductoCompra productoCompra : carrito.getProductos()) {
-            if (productoCompra.getProducto().equals(producto)) return productoCompra;
+            if (productoCompra.getProducto().equals(producto) && productoCompra.getIdDetalle().equals(idDetalle)) return productoCompra;
         }
         return null;
     }

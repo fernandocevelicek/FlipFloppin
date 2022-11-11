@@ -38,14 +38,10 @@ public class DetalleProductoService implements BaseService<DetalleProductoDTO> {
 
     @Override
     @Transactional
-    public DetalleProductoDTO findById(Long id) throws Exception {
-        try {
-            Optional<DetalleProducto> opt = detalleProductoRepository.findById(id);
-            DetalleProducto detalleProducto = opt.get();
-            return detalleProductoMapper.toDTO(detalleProducto);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    public DetalleProductoDTO findById(Long id) {
+        Optional<DetalleProducto> opt = detalleProductoRepository.findById(id);
+        DetalleProducto detalleProducto = opt.get();
+        return detalleProductoMapper.toDTO(detalleProducto);
     }
 
     @Override
@@ -79,14 +75,10 @@ public class DetalleProductoService implements BaseService<DetalleProductoDTO> {
 
     @Override
     @Transactional
-    public DetalleProductoDTO save(DetalleProductoDTO dto) throws Exception {
-        try {
-            DetalleProducto entity = detalleProductoMapper.toEntity(dto);
-            DetalleProducto detalleProducto = detalleProductoRepository.save(entity);
-            return detalleProductoMapper.toDTO(detalleProducto);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    public DetalleProductoDTO save(DetalleProductoDTO dto) {
+        DetalleProducto entity = detalleProductoMapper.toEntity(dto);
+        DetalleProducto detalleProducto = detalleProductoRepository.save(entity);
+        return detalleProductoMapper.toDTO(detalleProducto);
     }
 
     @Transactional
@@ -102,26 +94,22 @@ public class DetalleProductoService implements BaseService<DetalleProductoDTO> {
 
     @Override
     @Transactional
-    public boolean deleteById(Long id) throws Exception {
-        try {
-            if (detalleProductoRepository.existsById(id)) {
-                detalleProductoRepository.deleteById(id);
-            } else {
-                throw new Exception("No existe un detalle producto con el id: " + id);
-            }
-            return true;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
+    public boolean deleteById(Long id) throws DetalleProductoException {
+        if (detalleProductoRepository.existsById(id)) {
+            detalleProductoRepository.deleteById(id);
+        } else {
+            throw new DetalleProductoException("No existe un detalle producto con el id: " + id);
         }
+        return true;
     }
 
     public void quitarStock(Long id, Integer cantidad) {
         DetalleProducto detalle = detalleProductoRepository.findById(id).get();
-        detalle.setStock(detalle.getStock()-cantidad);
+        detalle.setStock(detalle.getStock() - cantidad);
     }
 
     public void agregarStock(Long id, Integer cantidad) {
         DetalleProducto detalle = detalleProductoRepository.findById(id).get();
-        detalle.setStock(detalle.getStock()+cantidad);
+        detalle.setStock(detalle.getStock() + cantidad);
     }
 }

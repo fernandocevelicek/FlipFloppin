@@ -4,9 +4,12 @@ import com.grupo1.FlipFloppin.dtos.CarritoDTO;
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.exceptions.CarritoException;
+import com.grupo1.FlipFloppin.exceptions.PedidoException;
+import com.grupo1.FlipFloppin.exceptions.ProductoCompraException;
 import com.grupo1.FlipFloppin.services.CarritoService;
 import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
+@PreAuthorize("hasRole('ROLE_USUARIO')||hasRole('ROLE_ADMINISTRADOR')")
 @Controller
 @RequestMapping("/carrito")
 public class CarritoController {
@@ -38,7 +42,8 @@ public class CarritoController {
             return "carrito";
         }catch (CarritoException e){
             e.printStackTrace();
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }
@@ -49,9 +54,10 @@ public class CarritoController {
             Usuario usuario = (Usuario) session.getAttribute("usuario_session");
             carritoService.agregarProducto(idProducto, idDetalle, usuario.getId(), cantidad);
             return "redirect:"+sourceURL;
-        }catch (Exception e){
+        }catch (ProductoCompraException e){
             e.printStackTrace();
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }
@@ -62,25 +68,20 @@ public class CarritoController {
             Usuario usuario = (Usuario) session.getAttribute("usuario_session");
             carritoService.quitarProducto(idProducto, idDetalle, usuario.getId(), cantidad);
             return "redirect:/carrito";
-        }catch (Exception e){
+        }catch (ProductoCompraException e){
             e.printStackTrace();
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }
 
     @GetMapping("/confirmar_compra")
     public String confirmarCompra(Model model){
-        try{
             Usuario usuario = (Usuario) session.getAttribute("usuario_session");
             UsuarioDTO usuarioDTO = usuarioService.findById(usuario.getId());
             model.addAttribute("domicilios", usuarioDTO.getUbicacionesEnvio());
             return "confirmar_compra";
-        }catch (Exception e){
-            e.printStackTrace();
-            model.addAttribute("error", e.getMessage());
-            return "error";
-        }
     }
 
     @PostMapping("/confirmar_compra")
@@ -89,9 +90,10 @@ public class CarritoController {
             Usuario usuario = (Usuario) session.getAttribute("usuario_session");
             carritoService.confirmarCompra(usuario.getId(), idDomicilio);
             return "redirect:/producto/listado";
-        }catch (Exception e){
+        }catch (PedidoException e){
             e.printStackTrace();
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("codigo", 500);
+            model.addAttribute("mensaje", e.getMessage());
             return "error";
         }
     }

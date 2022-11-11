@@ -31,6 +31,9 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private NotificacionMail notificacionMail;
+
     private UsuarioMapper usuarioMapper = UsuarioMapper.getInstance();
 
     @Override
@@ -107,6 +110,8 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
         usuario.setEstado(EstadoUsuario.ACTIVE);
 
         this.save(usuario);
+
+        notificacionMail.enviar("Bienvenido, se ha registrado correctamente.", "FlipFloppin - Registro", usuario.getEmail());
     }
 
     @Transactional
