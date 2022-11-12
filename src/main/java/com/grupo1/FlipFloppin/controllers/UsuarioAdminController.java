@@ -78,17 +78,17 @@ public class UsuarioAdminController {
                 usuarioService.modificarUsuarioCompleto(id, nombre, apellido, email, password, password_confirmation, estado);
             }
         } catch (UsuarioException e) {
-            return "redirect:/usuario/abm_usuarios?error=" + e.getMessage();
+            return "redirect:/usuario/abm_usuarios/0?error=" + e.getMessage();
         }
 
-        return "redirect:/usuario/abm_usuarios";
+        return "redirect:/usuario/abm_usuarios/0";
     }
 
     @PostMapping("/baja_usuario/{id}")
     public String bajarUsuario(Model model, @PathVariable("id") long id) {
         try {
             this.usuarioService.deleteById(id);
-            return "redirect:/usuario/abm_usuarios";
+            return "redirect:/usuario/abm_usuarios/0";
         } catch (UsuarioException e) {
             model.addAttribute("codigo", 500);
             model.addAttribute("mensaje", e.getMessage());

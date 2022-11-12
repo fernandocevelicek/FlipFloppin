@@ -101,7 +101,7 @@ public class ProductoAdminController {
             return "redirect:/detalle_producto/formulario/"+0+"?idProducto="+persistedProduct.getId();
         } catch (ProductoException | IOException e) {
             e.printStackTrace();
-            return "redirect:/producto/abm_productos?error=al cargar el producto";
+            return "redirect:/producto/abm_productos/0?error=al cargar el producto";
         }
     }
 
@@ -109,7 +109,7 @@ public class ProductoAdminController {
     public String bajarProducto(Model model, @PathVariable("id") long id) {
         try {
             productoService.deleteById(id);
-            return "redirect:/producto/abm_productos";
+            return "redirect:/producto/abm_productos/0";
         } catch (ProductoException e) {
             model.addAttribute("codigo", 500);
             model.addAttribute("mensaje", e.getMessage());

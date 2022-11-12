@@ -60,7 +60,7 @@ public class DetalleProductoAdminController {
             }
             return "redirect:/detalle_producto/formulario/"+0+"?idProducto="+idProducto;
         } catch (DetalleProductoException | ProductoException e) {
-            return "redirect:/producto/abm_productos?error="+e.getMessage();
+            return "redirect:/producto/abm_productos/0?error="+e.getMessage();
         }
     }
 
