@@ -100,7 +100,8 @@ public class ProductoAdminController {
             }
             return "redirect:/detalle_producto/formulario/"+0+"?idProducto="+persistedProduct.getId();
         } catch (ProductoException | IOException e) {
-            return "redirect:/producto/abm_productos?error="+e.getMessage();
+            e.printStackTrace();
+            return "redirect:/producto/abm_productos?error=al cargar el producto";
         }
     }
 

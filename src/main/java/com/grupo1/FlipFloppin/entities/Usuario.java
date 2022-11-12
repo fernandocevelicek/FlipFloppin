@@ -30,6 +30,7 @@ public class Usuario {
 
     private String fotoPerfil;
 
+    @Column(unique=true)
     private String email;
 
     private String password;

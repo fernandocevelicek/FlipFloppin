@@ -11,9 +11,7 @@ import com.grupo1.FlipFloppin.mappers.UsuarioMapper;
 import com.grupo1.FlipFloppin.repositories.UsuarioRepository;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -26,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,12 +76,20 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
     }
 
     @Override
-    @Transactional
-    public UsuarioDTO save(UsuarioDTO dto) {
-        Usuario entity = usuarioMapper.toEntity(dto);
-        entity.setFechaAlta(new Date());
-        Usuario usuario = this.usuarioRepository.save(entity);
-        return usuarioMapper.toDTO(usuario);
+    @Transactional(rollbackOn = Exception.class)
+    public UsuarioDTO save(UsuarioDTO dto) throws UsuarioException {
+        try {
+            Usuario entity = usuarioMapper.toEntity(dto);
+            entity.setFechaAlta(new Date());
+            Usuario usuario = this.usuarioRepository.save(entity);
+            return usuarioMapper.toDTO(usuario);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            throw new UsuarioException("Ya existe el mail ingresado");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new UsuarioException("Error en la persistencia");
+        }
     }
 
     @Override
@@ -100,7 +107,6 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
         return true;
     }
 
-    @Transactional
     public void registrarUsuario(String nombre, String apellido, String email, String password, String password_confirmation, Rol rol) throws UsuarioException {
         validarDatosUsuario(nombre, apellido, email, password, password_confirmation);
 
@@ -212,6 +218,12 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             throw new UsuarioException("El email no puede ser vacio o nulo.");
         }
 
+        /*
+        if(password.length() < 8 || !contieneCaracterEspecial(password)) {
+            throw new UsuarioException("La contraseña debe tener 8 o más caracteres e incluir por lo menos un caracter especial.");
+        }
+         */
+
         if(Strings.isBlank(password) || Strings.isBlank(password_confirmation)) {
             throw new UsuarioException("La contraseña no puede estar vacia o nula.");
         }
@@ -229,6 +241,15 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
         } catch (Exception e) {
             throw new ProductoException(e.getMessage());
         }
+    }
+
+    private boolean contieneCaracterEspecial(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i)) && !Character.isLetter(s.charAt(i)) && !Character.isWhitespace(s.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

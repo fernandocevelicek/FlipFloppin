@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 public class ProductoService implements BaseService<ProductoDTO>{
@@ -227,12 +228,13 @@ public class ProductoService implements BaseService<ProductoDTO>{
         }
     }
 
-    public Page<Producto> findAllPaginated(int pageNo,int pageSize) throws ProductoException {
+    public Page<ProductoDTO> findAllPaginated(int pageNo,int pageSize) throws ProductoException {
         try {
             Pageable pageable=PageRequest.of(pageNo,pageSize);
-            Page<Producto> productos = productoRepository.findAll(pageable);
-            return productos;
+            Page<Producto> productosEntity = productoRepository.findAll(pageable);
+            Page<ProductoDTO> dtoPage = productosEntity.map(entity -> productoMapper.toDTO(entity));
 
+            return dtoPage;
         } catch (Exception e) {
             throw new ProductoException(e.getMessage());
         }

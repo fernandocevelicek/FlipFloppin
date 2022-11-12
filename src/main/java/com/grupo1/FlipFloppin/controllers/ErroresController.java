@@ -51,23 +51,6 @@ public class ErroresController implements ErrorController {
     }
 
     private int getErrorCode(HttpServletRequest httpRequest) {
-
-        Map mapa = httpRequest.getParameterMap();
-        for(Object key : mapa.keySet()) {
-            String[] valores = (String[]) mapa.get(key);
-            for(String valor : valores) {
-                System.out.println(key.toString() + ": " + valor);
-            }
-
-        }
-
-        Enumeration<String> atributos = httpRequest.getAttributeNames();
-        while(atributos.hasMoreElements()) {
-            String key = atributos.nextElement();
-            System.out.println(key + ":" + httpRequest.getAttribute(key));
-
-        }
-
         return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
     }
 

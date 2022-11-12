@@ -10,6 +10,8 @@ import com.grupo1.FlipFloppin.services.CarritoService;
 import com.grupo1.FlipFloppin.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @PreAuthorize("hasRole('ROLE_USUARIO')||hasRole('ROLE_ADMINISTRADOR')")
@@ -49,9 +53,14 @@ public class CarritoController {
     }
 
     @PostMapping("/agregar_producto")
-    public String agregarProducto(Model model, @RequestParam("idProducto") Long idProducto, @RequestParam(value = "idDetalle") Long idDetalle, @RequestParam(value = "cantidad") Integer cantidad, @RequestParam(value = "sourceURL") String sourceURL){
+    public String agregarProducto(Model model, @RequestParam("idProducto") Long idProducto, @RequestParam(value = "idDetalle") Long idDetalle, @RequestParam(value = "cantidad") Integer cantidad, @RequestParam(value = "sourceURL") String sourceURL, HttpServletRequest request, HttpServletResponse response){
         try{
             Usuario usuario = (Usuario) session.getAttribute("usuario_session");
+            if (usuario == null) {
+                RequestCache requestCache = new HttpSessionRequestCache();
+                requestCache.saveRequest(request,response);
+                return "redirect:/login";
+            }
             carritoService.agregarProducto(idProducto, idDetalle, usuario.getId(), cantidad);
             return "redirect:"+sourceURL;
         }catch (ProductoCompraException e){
@@ -63,7 +72,7 @@ public class CarritoController {
     }
 
     @PostMapping("/quitar_producto")
-    public String quitarProducto(Model model, @RequestParam("idProducto") Long idProducto, @RequestParam(value = "idDetalle") Long idDetalle, @RequestParam(value = "cantidad") Integer cantidad){
+    public String quitarProducto(Model model, @RequestParam("idProducto") Long idProducto, @RequestParam(value = "idDetalle") Long idDetalle, @RequestParam(value = "cantidad") Integer cantidad, HttpServletRequest request, HttpServletResponse response){
         try{
             Usuario usuario = (Usuario) session.getAttribute("usuario_session");
             carritoService.quitarProducto(idProducto, idDetalle, usuario.getId(), cantidad);
