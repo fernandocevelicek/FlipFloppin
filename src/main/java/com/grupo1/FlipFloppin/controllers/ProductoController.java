@@ -8,6 +8,7 @@ import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
+import com.grupo1.FlipFloppin.mappers.ProductoMapper;
 import com.grupo1.FlipFloppin.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,12 +30,15 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
+    @Autowired
+    private ProductoMapper productoMapper;
+
     @GetMapping("/listado/{nro}")
     public String listadoProductos(ModelMap model,@PathVariable(value = "nro") int pageNo) {
         try {
             int pageSize = 5;
-            Page < Producto > page = productoService.findAllPaginated(pageNo, pageSize);
-            List < Producto > productos = page.getContent();
+            Page <ProductoDTO> page = productoService.findAllPaginated(pageNo, pageSize);
+            List <ProductoDTO> productos = page.getContent();
 
             model.addAttribute("currentPage", pageNo);
             if(pageNo>0){
