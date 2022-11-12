@@ -19,7 +19,7 @@
         <div class="col-md-10 col-lg-8 col-sm-8  d-flex flex-column">
             <div class="bg-warning bg-opacity-10 py-2 mx-2  border border-2 border-warning my-5 d-flex justify-content-center flex-column " >
                 <h6  class="text-center">Ups! Aun no has agregado nada al carrito</h6>
-                <a th:href="@{/producto/listado}" class="btn btn-link text-danger">Ir a productos</a>
+                <a th:href="@{/producto/listado/0}" class="btn btn-link text-danger">Ir a productos</a>
             </div>
         </div>
     </div>
@@ -37,6 +37,13 @@
                     <div class="d-flex  align-items-md-end flex-column align-items-center">
                         <h2 th:text="${productoCompra.producto.nombre}" class="fw-semibold "></h2>
                         <p th:text="${productoCompra.producto.marca}" class="fw-light text-muted"></p>
+                        <div th:each="detalle : ${productoCompra.producto.detalle}">
+                            <div th:if="${detalle.id} == ${productoCompra.idDetalle}">
+                                <p th:if="${detalle.color}" th:text="${detalle.color}" class="fw-light text-muted"></p>
+                                <p th:if="${detalle.tallePrenda}" th:text="${detalle.tallePrenda}" class="fw-light text-muted"></p>
+                                <p th:if="${detalle.talleCalzado}" th:text="${detalle.talleCalzado}" class="fw-light text-muted"></p>
+                            </div>
+                        </div>
                         <p class="fw-normal mt-auto">
                             <span th:text="${'Cantidad: '+productoCompra.cantidad}" class="me-3"></span>
                             <span th:text="${'$ '+productoCompra.subtotal}"></span>

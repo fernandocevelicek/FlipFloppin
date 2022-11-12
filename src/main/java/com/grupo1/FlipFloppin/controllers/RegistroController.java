@@ -17,12 +17,13 @@ public class RegistroController {
     private UsuarioService usuarioService;
 
     @GetMapping("/registro_cliente")
-    public String registroCliente(ModelMap modelo){
+    public String registroCliente(ModelMap model, @RequestParam(required = false) String error){
+        model.put("error", error);
         return "registro_cliente.html";
     }
 
     @PostMapping("/registrar_cliente")
-    public String registrarCliente(ModelMap modelo,
+    public String registrarCliente(ModelMap model,
                                    @RequestParam() String nombre,
                                    @RequestParam() String apellido,
                                    @RequestParam() String password,
@@ -33,7 +34,8 @@ public class RegistroController {
             usuarioService.registrarUsuario(nombre, apellido, email, password, password_confirmation, Rol.USUARIO);
             return "redirect:/login?ok=alta exitosa";
         } catch (UsuarioException e) {
-            return "redirect:/login?error="+e.getMessage();
+            System.out.println("########## entro al catch");
+            return "redirect:/registro_cliente?error="+e.getMessage();
         }
     }
 
