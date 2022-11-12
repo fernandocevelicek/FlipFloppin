@@ -50,7 +50,6 @@ public class ProductoController {
 
             model.addAttribute("totalPages", page.getTotalPages()-1);
             model.addAttribute("totalItems", page.getTotalElements());
-            /*List<ProductoDTO> productos=productoService.findAll()*/
             model.addAttribute("productos", productos);
 
             return "listado_producto.html";
@@ -62,11 +61,13 @@ public class ProductoController {
         }
     }
 
-    @GetMapping("/filtro")
-    public String find(Model model, @RequestParam(value = "attribute", required = false) String attribute, @RequestParam(value = "value", required = false) String value){
+    @GetMapping("/listado/filtro/{nro}")
+    public String find(Model model, @RequestParam(value = "attribute", required = false) String attribute,
+                       @RequestParam(value = "value", required = false) String value,@PathVariable(value = "nro") int pageNo){
         try{
-                List<Producto> productos = productoService.findByParam(attribute, value);
-                model.addAttribute("productos", productos);
+                int pageSize=5;
+                Page<ProductoDTO> page = productoService.findByParam(attribute, value,pageNo,pageSize);
+                List <ProductoDTO> productos = page.getContent();
                 if(!attribute.equals("NOMBRE") && attribute!=null){
                     model.addAttribute("filtro",attribute.toLowerCase());
                     if(value!=null){
@@ -77,6 +78,17 @@ public class ProductoController {
                     model.addAttribute("filtro",attribute.toLowerCase());
                     model.addAttribute("value",value.toLowerCase());
                 }
+                model.addAttribute("productos", productos);
+                model.addAttribute("currentPage", pageNo);
+                 if(pageNo>0){
+                model.addAttribute("previousPage",pageNo-1);
+                }
+                if(pageNo+1<page.getTotalPages()){
+                model.addAttribute("nextPage",pageNo+1);
+                }
+                model.addAttribute("totalPages", page.getTotalPages()-1);
+                model.addAttribute("totalItems", page.getTotalElements());
+                model.addAttribute("productos", productos);
                 return "listado_producto.html";
         }catch (ProductoException e){
             model.addAttribute("codigo", 500);

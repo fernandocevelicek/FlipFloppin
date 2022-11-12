@@ -19,7 +19,7 @@
         <div class="col-xl-2 col-lg-3 col-md-3 px-2">
             <div class="bg-warning bg-opacity-25 d-flex flex-column justify-content-center align-items-center mx-2 mb-4" th:if="${filtro!=null}">
                 <h5 th:text="${value!=null}? ${'Filtrado por '+filtro+' - '+value} :  ${'Filtrado por '+filtro}" class=" fw-normal mt-2 text-center fs-6"></h5>
-                <form th:action="@{/producto/listado}" method="get" id="no-filter"  class="mx-2 p-3">
+                <form th:action="@{/producto/listado/0}" method="get" id="no-filter"  class="mx-2 p-3">
                     <div class="row">
                         <div class="col-lg-12 d-flex justify-content-between">
                             <input type="text" name="attribute" value="" class="visually-hidden">
@@ -40,7 +40,7 @@
                         <button class="btn btn-link text-dark" id="filtro_marca_titulo"><i class="bi bi-caret-down-fill" id="flecha_filtro_m"></i></button>
                     </div>
                     <div class="col-12">
-                        <form th:action="@{filtro}" method="get" id="form_marca" >
+                        <form th:action="@{/producto/listado/filtro/0}" method="get" id="form_marca" >
                             <div class="row">
                                 <div class="col-lg-12">
                                     <input type="text" name="attribute" value="MARCA" id="filtro_marca" class="visually-hidden">
@@ -65,7 +65,7 @@
                         <button class="btn btn-link text-dark" id="filtro_sex_titulo"><i class="bi bi-caret-down-fill" id="flecha_filtro_s"></i></button>
                     </div>
                     <div class="col-12">
-                        <form th:action="@{filtro}" method="get" id="form_sexo"  >
+                        <form th:action="@{/producto/listado/filtro/0}" method="get" id="form_sexo"  >
                             <div class="row">
                                 <div class="col-lg-12">
                                     <input type="text" name="attribute" value="SEXO" id="filtro_sexo" class="visually-hidden">
@@ -96,7 +96,7 @@
         <div class="col-xl-10 col-lg-9 col-md-9 border-start mt-3" id="border-productos">
             <div class="d-flex justify-content-between align-items-center w-100 border-bottom mb-3 py-2 px-2">
                 <h1 class="fs-3  " >Productos</h1>
-                <form class="d-flex" role="search" th:action="@{filtro}">
+                <form class="d-flex" role="search" th:action="@{/producto/listado/filtro/0}">
                     <input type="text" name="attribute" value="NOMBRE"  class="visually-hidden">
                     <input class="form-control me-2 base-font" type="search" placeholder="Buscar" aria-label="Search" name="value">
                     <button class="btn btn-danger" type="submit">Buscar</button>
@@ -123,11 +123,11 @@
                 </div>
             </div>
             <div class="d-flex justify-content-end">
-                <nav aria-label="Page navigation example">
+               <nav aria-label="Page navigation example">
                     <ul class="pagination ">
                         <li class="page-item"><a th:href="${previousPage!=null}?'/producto/listado/'+${previousPage}:''" class="page-link text-dark" >Anterior</a></li>
                         <li class="page-item" th:each="i,it: ${#numbers.sequence(0, totalPages)}" th:classappend="${currentPage==it.index}?'active':''">
-                            <a th:if="${currentPage != i}" th:href="@{'/producto/listado/' + ${i}}" class="page-link text-dark">[[${i+1}]]</a><span th:unless="${currentPage != i}" class="page-link">[[${i+1}]]</span></li>
+                            <a th:if="${currentPage != i}" th:href="@{'/producto/listado/' + ${i}}" class="page-link text-dark" th:text="${i+1}"></a><span th:text="${i+1}" th:unless="${currentPage != i}" class="page-link"></span></li>
                         <li class="page-item"> <a th:href="${nextPage!=null}?'/producto/listado/'+${nextPage}:''" class="page-link text-dark " >Siguiente</a></li>
                     </ul>
                 </nav>

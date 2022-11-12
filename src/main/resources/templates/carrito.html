@@ -38,10 +38,10 @@
                         <h2 th:text="${productoCompra.producto.nombre}" class="fw-semibold "></h2>
                         <p th:text="${productoCompra.producto.marca}" class="fw-light text-muted"></p>
                         <div th:each="detalle : ${productoCompra.producto.detalle}">
-                            <div th:if="${detalle.id} == ${productoCompra.idDetalle}">
-                                <p th:if="${detalle.color}" th:text="${detalle.color}" class="fw-light text-muted"></p>
-                                <p th:if="${detalle.tallePrenda}" th:text="${detalle.tallePrenda}" class="fw-light text-muted"></p>
-                                <p th:if="${detalle.talleCalzado}" th:text="${detalle.talleCalzado}" class="fw-light text-muted"></p>
+                            <div th:if="${detalle.id} == ${productoCompra.idDetalle}" class="text-end">
+                                <p th:if="${detalle.color}" th:text="${'Color: '+detalle.color}" class="fw-light text-muted"></p>
+                                <p th:if="${detalle.tallePrenda}" th:text="${'Talle: '+detalle.tallePrenda}" class="fw-light text-muted"></p>
+                                <p th:if="${detalle.talleCalzado}" th:text="${'Talle: '+detalle.talleCalzado}" class="fw-light text-muted"></p>
                             </div>
                         </div>
                         <p class="fw-normal mt-auto">

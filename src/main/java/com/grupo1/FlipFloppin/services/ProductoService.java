@@ -177,7 +177,9 @@ public class ProductoService implements BaseService<ProductoDTO>{
         }
     }
 
-    public List<Producto> findByParam(String attribute, String value) throws ProductoException {
+    public Page<ProductoDTO> findByParam(String attribute, String value,int pageNo,int pageSize) throws ProductoException {
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+
         if(Strings.isNotBlank(attribute)){
             if (attribute.equalsIgnoreCase("NOMBRE") && Strings.isBlank(value)) {
                 value = "";
@@ -194,16 +196,17 @@ public class ProductoService implements BaseService<ProductoDTO>{
 
             switch (attribute.toUpperCase()) {
                 case "NOMBRE":
-                    return productoRepository.searchByNombre(value);
+                    return productoRepository.searchByNombrePaged(value,pageable).map(entity -> productoMapper.toDTO(entity));
                 case "MARCA":
-                    return productoRepository.searchByMarca(value);
+                    return productoRepository.searchByMarcaPaged(value,pageable).map(entity -> productoMapper.toDTO(entity));
                 case "SEXO":
-                    return productoRepository.searchBySexo(sexo);
+                    return productoRepository.searchBySexoPaged(sexo,pageable).map(entity -> productoMapper.toDTO(entity));
                 default:
                     throw new ProductoException("Atributo de filtrado invalido.");
             }
         } else {
-            return productoRepository.findAll();
+
+            return productoRepository.findAll(pageable).map(entity -> productoMapper.toDTO(entity));
         }
     }
 

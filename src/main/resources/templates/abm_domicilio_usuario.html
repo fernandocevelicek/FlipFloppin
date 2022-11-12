@@ -14,7 +14,7 @@
 
 <nav th:replace="/components/components :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
 <th:block th:insert="components/utils :: go-back-index"></th:block>
-<div class="container-fluid mt-5 px-5 my-3 ">
+<div class="container-fluid mt-5 px-5 my-3 mb-auto">
     <div class="row">
         <div class="col-lg-9 col">
             <h1 class="fs-2 text-start text-uppercase "><i class="bi bi-plus-square-fill pe-2"></i>interfaz abm de domicilio</h1>

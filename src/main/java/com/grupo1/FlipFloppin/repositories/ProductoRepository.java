@@ -2,6 +2,8 @@ package com.grupo1.FlipFloppin.repositories;
 
 import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Sexo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,7 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
                     "OR p.precio LIKE %?1%", nativeQuery = true)
     List<Producto> findByFilter(String searchFilter);
 
+
     @Query("SELECT p FROM Producto p WHERE p.nombre LIKE %:nombre%")
     List<Producto> searchByNombre(@Param("nombre") String nombre);
 
@@ -26,6 +29,14 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
 
     @Query("SELECT p FROM Producto p WHERE p.sexo = :sexo")
     List<Producto> searchBySexo(@Param("sexo") Sexo sexo);
+    @Query("SELECT p FROM Producto p WHERE p.nombre LIKE %:nombre%")
+    Page<Producto> searchByNombrePaged(@Param("nombre") String nombre, Pageable pageable);
+
+    @Query(value = "SELECT p FROM Producto p WHERE p.marca Like %:marca%")
+    Page<Producto> searchByMarcaPaged(@Param("marca") String marca, Pageable pageable);
+
+    @Query("SELECT p FROM Producto p WHERE p.sexo = :sexo")
+    Page<Producto> searchBySexoPaged(@Param("sexo") Sexo sexo, Pageable pageable);
 
     @Query(value = "SELECT * FROM Producto p ORDER BY p.id DESC limit 10",nativeQuery = true)
     List<Producto> findLastFive();

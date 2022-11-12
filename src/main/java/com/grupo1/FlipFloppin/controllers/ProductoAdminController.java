@@ -35,8 +35,8 @@ public class ProductoAdminController {
     public String abmProductos(Model model,@PathVariable(value = "nro") int pageNo) {
         try {
             int pageSize = 10;
-            Page< Producto > page = productoService.findAllPaginated(pageNo, pageSize);
-            List < Producto > productos = page.getContent();
+            Page< ProductoDTO > page = productoService.findAllPaginated(pageNo, pageSize);
+            List < ProductoDTO > productos = page.getContent();
             model.addAttribute("currentPage", pageNo);
             if(pageNo>0){
                 model.addAttribute("previousPage",pageNo-1);
@@ -50,9 +50,9 @@ public class ProductoAdminController {
             model.addAttribute("productos", productos);
             List<Integer> stocks=new ArrayList<>();
             /* Agrego stocks totales*/
-            for(Producto dto : productos){
+            for(ProductoDTO dto : productos){
                 Integer stockT=0;
-                for(DetalleProducto detalle : dto.getDetalle()){
+                for(DetalleProductoDTO detalle : dto.getDetalle()){
                     stockT+=detalle.getStock();
                 }
                 stocks.add(stockT);
