@@ -219,11 +219,9 @@ public class UsuarioService implements BaseService<UsuarioDTO>, UserDetailsServi
             throw new UsuarioException("El email no puede ser vacio o nulo.");
         }
 
-        /*
         if(password.length() < 8 || !contieneCaracterEspecial(password)) {
             throw new UsuarioException("La contraseña debe tener 8 o más caracteres e incluir por lo menos un caracter especial.");
         }
-         */
 
         if(Strings.isBlank(password) || Strings.isBlank(password_confirmation)) {
             throw new UsuarioException("La contraseña no puede estar vacia o nula.");

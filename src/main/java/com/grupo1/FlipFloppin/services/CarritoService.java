@@ -159,6 +159,8 @@ public class CarritoService implements BaseService<CarritoDTO> {
             carrito.setTotal(carrito.getTotal() - (productoCompra.getProducto().getPrecio()*productoCompra.getCantidad()));
             carrito.getProductos().remove(productoCompra);
             productoCompraService.deleteById(productoCompra.getId());
+
+            detalleProductoService.agregarStock(idDetalle, 1);
             if (carrito.getProductos().size() == 0) {
                 carritoRepository.delete(carrito);
                 return;
