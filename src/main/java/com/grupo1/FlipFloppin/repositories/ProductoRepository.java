@@ -30,16 +30,16 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
     @Query("SELECT p FROM Producto p WHERE p.sexo = :sexo")
     List<Producto> searchBySexo(@Param("sexo") Sexo sexo);
 
-    @Query("SELECT p FROM Producto p WHERE p.nombre LIKE %:nombre%")
+    @Query("SELECT p FROM Producto p WHERE p.nombre LIKE %:nombre% AND p.fechaBaja IS NULL")
     Page<Producto> searchByNombrePaged(@Param("nombre") String nombre, Pageable pageable);
 
-    @Query(value = "SELECT p FROM Producto p WHERE p.marca Like %:marca%")
+    @Query(value = "SELECT p FROM Producto p WHERE p.marca Like %:marca%  AND p.fechaBaja IS NULL")
     Page<Producto> searchByMarcaPaged(@Param("marca") String marca, Pageable pageable);
 
-    @Query("SELECT p FROM Producto p WHERE p.sexo = :sexo")
+    @Query("SELECT p FROM Producto p WHERE p.sexo = :sexo AND p.fechaBaja IS NULL")
     Page<Producto> searchBySexoPaged(@Param("sexo") Sexo sexo, Pageable pageable);
 
-    @Query(value = "SELECT * FROM Producto p ORDER BY p.id DESC limit 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM producto p WHERE p.fecha_baja IS NULL ORDER BY p.id DESC limit 5", nativeQuery = true)
     List<Producto> findLastFive();
 
 }

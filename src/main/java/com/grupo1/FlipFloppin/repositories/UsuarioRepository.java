@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
-    @Query("SELECT c FROM Usuario c WHERE c.email =:email")
+    @Query("SELECT c FROM Usuario c WHERE c.email =:email AND c.fechaBaja IS NULL")
     Usuario findByEmail(@Param("email")String email);
 }
