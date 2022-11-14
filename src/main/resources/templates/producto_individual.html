@@ -5,13 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <th:block th:insert="/components/components.html :: css_and_icons_bootstrap"></th:block>
+    <th:block th:insert="components/components.html :: css_and_icons_bootstrap"></th:block>
 
     <title>FlipFloppin</title>
 </head>
 <body>
-<nav th:replace="/components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
-<th:block th:insert="/components/utils.html :: go-back-listado"></th:block>
+<nav th:replace="components/components.html :: nav_bar(${session.usuario_session!=null}?${session.usuario_session.rol.toString()}:'VISITANTE')"></nav>
+<th:block th:insert="components/utils.html :: go-back-listado"></th:block>
 <main role="main">
     <div class="container-fluid px-3">
         <div class="row d-flex justify-content-center">
@@ -68,8 +68,8 @@
 </main>
 
 
-<div th:replace="/components/components :: footer"></div>
-<th:block th:insert="/components/components :: scripts_bootstrap"></th:block>
+<div th:replace="components/components :: footer"></div>
+<th:block th:insert="components/components :: scripts_bootstrap"></th:block>
 <script th:src="@{/src/productoIndividual.js}"></script>
 </body>
 </html>
