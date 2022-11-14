@@ -3,6 +3,7 @@ package com.grupo1.FlipFloppin.services;
 import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
 import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
 import com.grupo1.FlipFloppin.entities.DetalleProducto;
+import com.grupo1.FlipFloppin.exceptions.CarritoException;
 import com.grupo1.FlipFloppin.exceptions.DetalleProductoException;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
 import com.grupo1.FlipFloppin.mappers.DetalleProductoMapper;
@@ -103,8 +104,11 @@ public class DetalleProductoService implements BaseService<DetalleProductoDTO> {
         return true;
     }
 
-    public void quitarStock(Long id, Integer cantidad) {
+    public void quitarStock(Long id, Integer cantidad) throws CarritoException {
         DetalleProducto detalle = detalleProductoRepository.findById(id).get();
+
+        if(detalle.getStock() < cantidad) throw new CarritoException("No hay suficiente stock disponible para agregar su compra.");
+
         detalle.setStock(detalle.getStock() - cantidad);
     }
 

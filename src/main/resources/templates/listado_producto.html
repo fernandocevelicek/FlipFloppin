@@ -103,11 +103,11 @@
                 </form>
             </div>
             <div class="row ">
-                <div th:each="producto : ${productos}" class=" col-xl-3 col-lg-4 col-md-6 mb-4 " style="cursor: pointer;">
-                    <a th:href="@{/producto/{id}(id=${producto.id})}" class="card-a">
-                        <div class="card h-100 rounded-0 shadow">
-                            <img class="card-img-top w-100  h-100"
-                                 th:src="@{'/imagenes/' + ${producto.imagenes[0]}}" alt="#">
+                <div th:each="producto : ${productos}" class=" col-xl-3 col-lg-4 col-md-6 mb-4" style="cursor: pointer;" >
+                    <a th:href="@{/producto/{id}(id=${producto.id})}">
+                        <div class="card h-100 rounded-0 shadow card-a">
+                            <img class="card-img-top"
+                                 th:src="@{'/imagenes/' + ${producto.imagenes[0]}}" alt="#" style="width: 100%; height: 350px; object-fit: cover;">
                             <div class="card-img-overlay d-flex align-items-start justify-content-start">
                                 <h5 class="shadow-lg bg-light p-2 rounded-3 d-inline mb-3  bg-opacity-25 text-dark precio" th:text="'$'+${producto.precio}"></h5>
                             </div>

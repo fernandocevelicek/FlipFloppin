@@ -1,7 +1,6 @@
 package com.grupo1.FlipFloppin.services;
 
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
-import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.enums.EstadoUsuario;
 import com.grupo1.FlipFloppin.enums.Rol;
@@ -27,7 +26,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

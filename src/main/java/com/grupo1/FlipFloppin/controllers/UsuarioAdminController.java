@@ -1,7 +1,6 @@
 package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
-import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.entities.Usuario;
 import com.grupo1.FlipFloppin.enums.EstadoUsuario;
 import com.grupo1.FlipFloppin.enums.Rol;

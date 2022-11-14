@@ -21,7 +21,7 @@
                 <div class="d-flex mt-3 justify-content-start align-items-center mx-auto" >
                     <div class="border-secondary row">
                         <div class="col me-3 " th:each="imagen,iterador : ${producto.imagenes}">
-                            <img th:src="@{'/imagenes/'+${imagen}}" th:alt="${imagen}"  class="img-second img-fluid" >
+                            <img th:src="@{'/imagenes/'+${imagen}}" th:alt="${imagen}"  class="img-second img-fluid" style="max-width: 100px;">
                         </div>
                     </div>
                 </div>

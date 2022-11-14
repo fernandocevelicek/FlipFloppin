@@ -114,7 +114,8 @@ public class CarritoService implements BaseService<CarritoDTO> {
         }
     }
 
-    public void agregarProducto(Long idProducto, Long idDetalle, Long idUsuario, Integer cantidad) throws ProductoCompraException {
+    @Transactional(rollbackOn = CarritoException.class)
+    public void agregarProducto(Long idProducto, Long idDetalle, Long idUsuario, Integer cantidad) throws ProductoCompraException, CarritoException {
         Carrito carrito = carritoRepository.findByIdUsuario(idUsuario);
         if (carrito == null) {
             carrito = new Carrito();

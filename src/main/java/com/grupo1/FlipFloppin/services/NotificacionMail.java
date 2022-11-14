@@ -1,6 +1,5 @@
 package com.grupo1.FlipFloppin.services;
 
-import com.grupo1.FlipFloppin.dtos.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;

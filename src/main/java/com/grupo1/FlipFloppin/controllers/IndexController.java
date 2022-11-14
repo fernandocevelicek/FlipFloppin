@@ -29,7 +29,6 @@ public class IndexController {
                 model.put("username", user.getNombre());
                 model.addAttribute("user_rol", user.getRol());
             }
-            // DESPUES HAY QUE CAMBIARLO POR LOS ULTIMOS 5 //
             List<ProductoDTO> productos = productoService.getLastFive();
             model.addAttribute("productos", productos);
             return "index.html";

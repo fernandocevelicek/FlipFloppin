@@ -8,9 +8,7 @@ import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;
 import com.grupo1.FlipFloppin.exceptions.ProductoException;
-import com.grupo1.FlipFloppin.mappers.DetalleProductoMapper;
 import com.grupo1.FlipFloppin.mappers.ProductoMapper;
-import com.grupo1.FlipFloppin.repositories.DetalleProductoRepository;
 import com.grupo1.FlipFloppin.repositories.ProductoRepository;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 @Service
 public class ProductoService implements BaseService<ProductoDTO>{

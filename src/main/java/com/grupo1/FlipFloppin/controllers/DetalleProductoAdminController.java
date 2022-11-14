@@ -28,7 +28,7 @@ public class DetalleProductoAdminController {
     @GetMapping("/formulario/{id}")
     public String formularioDetalleProducto(Model model, @PathVariable("id") long id, @RequestParam("idProducto") Long idProducto) {
         try {
-            model.addAttribute("categoria", productoService.getCategoriaById(idProducto));
+            model.addAttribute("categoria", productoService.getCategoriaById(idProducto).toString());
             model.addAttribute("tallesPrendas", TallePrenda.values());
             model.addAttribute("colores", Color.values());
             model.addAttribute("idProducto", idProducto);

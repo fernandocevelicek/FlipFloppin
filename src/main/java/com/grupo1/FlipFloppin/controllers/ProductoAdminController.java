@@ -2,9 +2,6 @@ package com.grupo1.FlipFloppin.controllers;
 
 import com.grupo1.FlipFloppin.dtos.DetalleProductoDTO;
 import com.grupo1.FlipFloppin.dtos.producto.ProductoDTO;
-import com.grupo1.FlipFloppin.dtos.producto.ProductoIndividualDTO;
-import com.grupo1.FlipFloppin.entities.DetalleProducto;
-import com.grupo1.FlipFloppin.entities.Producto;
 import com.grupo1.FlipFloppin.enums.Categoria;
 import com.grupo1.FlipFloppin.enums.EstadoProducto;
 import com.grupo1.FlipFloppin.enums.Sexo;

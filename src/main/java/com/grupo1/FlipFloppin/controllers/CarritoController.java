@@ -63,7 +63,7 @@ public class CarritoController {
             }
             carritoService.agregarProducto(idProducto, idDetalle, usuario.getId(), cantidad);
             return "redirect:"+sourceURL;
-        }catch (ProductoCompraException e){
+        }catch (ProductoCompraException | CarritoException e){
             e.printStackTrace();
             model.addAttribute("codigo", 500);
             model.addAttribute("mensaje", e.getMessage());
