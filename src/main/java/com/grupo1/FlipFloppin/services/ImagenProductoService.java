@@ -57,6 +57,12 @@ public class ImagenProductoService {
             System.out.println("Antes Files.write");
             Files.write(rutaAbsoluta, archivo.getBytes());
             System.out.println("Despues Files.write");
+
+            if (!Files.exists(rutaAbsoluta)) {
+                System.out.println("NO GUARDO IMAGEN EN EL DIRECTORIO " + rutaAbsoluta.toUri());
+            } else {
+                System.out.println("SI GUARDO IMAGEN EN EL DIRECTORIO " + rutaAbsoluta.toUri());
+            }
             rutasImagenes.add(nombreFoto);
         }
 
