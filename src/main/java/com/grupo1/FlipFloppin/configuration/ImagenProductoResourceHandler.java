@@ -9,5 +9,6 @@ public class ImagenProductoResourceHandler implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/imagenes/**").addResourceLocations("file:imagenes/");
+        System.out.println(registry);
     }
 }
