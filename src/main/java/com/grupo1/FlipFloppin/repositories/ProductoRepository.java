@@ -42,4 +42,7 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
     @Query(value = "SELECT * FROM producto p WHERE p.fecha_baja IS NULL ORDER BY p.id DESC limit 5", nativeQuery = true)
     List<Producto> findLastFive();
 
+    @Query("SELECT p FROM Producto p WHERE p.fechaBaja IS NULL")
+    Page<Producto> findAllActive(Pageable pageable);
+
 }

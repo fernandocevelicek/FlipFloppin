@@ -31,7 +31,7 @@ public class ProductoController {
     public String listadoProductos(ModelMap model,@PathVariable(value = "nro") int pageNo) {
         try {
             int pageSize = 5;
-            Page <ProductoDTO> page = productoService.findAllPaginated(pageNo, pageSize);
+            Page <ProductoDTO> page = productoService.findAllActivePaginated(pageNo, pageSize);
             List <ProductoDTO> productos = page.getContent();
 
             model.addAttribute("currentPage", pageNo);

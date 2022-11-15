@@ -203,7 +203,7 @@ public class ProductoService implements BaseService<ProductoDTO>{
             }
         } else {
 
-            return productoRepository.findAll(pageable).map(entity -> productoMapper.toDTO(entity));
+            return productoRepository.findAllActive(pageable).map(entity -> productoMapper.toDTO(entity));
         }
     }
 
@@ -232,6 +232,18 @@ public class ProductoService implements BaseService<ProductoDTO>{
         try {
             Pageable pageable=PageRequest.of(pageNo,pageSize);
             Page<Producto> productosEntity = productoRepository.findAll(pageable);
+            Page<ProductoDTO> dtoPage = productosEntity.map(entity -> productoMapper.toDTO(entity));
+
+            return dtoPage;
+        } catch (Exception e) {
+            throw new ProductoException(e.getMessage());
+        }
+    }
+
+    public Page<ProductoDTO> findAllActivePaginated(int pageNo,int pageSize) throws ProductoException {
+        try {
+            Pageable pageable=PageRequest.of(pageNo,pageSize);
+            Page<Producto> productosEntity = productoRepository.findAllActive(pageable);
             Page<ProductoDTO> dtoPage = productosEntity.map(entity -> productoMapper.toDTO(entity));
 
             return dtoPage;
