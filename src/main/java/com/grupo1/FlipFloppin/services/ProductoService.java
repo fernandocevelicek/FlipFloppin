@@ -97,6 +97,7 @@ public class ProductoService implements BaseService<ProductoDTO>{
             }
             throw new Exception("No existe un producto con el id: " + id);
         } catch (Exception e) {
+            e.printStackTrace();
             if(!rutasImagenes.isEmpty()) {
                 imagenProductoService.eliminarImagenes(rutasImagenes);
             }
@@ -129,6 +130,7 @@ public class ProductoService implements BaseService<ProductoDTO>{
             Producto producto = productoRepository.save(entity);
             return productoMapper.toDTO(producto);
         } catch (Exception e) {
+            e.printStackTrace();
             if(!rutasImagenes.isEmpty()) {
                 imagenProductoService.eliminarImagenes(rutasImagenes);
             }
