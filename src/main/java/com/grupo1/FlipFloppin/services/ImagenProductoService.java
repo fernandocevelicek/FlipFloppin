@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,6 +46,11 @@ public class ImagenProductoService {
             String extension = "." + archivo.getOriginalFilename().substring(index + 1);
             String nombreFoto = dto.getNombre().replace(" ", "_") + "_" + Calendar.getInstance().getTimeInMillis() + extension;
             Path rutaAbsoluta = Paths.get(IMAGENES_PRODUCTO_PATH + "//" + nombreFoto);
+
+            Path carpetaImagenes = Paths.get(IMAGENES_PRODUCTO_PATH);
+            if (!Files.exists(carpetaImagenes)) {
+                new File(IMAGENES_PRODUCTO_PATH).mkdirs();
+            }
 
             Files.write(rutaAbsoluta, archivo.getBytes());
             rutasImagenes.add(nombreFoto);
