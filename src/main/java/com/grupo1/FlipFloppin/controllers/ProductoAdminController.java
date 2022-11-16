@@ -77,6 +77,7 @@ public class ProductoAdminController {
             }
             return "formulario_producto";
         } catch (ProductoException e) {
+            e.printStackTrace();
             model.addAttribute("codigo", 500);
             model.addAttribute("mensaje", e.getMessage());
             return "error";

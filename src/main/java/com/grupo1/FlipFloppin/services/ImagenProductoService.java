@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,9 +45,25 @@ public class ImagenProductoService {
             int index = archivo.getOriginalFilename().indexOf(".");
             String extension = "." + archivo.getOriginalFilename().substring(index + 1);
             String nombreFoto = dto.getNombre().replace(" ", "_") + "_" + Calendar.getInstance().getTimeInMillis() + extension;
-            Path rutaAbsoluta = Paths.get(IMAGENES_PRODUCTO_PATH + "//" + nombreFoto);
+            System.out.println("Nombre Foto: " + nombreFoto);
+            Path rutaAbsoluta = Paths.get(IMAGENES_PRODUCTO_PATH + "/" + nombreFoto);
 
+            Path carpetaImagenes = Paths.get(IMAGENES_PRODUCTO_PATH);
+            if (!Files.exists(carpetaImagenes)) {
+                System.out.println(IMAGENES_PRODUCTO_PATH + "NO EXISTE EL DIRECTORIO");
+                new File(IMAGENES_PRODUCTO_PATH).mkdirs();
+            }
+
+            System.out.println("Antes Files.write");
             Files.write(rutaAbsoluta, archivo.getBytes());
+            System.out.println("Despues Files.write");
+
+            if (!Files.exists(rutaAbsoluta)) {
+                System.out.println("NO GUARDO IMAGEN EN EL DIRECTORIO " + rutaAbsoluta.toUri());
+            } else {
+                System.out.println("SI GUARDO IMAGEN EN EL DIRECTORIO " + rutaAbsoluta.toUri());
+                System.out.println(Files.readAllBytes(rutaAbsoluta).length);
+            }
             rutasImagenes.add(nombreFoto);
         }
 
